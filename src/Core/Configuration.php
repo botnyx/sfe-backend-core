@@ -57,27 +57,27 @@ class Configuration {
 		// Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get
         $localRoutes[]=array(
           "uri"=>"/",
-          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"laborator/neon-bootstrap-admin-theme"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper/edition/{edition}",
-          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper/article/{articleid}",
-          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper",
-          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/sw.js",
-          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\Frontend:getServiceWorker",
+          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\Frontend:getServiceWorker",
           "tmpl"=>""
         );
 
