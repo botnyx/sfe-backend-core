@@ -18,6 +18,7 @@ class Configuration {
 
     function __construct(ContainerInterface $container){
         $this->pdo  = $container->get('pdo');
+        $this->cache  = $container->get('cache');
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
