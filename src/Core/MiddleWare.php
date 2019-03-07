@@ -10,7 +10,7 @@ class MiddleWare {
   var $client_id=false;
 	var $hostname=false;
 	var $auth_token=false;
-	var $clientIssuer = "https://auth.devpoc.nl";
+	var $clientIssuer = "";
 	var $jwtData = false;
 	var $accessControlHeaders = array('Content-Type','Access-Control-Allow-Headers','Authorization','X-Requested-With','X-State');
 
@@ -41,7 +41,7 @@ class MiddleWare {
 	}
 
 	private function detectReferrer( $request ){
-		error_log("detectReferrer");
+		//error_log("detectReferrer");
 		$referrer = $request->getHeader('HTTP_REFERER')[0];
 
 
@@ -152,10 +152,10 @@ class MiddleWare {
 
 	private function getClientConfig(){
 		//var_dump($clientId);
-
+		error_log("getClientConfig()");
     //
-    $db = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($this->pdo)
-
+    $db = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($this->pdo);
+		error_log("..getClientConfig()");
 		//$db = new Database\frontend_config($this->pdo);
 
 		//$clientId="95ccf98a-demo-4438-b7a7-f244613b61a1";
@@ -169,12 +169,12 @@ class MiddleWare {
 
 		//die( $this->hostname) ;
 
-
+		error_log("=============================");
 		error_log($this->hostname);
 
 		$sqlResult = $db->getByHostName($this->hostname);
 		//$sqlResult=false;
-
+		error_log("yyyyyyyyyyy");
 		if($sqlResult==false){
 
 			echo "/* Hostname issue.<br>
@@ -185,7 +185,7 @@ class MiddleWare {
 			//die('<hr>NO CONFIG RESULTS!!');
 		}
 
-
+		error_log("xxxxxxxx");
 		//error_log($this->hostname);
 		//var_dump($sqlResult);
 		//var_dump( $this->hostname );
