@@ -153,9 +153,10 @@ class MiddleWare {
 	private function getClientConfig(){
 		//var_dump($clientId);
 
+    //
+    $db = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($this->pdo)
 
-
-		$db = new Database\frontend_config($this->pdo);
+		//$db = new Database\frontend_config($this->pdo);
 
 		//$clientId="95ccf98a-demo-4438-b7a7-f244613b61a1";
 		//$clientId= "709b6bb0-a1fa-47da-a24b-0de26c7cd22c";
