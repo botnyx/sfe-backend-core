@@ -101,4 +101,16 @@ class Configuration {
         return $resWithLastMod;
 
     }
+
+
+    public function getByClientId($clientId){
+        
+    }
+
+    public function getByHostName($hostname){
+
+    }
+
+
+
 }

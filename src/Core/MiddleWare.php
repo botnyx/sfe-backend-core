@@ -1,7 +1,9 @@
 <?php
 
-
 namespace Botnyx\Sfe\Backend\Core;
+
+use \Firebase\JWT\JWT;
+
 
 class MiddleWare {
 
