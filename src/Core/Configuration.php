@@ -51,30 +51,33 @@ class Configuration {
         //$fe_cfg = new \Botnyx\SfeBackend\Database\frontend_config($this->pdo);
 
         //$localRoutes = $fe_cfg->getStaticUrlsByClientId($args['clientid']);
-
+		
+		
+		
+		// Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get
         $localRoutes[]=array(
           "uri"=>"/",
-          "fnc"=>"\\Botnyx\\SfeFrontend\\Endpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"laborator/neon-bootstrap-admin-theme"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper/edition/{edition}",
-          "fnc"=>"\\Botnyx\\SfeFrontend\\Endpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper/article/{articleid}",
-          "fnc"=>"\\Botnyx\\SfeFrontend\\Endpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/newspaper",
-          "fnc"=>"\\Botnyx\\SfeFrontend\\Endpoint:get",
+          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"botnyx/newspaper"
         );
         $localRoutes[]=array(
           "uri"=>"/sw.js",
-          "fnc"=>"\\Botnyx\\SfeFrontend\\Endpoint:getServiceWorker",
+          "fnc"=>"\\Botnyx\\Sfe\\Backend\\Core\\Frontend:getServiceWorker",
           "tmpl"=>""
         );
 
