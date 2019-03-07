@@ -152,12 +152,18 @@ class MiddleWare {
 
 	private function getClientConfig(){
 		//var_dump($clientId);
-		error_log("getClientConfig()");
-    //
-    $db = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($this->pdo);
-		error_log("..getClientConfig()");
+		//error_log("getClientConfig()");
+    	
+		return false;
+		
+		//
+		//error_log("x..getClientConfig()");
+		
+    	$db = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($this->pdo);
+		//var_dump($db);
+		//error_log("..getClientConfig()");
+		
 		//$db = new Database\frontend_config($this->pdo);
-
 		//$clientId="95ccf98a-demo-4438-b7a7-f244613b61a1";
 		//$clientId= "709b6bb0-a1fa-47da-a24b-0de26c7cd22c";
 		//$sql = "SELECT * FROM frontend_config WHERE client_id=:clientid";
@@ -169,22 +175,22 @@ class MiddleWare {
 
 		//die( $this->hostname) ;
 
-		error_log("=============================");
-		error_log($this->hostname);
+		//error_log("=============================");
+		error_log("getClientConfig() : ".$this->hostname);
 
 		$sqlResult = $db->getByHostName($this->hostname);
 		//$sqlResult=false;
-		error_log("yyyyyyyyyyy");
+		//error_log("yyyyyyyyyyy");
 		if($sqlResult==false){
-
+			error_log('db->getByHostName() returns: false');
 			echo "/* Hostname issue.<br>
 					src\\botnyx\\sfeBackend\\middleware.php<br>";
 
 			echo "this->hostname=".$this->hostname." */";
-			error_log('NO CONFIG RESULTS!!');
+			//error_log('NO CONFIG RESULTS!!');
 			//die('<hr>NO CONFIG RESULTS!!');
 		}
-
+		//var_dump($sqlResult);
 		error_log("xxxxxxxx");
 		//error_log($this->hostname);
 		//var_dump($sqlResult);
