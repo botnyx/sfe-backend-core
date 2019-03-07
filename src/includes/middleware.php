@@ -1,7 +1,6 @@
 <?php
 
 
-<?php
 /**
 *	Middleware for the backend role.
 *
@@ -23,15 +22,15 @@ $container['session'] = function ($c) {
 
 $backendMiddleware = function ($request, $response, $next)  {
 
-	$clientIssuer=_SETTINGS['sfeBackend']['sfeAuthSrv'];//"https://auth.devpoc.nl";
+  	$clientIssuer=_SETTINGS['sfeBackend']['sfeAuthSrv'];//"https://auth.devpoc.nl";
 
-	$sfeBackendMiddleWare = new \Botnyx\SfeBackend\sfeBackendMiddleWare($request, $response,$this->pdo,$clientIssuer );
-	// Add requestAttributes.
-	$request = $sfeBackendMiddleWare->addRequestAttributes($request);
-	$response = $next($request, $response);
-	// Add responseHeaders.
-	$response = $sfeBackendMiddleWare->addResponseHeaders($response);
-	return $response;;//->withHeader('Access-Control-Allow-Origin','*');
+  	$sfeBackendMiddleWare = new \Botnyx\Sfe\Backend\Core\MiddleWare($request, $response,$this->pdo,$clientIssuer );
+  	// Add requestAttributes.
+  	$request = $sfeBackendMiddleWare->addRequestAttributes($request);
+  	$response = $next($request, $response);
+  	// Add responseHeaders.
+  	$response = $sfeBackendMiddleWare->addResponseHeaders($response);
+  	return $response;;//->withHeader('Access-Control-Allow-Origin','*');
 };
 /*
 */
