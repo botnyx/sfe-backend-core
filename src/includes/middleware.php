@@ -18,7 +18,6 @@ $container['session'] = function ($c) {
 };
 
 
-
 $backendMiddleware = function ($request, $response, $next)  {
 
   	$clientIssuer=_SETTINGS['sfeBackend']['sfeAuthSrv'];//"https://auth.devpoc.nl";
