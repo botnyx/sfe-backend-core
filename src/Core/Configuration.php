@@ -57,7 +57,7 @@ class Configuration {
 		// Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get
         $localRoutes[]=array(
           "uri"=>"/",
-          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
+	      "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Core\\FrontendEndpoint:get",
           "tmpl"=>"laborator/neon-bootstrap-admin-theme"
         );
         $localRoutes[]=array(
