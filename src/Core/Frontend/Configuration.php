@@ -17,14 +17,18 @@ use Psr\Http\Message\ResponseInterface;
 class Configuration {
 
     function __construct(ContainerInterface $container){
-        $this->pdo  = $container->get('pdo');
+        $pdo  = $container->get('pdo');
         $this->cache  = $container->get('cache');
+		
+		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
+		
+		
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 
         $extcfg = array(
-          'clientId'=>'709b6bb0-devpoc-website',
+          'clientId'=>'909b6bb0-servenow-website',
           'htmlts'=>1234,
           'html'=>null,
           'lang'=>array('en-UK','nl-NL'),
@@ -52,41 +56,21 @@ class Configuration {
 
         //$localRoutes = $fe_cfg->getStaticUrlsByClientId($args['clientid']);
 		
+		$config 	= $this->feConfig->getConfigByClientId($args['clientid']);
 		
+		$menus      = $this->feConfig->getByMenuClientId($args['clientid']);
 		
-		// Botnyx\\Sfe\\Backend\\Core\\FrontendEndpoint:get
-        $localRoutes[]=array(
-          "uri"=>"/",
-	      "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:get",
-          "tmpl"=>"laborator/neon-bootstrap-admin-theme"
-        );
-        $localRoutes[]=array(
-          "uri"=>"/newspaper/edition/{edition}",
-          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:get",
-          "tmpl"=>"botnyx/newspaper"
-        );
-        $localRoutes[]=array(
-          "uri"=>"/newspaper/article/{articleid}",
-          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:get",
-          "tmpl"=>"botnyx/newspaper"
-        );
-        $localRoutes[]=array(
-          "uri"=>"/newspaper",
-          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:get",
-          "tmpl"=>"botnyx/newspaper"
-        );
-        $localRoutes[]=array(
-          "uri"=>"/sw.js",
-          "fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:getServiceWorker",
-          "tmpl"=>""
-        );
-
+		$endpoints 	= $this->feConfig->getFrontendEndpoints($args['clientid']);
+		
+		//$endpoints 	= $this->feConfig->getFrontendEndpoints($args['clientid']);
+		
 
         $lastUpdated = time() - 3600;
 
         $data = array(
           'lastupdated'=>$lastUpdated,
-          'routes'=>$localRoutes,
+          'routes'=>$endpoints,
+		  'menus'=>$menus,
           'clientid'=>$args['clientid'],
           'userprefs'=>array("language"=>"nl_NL"),
           'status'=>'ok',

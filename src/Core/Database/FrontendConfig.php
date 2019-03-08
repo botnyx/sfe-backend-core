@@ -62,5 +62,13 @@ class FrontendConfig {
 	}
 
 
+	
+	function getFrontendEndpoints($clientId){
+		$sql = "SELECT * FROM frontend_endpoints WHERE client_id=:clientid";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(array('clientid'=>$clientId)); // just merge two arrays
+		$sqlResult = $stmt->fetchAll();
+		return $sqlResult;
+	}
 
 }
