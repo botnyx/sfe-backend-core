@@ -13,7 +13,7 @@ class FrontendConfig {
 
 	function getByClientId($clientId){
 
-		$sql = "SELECT * FROM ".$this->table." WHERE client_id=:clientid";
+		$sql = "SELECT * FROM frontend_config WHERE client_id=:clientid";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute(array('clientid'=>$clientId)); // just merge two arrays
 		$sqlResult = $stmt->fetch();

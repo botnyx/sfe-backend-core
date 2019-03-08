@@ -22,6 +22,7 @@ class Configuration {
 		
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 		
+		$outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
 		
     }
 
@@ -78,7 +79,7 @@ class Configuration {
         //return $response->write('')->withStatus(401);
         //return $response->withJson($data);//->withStatus(500);
 
-
+		
 
         $res = $response->withJson($data);
         //$resWithExpires = $this->cache->withExpires($res, time() + 3600);
