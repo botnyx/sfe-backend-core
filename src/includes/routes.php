@@ -10,7 +10,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 
-$app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Configuration:get');
+$app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get');
+
+
+
+/*
+	Static url proxy
+
+*/
+$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
+
+#$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\SfeBackend\\StaticFrontEnd:get');
+
+
+
 
 
 //$app->get('/api/cfg/{clientid}', function ( $request,  $response, array $args){ 
@@ -32,13 +45,6 @@ $app->get('/api/sfe/ui/extcfg','\\Botnyx\\SfeBackend\\Api\\Config:get');
 * /
 
 $app->get('/api/sfe/{clientid}/ui/sw','\\Botnyx\\SfeBackend\\Serviceworker\\generator:get');
-
-
-/*
-	Static url proxy
-
-* /
-$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\SfeBackend\\StaticFrontEnd:get');
 
 
 

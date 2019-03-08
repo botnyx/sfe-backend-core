@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Botnyx\Sfe\Backend\Core;
+namespace Botnyx\Sfe\Backend\Core\Frontend;
 
 
 
