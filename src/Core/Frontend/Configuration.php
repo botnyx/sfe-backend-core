@@ -27,7 +27,8 @@ class Configuration {
     }
 
     public function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
-
+		
+		/*
         $extcfg = array(
           'clientId'=>'909b6bb0-servenow-website',
           'htmlts'=>1234,
@@ -52,12 +53,18 @@ class Configuration {
               "workbox"=>0,
               "workboxnav"=>null
             )
-          );
+          );*/
         //$fe_cfg = new \Botnyx\SfeBackend\Database\frontend_config($this->pdo);
 
         //$localRoutes = $fe_cfg->getStaticUrlsByClientId($args['clientid']);
 		
 		$config 	= $this->feConfig->getConfigByClientId($args['clientid']);
+		
+		
+		if($config==false){
+			$data="unknown client";
+			return  $response->withJson( $this->outputFormat->response($data,404) );
+		}
 		
 		$menus      = $this->feConfig->getByMenuClientId($args['clientid']);
 		
@@ -69,25 +76,11 @@ class Configuration {
 		$lastUpdated = time() - 3600;
 		
 		$data = array(
-          'lastupdated'=>$lastUpdated,
+          /*'lastupdated'=>$lastUpdated,*/
           'routes'=>$endpoints,
 		  'menus'=>$menus,
           'config'=>$config
         );
-		
-		
-        
-
-        $xdata = array(
-          'routes'=>$endpoints,
-		  'menus'=>$menus,
-          'clientid'=>$args['clientid'],
-          'userprefs'=>array("language"=>"nl_NL"),
-          'status'=>'ok',
-        );
-        //return $response->write('')->withStatus(401);
-        //return $response->withJson($data);//->withStatus(500);
-
 		
 
         $res = $response->withJson( $this->outputFormat->response($data) );
