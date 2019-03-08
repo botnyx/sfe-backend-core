@@ -22,7 +22,7 @@ class Configuration {
 		
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 		
-		$outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
+		$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
 		
     }
 
@@ -65,11 +65,20 @@ class Configuration {
 		
 		//$endpoints 	= $this->feConfig->getFrontendEndpoints($args['clientid']);
 		
-
-        $lastUpdated = time() - 3600;
-
-        $data = array(
+		
+		$lastUpdated = time() - 3600;
+		
+		$data = array(
           'lastupdated'=>$lastUpdated,
+          'routes'=>$endpoints,
+		  'menus'=>$menus,
+          'config'=>$config
+        );
+		
+		
+        
+
+        $xdata = array(
           'routes'=>$endpoints,
 		  'menus'=>$menus,
           'clientid'=>$args['clientid'],
@@ -81,7 +90,7 @@ class Configuration {
 
 		
 
-        $res = $response->withJson($data);
+        $res = $response->withJson( $this->outputFormat->response($data) );
         //$resWithExpires = $this->cache->withExpires($res, time() + 3600);
         //$res = $this->cache->withExpires($res, time() + 3600);
         $resWithLastMod = $this->cache->withLastModified($res, $lastUpdated);
