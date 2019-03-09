@@ -26,7 +26,14 @@ class Endpoint{
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 
 		$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
-
+		
+	//	print_r($container->get('settings'));
+		//die();
+		
+		//var_dump((bool)$this->settings['debug']);
+		
+		//die();
+		$this->debug = (bool)$this->settings['debug'];
 		
 		/*
 			$this->settings 
@@ -168,26 +175,41 @@ class Endpoint{
 		
 		$pathInfo = array_merge($parsedPath,$thisRoute);
 		
-		if(!file_exists($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates")){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2202);
-		}
+		#var_dump($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates");
+		#var_dump(file_exists($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates"));
+		#die();
+		
+		
 		$pathInfo['_template_sfecore'] = $this->paths['root']."/vendor/botnyx/sfe-backend-core/templates";
 		
 		
+		if(!file_exists( $this->paths['templates']."/_Clients" )){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2200, $this->paths['templates']."/_Clients" ,$this->debug);
+		}
 		$pathInfo['_template_client'] = $this->paths['templates']."/_Clients/".$pathInfo['client_id'];
+		
+		//var_dump($pathInfo['_template_client']);
+		
 		if(!file_exists($pathInfo['_template_client'])){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2200);
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2201, $pathInfo['_template_client'],$this->debug );
 			//return $response->withJson($this->outputFormat->response("no templatepath not found for client",404))->withStatus(404);
 		}
 		
+		
+		
+		#var_dump(file_exists($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates"));
 		$pathInfo['_template_origin'] = $this->paths['templates']."/".$pathInfo['tmpl'];
 		if(!file_exists($pathInfo['_template_origin'])){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2201);
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2202,$pathInfo['_template_origin'],$this->debug);
 			//return $response->withJson($this->outputFormat->response("Origin template not found for client",500))->withStatus(500);
 		}
 		
+		
+		
+		
 		$pathInfo['_template_file']=$parsedPath['templateFile'];
 		
+		die();
 		
 		echo "<pre>";
 		echo "thisRoute\n";
