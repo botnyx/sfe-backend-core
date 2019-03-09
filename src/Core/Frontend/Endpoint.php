@@ -110,6 +110,8 @@ class Endpoint{
 			// Clientid not found in database
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1105);
 		}
+		//var_dump($ClientConfig);
+		//die();
 		
 		
 		$ClientRoutes =$this->feConfig->getFrontendEndpoints($clientID);
@@ -166,18 +168,22 @@ class Endpoint{
 		
 		$pathInfo = array_merge($parsedPath,$thisRoute);
 		
-		
+		if(!file_exists($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates")){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2202);
+		}
 		$pathInfo['_template_sfecore'] = $this->paths['root']."/vendor/botnyx/sfe-backend-core/templates";
 		
 		
 		$pathInfo['_template_client'] = $this->paths['templates']."/_Clients/".$pathInfo['client_id'];
 		if(!file_exists($pathInfo['_template_client'])){
-			return $response->withJson($this->outputFormat->response("no templatepath found for client",404))->withStatus(404);
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2200);
+			//return $response->withJson($this->outputFormat->response("no templatepath not found for client",404))->withStatus(404);
 		}
 		
 		$pathInfo['_template_origin'] = $this->paths['templates']."/".$pathInfo['tmpl'];
 		if(!file_exists($pathInfo['_template_origin'])){
-			return $response->withJson($this->outputFormat->response("Origin template error found for client",500))->withStatus(500);
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2201);
+			//return $response->withJson($this->outputFormat->response("Origin template not found for client",500))->withStatus(500);
 		}
 		
 		$pathInfo['_template_file']=$parsedPath['templateFile'];
