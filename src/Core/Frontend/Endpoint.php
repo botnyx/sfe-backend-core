@@ -209,12 +209,12 @@ class Endpoint{
 		
 		$pathInfo['_template_file']=$parsedPath['templateFile'];
 		
-		die();
 		
-		echo "<pre>";
-		echo "thisRoute\n";
 		
-		print_r($pathInfo);
+		#echo "<pre>";
+		#echo "thisRoute\n";
+		
+		#print_r($pathInfo);
 		
 		
 		//  we have every info to render a static page.
@@ -233,27 +233,67 @@ class Endpoint{
 			
 		*/
 		
-		
-		
 		// BASE HTML LOADER, CUSTOM WITH FALLBACK.
-		$loader = new \Twig\Loader\FilesystemLoader( [$pathInfo['_template_client'],$pathInfo['_template_sfecore'] ] );
-		$twig = new \Twig\Environment($loader, [
-			'cache' => $this->tempDir."/".$clientid,
-			'debug' => $this->debug
-		]);
-		
-		// Add the debug extension
-		if(_SETTINGS['twig']['debug']==true){
-			$twig->addExtension(new \Twig_Extension_Debug() );
+		$base_paths = array($pathInfo['_template_client'],$pathInfo['_template_sfecore'] );
+		//die("xcf");
+		try{
+			
+			$loader = \Botnyx\Sfe\Backend\Core\Template\BaseLoader($base_paths,$clientID);
+			$html = $loader->get();
+			
+			
+		}catch(\Twig\Error\LoaderError $e){
+			//Thrown when an error occurs during template loading.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3200, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\SyntaxError $e){
+			//Thrown to tell the user that there is a problem with the template syntax.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3201, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\RuntimeError $e){
+			//Thrown when an error occurs at runtime (when a filter does not exist for instance).
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3202, $e->getMessage(),$this->debug );
+		}catch(\Twig\Sandbox\SecurityError $e){
+			//Thrown when an unallowed tag, filter, or method is called in a sandboxed template.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3203, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\Error $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3204, $e->getMessage(),$this->debug );
+		}catch(\Exception $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
+			//print_r($e->getMessage());
 		}
-		/*
-			Load the main html frame.
-		*/
-		$template = $twig->load("sfe_document.phtml");
 		
 		
 		
-		return $response->write( $template->render() );
+		
+		
+		
+		return $response->write( $html );
+		
+		die();
+		$parsedPath->variables;
+		
+		$base_paths= array();
+		
+		try{
+			$html = $loader->fromString($html);
+			
+		}catch(\Twig\Error\LoaderError $e){
+			//Thrown when an error occurs during template loading.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3200, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\SyntaxError $e){
+			//Thrown to tell the user that there is a problem with the template syntax.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3201, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\RuntimeError $e){
+			//Thrown when an error occurs at runtime (when a filter does not exist for instance).
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3202, $e->getMessage(),$this->debug );
+		}catch(\Twig\Sandbox\SecurityError $e){
+			//Thrown when an unallowed tag, filter, or method is called in a sandboxed template.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3203, $e->getMessage(),$this->debug );
+		}catch(\Twig\Error\Error $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3204, $e->getMessage(),$this->debug );
+		}catch(\Exception $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
+			//print_r($e->getMessage());
+		}
 		
 		
 		
