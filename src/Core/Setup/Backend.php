@@ -9,7 +9,7 @@ use Composer\Installer\PackageEvent;
 
 class Backend {
     
-	function construct( $vendorDir){
+	function __construct( $vendorDir){
 		$this->vendorDir = $vendorDir;
 		$this->projectDir = realpath($vendorDir . '/..');
 		
@@ -24,8 +24,8 @@ class Backend {
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
 		
 		
-		#$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
-		#$installer->update();
+		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
+		$installer->update();
 		
 	}
 	
