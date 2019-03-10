@@ -61,8 +61,8 @@ class Backend {
 	}
 	public function setup (){
 		echo "\n";
-		echo "Setting up: `".$this->installedComponents[0]->name."`\n";
-		echo "version: `".$this->installedComponents[0]->version."`\n";
+		#echo "Setting up: `".$this->installedComponents[0]->name."`\n";
+		#echo "version: `".$this->installedComponents[0]->version."`\n";
 		//$installed[0]->version_normalized;
 		
 		#var_dump("xyz");
