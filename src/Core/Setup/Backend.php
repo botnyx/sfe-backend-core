@@ -15,9 +15,10 @@ class Backend {
 		//$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
      	$projectDir = realpath($vendorDir . '/..');
-		
+		var_dump("xyz");
 		echo "line1";
 		echo "line2";
+		
 		echo "line3\n";
 		print_r($projectDir );
 		
