@@ -71,10 +71,12 @@ class Backend {
 		if( file_exists($searchDir."/configuration.ini") ){
 			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
 			
-			$settings = $this->readConfiguration($searchDir."/configuration.ini" );
+			$app = $this->readConfiguration($searchDir."/configuration.ini" );
 			
 			
-			print_r($settings);
+			print_r($app->settings);
+			print_r($app->paths);
+			
 			echo "need to add config-parse code here..\n";
 			
 			echo "\n\nUNFINISHED!!\n\n";
@@ -95,7 +97,7 @@ class Backend {
 	
 	private function readConfiguration($configfile){
 		$app = new \Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
-		return $app->settings;
+		return $app;
 	}
 	
 	private function dbCredentials(){
