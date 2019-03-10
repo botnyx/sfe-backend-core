@@ -30,11 +30,10 @@ class Backend {
 		
 		#var_dump("xyz");
 		echo "-----------------------------------------\n";
-		echo "line2\n";
+		echo "Database setup/update should go here\n";
 		
-		echo "line3\n";
 		print_r($projectDir );
-		
+		echo "\n";
 	}
 	
 	
