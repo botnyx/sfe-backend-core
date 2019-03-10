@@ -150,9 +150,9 @@ class Endpoint{
 		
 		
 		//print_r($parsedPath);
-		//echo "<br>TemplateFile:".$parsedPath->templateFile."<br>";
+		//echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
 		
-		
+		//die();
 		
 		
 		
@@ -166,11 +166,26 @@ class Endpoint{
 
 		//print_r($tmp['routes']);
 		
+		/* define a 404 route 
+		$xthisRoute=array(	"id"=>0,
+						 	"uri"=>"/_404.html",
+						 	"fnc"=>"\\Botnyx\\Sfe\\Frontend\\Endpoint:get",
+						 	"tmpl"=>"botnyx/bootstrap3",
+						 	"client_id"=>$clientID
+						);
+		*/
+		$thisRoute = false;
 		foreach($ClientRoutes as $route){
 			if($route['uri']==$parsedPath['requestedPath']){
 				$thisRoute = $route;
 				break;
 			}
+		}
+		
+		
+		
+		if($thisRoute==false){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2203, $parsedPath['requestedPath'],$this->debug);
 		}
 		
 		
@@ -273,15 +288,20 @@ class Endpoint{
 		// inject the css/js
 		
 		$templateVars=array(
-			"sfe"=>array(
-				"css"=>$SfePageAssets->css,
-				"js" =>$SfePageAssets->js ),
-			"client"=>array(
-				"css"=>$ClientPageAssets->css,
-				"js" =>$ClientPageAssets->js ) 
+			"thisRoute"=>$thisRoute,
+			"assets"=>array(
+				"sfe"=>array(
+					"css"=>$SfePageAssets->css,
+					"js" =>$SfePageAssets->js ),
+				"client"=>array(
+					"css"=>$ClientPageAssets->css,
+					"js" =>$ClientPageAssets->js ) 
+			)
+			
 		);
-		
-		
+		print_r("<pre>");
+		print_r($templateVars);
+		die();
 		
 		
 		/*
