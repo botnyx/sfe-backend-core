@@ -36,7 +36,7 @@ class Backend {
 		
 		
 		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
-		//$installer->setup();
+		$installer->setup();
 		
 		
 	}
