@@ -1,24 +1,37 @@
 <?php
+
 namespace Botnyx\Sfe\Backend\Core\Template;
+
+/*
+	BaseLoader :Loads the base html.
+	
+	which is   <html><head></head><body></body></html>
+
+*/
+
 
 class BaseLoader {
 	
 	var $debug=true;
+	var $fromFileCachePrefix = "_sbase";
+	var $fromStringCachePrefix = "_fbase";
 	
-	function __construct($paths,$clientid){
-		$this->paths = $paths;
+	function __construct($lookpaths,$clientid,$configpaths){
+		$this->paths = $lookpaths;
 		$this->clientid = $clientid;
+		$this->tmp = $configpaths['temp'];
+		
 	}
 	
 	
-	function get(){
+	function get($templateVars=array()){
 		
 		$loader = new \Twig\Loader\FilesystemLoader( $this->paths );			
 		/*
 			Add the debug extension.
 		*/ 
 		$twig = new \Twig\Environment($loader, [
-			'cache' => $this->paths['temp']."/".$this->clientid."/_base",
+			'cache' => $this->tmp."/".$this->clientid."/".$fromFileCachePrefix,
 			'debug' => $this->debug
 		]);
 
@@ -34,7 +47,7 @@ class BaseLoader {
 		*/
 		$template = $twig->load("sfe_document.phtml");
 
-		$html = $template->render();
+		$html = $template->render( $templateVars );
 		
 		return $html;
 	}
@@ -42,11 +55,12 @@ class BaseLoader {
 	
 	function fromString($html){
 		
-		$twig = new \Twig_Environment(
+		$loader = new \Twig\Loader\FilesystemLoader( $this->paths );	
+		$twig = new \Twig_Environment($loader,
 			[
-				'cache' => $this->paths['temp']."/".$this->clientid."/_prepped",
+				'cache' => $this->tmp."/".$this->clientid."/".$fromStringCachePrefix,
 				'debug' => $this->debug
-			]s
+			]
 		);
 
 		$template = $twig->createTemplate($html);
@@ -54,5 +68,10 @@ class BaseLoader {
 		
 		return  $template->render(['name' => 'Bob']);
 	}
+	
+	
+	
+	
+	
 	
 }

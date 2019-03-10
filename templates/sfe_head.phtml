@@ -1,4 +1,21 @@
-<head>
-<meta charset="utf-8">
-<title>{{ '{{' }} head.title {{ '}}' }}</title>
-</head>
+	<!-- sfe-backend-core/templates/sfe_head.phtml -->
+	<head>
+		<meta charset="utf-8">
+{% for css in sfe.css %}
+	<link href="{{ css }}" rel="stylesheet" type="text/css">
+{% endfor %}
+{% for js in sfe.js %}
+		<script src="{{ js }}"></script>
+{% endfor %}
+{% for css in client.css %}
+		<link href="{{ css }}" rel="stylesheet" type="text/css">
+{% endfor %}
+{% for js in client.js %}
+		<script src="{{ js }}"></script>
+{% endfor %}
+
+
+{{ '{{' }} include("head.phtml") {{ '}}' }}
+
+	</head>
+	<!-- /sfe-backend-core/templates/sfe_head.phtml -->

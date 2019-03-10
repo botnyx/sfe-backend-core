@@ -11,6 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Botnyx\Sfe\Shared;
+use Twig\Error;
 
 
 class Endpoint{
@@ -233,14 +234,104 @@ class Endpoint{
 			
 		*/
 		
-		// BASE HTML LOADER, CUSTOM WITH FALLBACK.
-		$base_paths = array($pathInfo['_template_client'],$pathInfo['_template_sfecore'] );
-		//die("xcf");
+		
+		
+		
+		
+		
+		/*
+			 get the page assets, and inject them in the base html via template vars..
+		
+		*/
 		try{
+			$SfePageAssets = new \Botnyx\Sfe\Backend\Core\Template\AssetsLoader($pathInfo['_template_sfecore']);
 			
-			$loader = \Botnyx\Sfe\Backend\Core\Template\BaseLoader($base_paths,$clientID);
-			$html = $loader->get();
+		}catch(\Exception $e){
+			//Thrown when an error occurs during template loading.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3206, $e->getMessage(),$this->debug );
+		}
+		
+		$SfePageAssets->css;
+		$SfePageAssets->js;
+	
+		
+		
+		try{
+			$ClientPageAssets = new \Botnyx\Sfe\Backend\Core\Template\AssetsLoader($pathInfo['_template_client']);
 			
+		}catch(\Exception $e){
+			//Thrown when an error occurs during template loading.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3206, $e->getMessage(),$this->debug );
+		}
+		
+		$ClientPageAssets->css;
+		$ClientPageAssets->js;
+		
+		
+		// dedupe and merge the assets.
+		
+		// inject the css/js
+		
+		$templateVars=array(
+			"sfe"=>array(
+				"css"=>$SfePageAssets->css,
+				"js" =>$SfePageAssets->js ),
+			"client"=>array(
+				"css"=>$ClientPageAssets->css,
+				"js" =>$ClientPageAssets->js ) 
+		);
+		
+		
+		
+		
+		/*
+			Base loader,  loads the main document, head and body section (from core)
+		*/
+		$base_paths = array($pathInfo['_template_client'],$pathInfo['_template_sfecore'] );
+		try{
+			$baseHtmlLoader = new \Botnyx\Sfe\Backend\Core\Template\BaseLoader($base_paths,$clientID,$this->paths);
+			
+			$html = $baseHtmlLoader->get($templateVars);
+			
+		}catch(LoaderError $e){
+			//Thrown when an error occurs during template loading.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3200, $e->getMessage(),$this->debug );
+		}catch(SyntaxError $e){
+			//Thrown to tell the user that there is a problem with the template syntax.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3201, $e->getMessage(),$this->debug );
+		}catch(RuntimeError $e){
+			//Thrown when an error occurs at runtime (when a filter does not exist for instance).
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3202, $e->getMessage(),$this->debug );
+		}catch(SecurityError $e){
+			//Thrown when an unallowed tag, filter, or method is called in a sandboxed template.
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3203, $e->getMessage(),$this->debug );
+		}catch(Error $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3204, $e->getMessage(),$this->debug );
+		}catch(\Exception $e){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
+			//print_r($e->getMessage());
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		#return $response->write( $html );
+		
+		#die();
+		//$pathInfo['_template_file']
+		$parsedPath->variables;
+		
+		$base_paths= array();
+		$base_paths = array($pathInfo['_template_client'],$pathInfo['_template_origin'],$pathInfo['_template_sfecore'] );
+		try{
+			$clientHtmlLoader = new \Botnyx\Sfe\Backend\Core\Template\ClientLoader($base_paths,$clientID,$this->paths);
+			//$html = $clientHtmlLoader->get();
+			
+			$html = $clientHtmlLoader->fromString($html);
 			
 		}catch(\Twig\Error\LoaderError $e){
 			//Thrown when an error occurs during template loading.
@@ -260,8 +351,6 @@ class Endpoint{
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
 			//print_r($e->getMessage());
 		}
-		
-		
 		
 		
 		
@@ -269,34 +358,6 @@ class Endpoint{
 		return $response->write( $html );
 		
 		die();
-		$parsedPath->variables;
-		
-		$base_paths= array();
-		
-		try{
-			$html = $loader->fromString($html);
-			
-		}catch(\Twig\Error\LoaderError $e){
-			//Thrown when an error occurs during template loading.
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3200, $e->getMessage(),$this->debug );
-		}catch(\Twig\Error\SyntaxError $e){
-			//Thrown to tell the user that there is a problem with the template syntax.
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3201, $e->getMessage(),$this->debug );
-		}catch(\Twig\Error\RuntimeError $e){
-			//Thrown when an error occurs at runtime (when a filter does not exist for instance).
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3202, $e->getMessage(),$this->debug );
-		}catch(\Twig\Sandbox\SecurityError $e){
-			//Thrown when an unallowed tag, filter, or method is called in a sandboxed template.
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3203, $e->getMessage(),$this->debug );
-		}catch(\Twig\Error\Error $e){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3204, $e->getMessage(),$this->debug );
-		}catch(\Exception $e){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
-			//print_r($e->getMessage());
-		}
-		
-		
-		
 		
 		//die($template->render());
 		
@@ -341,7 +402,7 @@ class Endpoint{
 		
 		 $thisRoute['defpage'];
 		
-		$extraconfig = $this->fe_cfg->getConfigByClientId($args['clientid']);
+#		$extraconfig = $this->fe_cfg->getConfigByClientId($args['clientid']);
 		$extcfg = array(
 			'clientId'=>$args['clientid'],
 			'htmlts'=>1234,
