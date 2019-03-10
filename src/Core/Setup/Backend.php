@@ -20,7 +20,7 @@ class Backend {
 		$vendorDir."/composer/installed.json";
 		
 		
-		$installed = json_decode(Botnyx\Sfe\Backend\Core\Setup\Backend::readfile($vendorDir."/composer/installed.json"));
+		$installed = json_decode(\Botnyx\Sfe\Backend\Core\Setup\Backend::readfile($vendorDir."/composer/installed.json"));
 		
 		
 		echo "Setting up ".$installed[0]->name."\n";
