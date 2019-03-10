@@ -28,9 +28,9 @@ class Backend {
 		//$installed[0]->version_normalized;
 		
 		
-		var_dump("xyz");
-		echo "line1";
-		echo "line2";
+		#var_dump("xyz");
+		echo "-----------------------------------------\n";
+		echo "line2\n";
 		
 		echo "line3\n";
 		print_r($projectDir );
