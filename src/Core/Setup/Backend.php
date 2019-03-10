@@ -24,8 +24,8 @@ class Backend {
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
 		
 		
-		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
-		$installer->update();
+		#$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
+		#$installer->update();
 		
 	}
 	
@@ -36,7 +36,7 @@ class Backend {
 		
 		
 		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
-		$installer->setup();
+		//$installer->setup();
 		
 		
 	}
