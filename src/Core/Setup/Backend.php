@@ -45,6 +45,8 @@ class Backend {
 		return $contents;
 	}
 	
+	
+	
 	public function update (){
 		echo "\n";
 		echo "Updating: `".$this->installedComponents[0]->name."`\n";
@@ -68,6 +70,11 @@ class Backend {
 		$searchDir = realpath($this->vendorDir . '/../..');
 		if( file_exists($searchDir."/configuration.ini") ){
 			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
+			
+			$settings = $this->readConfiguration( parse_ini_file($searchDir."/configuration.ini", true) );
+			
+			
+			print_r($settings);
 			echo "need to add config-parse code here..\n";
 			
 			echo "\n\nUNFINISHED!!\n\n";
@@ -82,7 +89,10 @@ class Backend {
 	}
 	
 	
-	
+	private function readConfiguration($configfile){
+		$app = new Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
+		return $app->settings;
+	}
 	
 	private function dbCredentials(){
 		echo "---------------------\n";
