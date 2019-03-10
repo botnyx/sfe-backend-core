@@ -2,10 +2,21 @@
 
 namespace Botnyx\Sfe\Backend\Core\Setup;
 
+
+use Composer\Script\Event;
+use Composer\Installer\PackageEvent;
+
+
 class Backend {
     
 	
-	static function postInstall(){
+	static function postInstall(Event $event){
+		
+		//$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
+		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
+     	$projectDir = realpath($vendorDir . '/..');
+		
+		print_r($projectDir );
 		
 	}
 }
