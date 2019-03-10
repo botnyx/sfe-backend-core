@@ -71,7 +71,7 @@ class Backend {
 		if( file_exists($searchDir."/configuration.ini") ){
 			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
 			
-			$settings = $this->readConfiguration( parse_ini_file($searchDir."/configuration.ini", true) );
+			$settings = $this->readConfiguration($searchDir."/configuration.ini" );
 			
 			
 			print_r($settings);
