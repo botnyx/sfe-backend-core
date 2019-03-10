@@ -66,7 +66,6 @@ class Backend {
 		
 		
 		
-		$key = array_search('botnyx/sfe-backend-core', array_column($userdb, 'name'));
 		
 		#var_dump("xyz");
 		echo "-----------------------------------------\n";
