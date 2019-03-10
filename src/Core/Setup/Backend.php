@@ -15,6 +15,19 @@ class Backend {
 		//$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
      	$projectDir = realpath($vendorDir . '/..');
+		
+		
+		$vendorDir."/composer/installed.json";
+		
+		
+		$installed = json_decode(Botnyx\Sfe\Backend\Core\Setup\Backend::readfile($vendorDir."/composer/installed.json"));
+		
+		
+		echo "Setting up ".$installed[0]->name."\n";
+		echo "version: ".$installed[0]->version."\n";
+		//$installed[0]->version_normalized;
+		
+		
 		var_dump("xyz");
 		echo "line1";
 		echo "line2";
@@ -23,4 +36,13 @@ class Backend {
 		print_r($projectDir );
 		
 	}
+	
+	
+	static function readfile ($filename){
+		$handle = fopen($filename, "rb");
+		$contents = fread($handle, filesize($filename));
+		fclose($handle);
+		return $contents;
+	}
+	
 }
