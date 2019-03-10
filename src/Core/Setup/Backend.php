@@ -20,10 +20,8 @@ class Backend {
 	
 	static function postUpdate(Event $event){
 		
-		//$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
-		
-		
+				
 		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
 		$installer->update();
 		
@@ -31,7 +29,6 @@ class Backend {
 	
 	static function postInstall(Event $event){
 		
-		//$vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
 		
 		
