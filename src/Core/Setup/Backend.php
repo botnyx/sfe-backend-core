@@ -22,9 +22,9 @@ class Backend {
 		
 		$installed = json_decode(\Botnyx\Sfe\Backend\Core\Setup\Backend::readfile($vendorDir."/composer/installed.json"));
 		
-		
-		echo "Setting up ".$installed[0]->name."\n";
-		echo "version: ".$installed[0]->version."\n";
+		echo "\n";
+		echo "Setting up: `".$installed[0]->name."`\n";
+		echo "version: `".$installed[0]->version."`\n";
 		//$installed[0]->version_normalized;
 		
 		
