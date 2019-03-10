@@ -26,9 +26,16 @@ class Backend {
 		
 		#var_dump("xyz");
 		echo "-----------------------------------------\n";
-		echo "Database setup/update should go here\n";
 		
-		print_r($projectDir );
+		$searchDir = realpath($vendorDir . '/../..');
+		if( file_exists($searchDir."/configuration.ini") ){
+			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
+			echo "need to add config-parse code here..";
+		}
+		
+		//echo "Database setup/update should go here\n";
+		
+		//print_r($projectDir );
 		echo "\n";
 	}
 	
@@ -52,9 +59,12 @@ class Backend {
 		
 		#var_dump("xyz");
 		echo "-----------------------------------------\n";
-		echo "Database setup/update should go here\n";
 		
-		print_r($projectDir );
+		$searchDir = realpath($vendorDir . '/../..');
+		if( file_exists($searchDir."/configuration.ini") ){
+			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
+			echo "need to add config-parse code here..";
+		}
 		echo "\n";
 	}
 	
