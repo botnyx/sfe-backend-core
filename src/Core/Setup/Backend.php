@@ -78,6 +78,7 @@ class Backend {
 			echo "need to add config-parse code here..\n";
 			
 			echo "\n\nUNFINISHED!!\n\n";
+			
 		}else{
 			echo "\n No configuration found, starting setup.\n";
 			$public_html = $this->public_html();
@@ -89,8 +90,11 @@ class Backend {
 	}
 	
 	
+	
+	
+	
 	private function readConfiguration($configfile){
-		$app = new Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
+		$app = new \Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
 		return $app->settings;
 	}
 	
@@ -108,7 +112,6 @@ class Backend {
 		
 		return array("dsn"=>$dsn,"user"=>$user,"pass"=>$pass);
 	}
-	
 	
 	private function public_html(){
 		echo "---------------------\n";
