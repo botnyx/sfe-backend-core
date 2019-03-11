@@ -139,12 +139,11 @@ return "CREATE TABLE `frontend_serviceworker`  (
 	public function dbversion(){
 		// DROP TABLE IF EXISTS `dbversion`;
 return "CREATE TABLE `dbversion`  (
-  `version` bigint(255) NOT NULL,
+  `version` bigint(6) UNSIGNED ZEROFILL NOT NULL,
   PRIMARY KEY (`version`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
 
 	}
-	
 	
 	public function setversion(){
 		return "INSERT INTO `dbversion` VALUES ('000001');";
