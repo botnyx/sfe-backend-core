@@ -138,6 +138,7 @@ return "CREATE TABLE `frontend_serviceworker`  (
 	
 	public function dbversion(){
 		// DROP TABLE IF EXISTS `dbversion`;
+		
 return "CREATE TABLE `dbversion`  (
   `version` bigint(6) NOT NULL,
   PRIMARY KEY (`version`) USING BTREE
