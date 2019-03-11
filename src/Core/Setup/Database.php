@@ -54,8 +54,6 @@ class Database {
 		//var_dump($updates);
 		if(count($updates)>0){
 			foreach($updates as $update){
-				echo "\n".$update['filename']."\n";
-
 				require_once($update['filename']);
 				$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
 				$dbupdate = new $className($this->pdo);
