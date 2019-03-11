@@ -299,9 +299,9 @@ class Endpoint{
 			)
 			
 		);
-		print_r("<pre>");
-		print_r($templateVars);
-		die();
+		#print_r("<pre>");
+		#print_r($templateVars);
+		#die();
 		
 		
 		/*
