@@ -5,6 +5,9 @@ namespace Botnyx\Sfe\Backend\Core\Database\sql;
 
 class SfeBackendCoreSql {
 	
+	function __construct(){
+		
+	}
 	
 	function authproviders_identities(){
 		//DROP TABLE IF EXISTS `authproviders_identities`;
