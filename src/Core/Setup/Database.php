@@ -13,8 +13,9 @@ class Database {
 	
 	var $pdo;
 	
-	function __construct($pdo){
+	function __construct($pdo,$dbname){
 		$this->pdo= $pdo;
+		$this->dbname = $dbname;
 	}
 	/*
 		Get the main installation sql 
@@ -22,7 +23,7 @@ class Database {
 	public function create(){
 		echo "\nBotnyx\Sfe\Backend\Core\Setup\create()\n";
 		
-		$installObject = new \Botnyx\Sfe\Backend\Core\Database\sql\SfeBackendCoreSql();
+		$installObject = new \Botnyx\Sfe\Backend\Core\Database\sql\SfeBackendCoreSql($this->dbname);
 		
 		/* execute the sql */
 		foreach( $installObject->sql as $o){
@@ -46,6 +47,17 @@ class Database {
 		//$sqlResult = $stmt->fetch();
 	}
 	
+	public function getDsnValue($dsnParameter, $default = NULL)
+    {
+        $pattern = sprintf('~%s=([^;]*)(?:;|$)~', preg_quote($dsnParameter, '~'));
+
+        $result = preg_match($pattern, $this->dsn, $matches);
+        if ($result === FALSE) {
+            throw new RuntimeException('Regular expression matching failed unexpectedly.');
+        }
+
+        return $result ? $matches[1] : $default;
+    }
 	
 	public function update($vendordir,$currentversion){
 		echo "\n\n UPDATE() \n";
@@ -56,7 +68,7 @@ class Database {
 			foreach($updates as $update){
 				require_once($update['filename']);
 				$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
-				$dbupdate = new $className($this->pdo);
+				$dbupdate = new $className($this->pdo,$this->dbname);
 			}
 			
 		}else{

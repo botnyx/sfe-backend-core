@@ -13,18 +13,23 @@ abstract class updateInterface  {
 	var $previousVersion = false;
 	
 	
-	function __construct($pdo){
+	function __construct($pdo,$dbname){
 		$this->pdo=$pdo;
+		$this->dbname=$dbname;
+		
 		if($this->thisVersion ==false || $this->previousVersion == false){
 			throw new \Exception("INVALID UPDATEFILE, Aborting...");
 		}else{
-			echo "\n------------------------------------\nUpdating database from version ".$this->previousVersion." to version ".$this->thisVersion."\n";
+			echo "\n------------------------------------\nUpdating database `".$dbname."` from version ".$this->previousVersion." to version ".$this->thisVersion."\n";
 		}
 		
 		$this->start();
 		
 	}
 	
+	function updateVersionNumber(){
+		$this->exec("INSERT INTO ".$this->dbname." ( version ) VALUES ('".$this->thisVersion."');");
+	}
 	
 	function fetch($sql){	
 		$stmt = $this->pdo->prepare($sql);

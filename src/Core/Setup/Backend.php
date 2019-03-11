@@ -98,7 +98,7 @@ class Backend {
 			////////////////////////////////////////////////////
 			$this->createdb($this->pdo);
 			
-			echo "\n\nUNFINISHED!!\n\n";
+			echo "\n\nFINISHED!!\n\n";
 			
 		}else{
 			echo "\n No configuration found, starting setup.\n";
@@ -122,7 +122,7 @@ class Backend {
 	private function createdb($pdo){
 		// verify db doenst exist
 		// createdb from sql
-		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
+		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo,$this->dbname);
 		try{
 			$setup->create();
 		}catch(\Exception $e){
@@ -132,7 +132,9 @@ class Backend {
 	}
 	
 	private function updatedb($pdo){
-		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
+		
+		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo,$this->dbname);
+		
 		try{
 			$version = $setup->getVersion();
 		}catch(\Exception $e){
@@ -215,6 +217,8 @@ class Backend {
 	
 	private function createPDO($c){
 		$c['dsn']="mysql:host=localhost;dbname=backendtest";
+		
+		$this->dbname = $this->getDsnValue($c['dsn'], $default = NULL);
 		$dboptions = array(
 			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
