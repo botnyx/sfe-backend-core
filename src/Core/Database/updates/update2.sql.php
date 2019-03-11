@@ -11,14 +11,14 @@ class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 	
 	function start(){
 		
-		$this->exec($this->dbversion());
+		//$this->exec($this->dbversion());
 		
 		/* finally, update the version number. */
-		$this->exec("INSERT INTO `dbversion` ( version ) VALUES ('".$this->thisVersion."');");
+		//$this->exec("INSERT INTO dbversion ( version ) VALUES ('".$this->thisVersion."');");
 	}
 	
 	function dbversion(){
-		return "ALTER TABLE `backendtest`.`dbversion` ADD COLUMN `ts` TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `version`;";
+		return "ALTER TABLE dbversion ADD COLUMN `ts` TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `version`;";
 	}
 	
 }
