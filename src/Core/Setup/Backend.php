@@ -91,14 +91,14 @@ class Backend {
 			
 			#echo "\npaths\n";
 			#print_r($app->paths);
-			echo "\ncoreComponent\n";
-			print_r($coreComponent);
+			#echo "\ncoreComponent\n";
+			#print_r($coreComponent);
 			
 			#echo "need to add config-parse code here..\n";
 			////////////////////////////////////////////////////
 			$this->createdb($this->pdo);
 			
-			echo "\n\nFINISHED!!\n\n";
+			//echo "\n\nFINISHED!!\n\n";
 			
 		}else{
 			echo "\n No configuration found, starting setup.\n";
@@ -161,8 +161,6 @@ class Backend {
 		}
 		
 	}
-	
-	
 	
 	private function readConfiguration($configfile){
 		$app = new \Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
