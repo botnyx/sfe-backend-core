@@ -139,7 +139,8 @@ return "CREATE TABLE `frontend_serviceworker`  (
 	public function dbversion(){
 		// DROP TABLE IF EXISTS `dbversion`;
 return "CREATE TABLE `dbversion`  (
-  `version` bigint(6) UNSIGNED ZEROFILL NOT NULL,
+  `version` bigint(6) NOT NULL,
+  ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`version`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
 
