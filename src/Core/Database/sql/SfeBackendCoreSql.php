@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Botnyx\Sfe\Backend\Core\Database;
+namespace Botnyx\Sfe\Backend\Core\Database\sql;
 
 class SfeBackendCoreSql {
 	
