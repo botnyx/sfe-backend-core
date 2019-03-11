@@ -6,7 +6,7 @@ namespace Botnyx\Sfe\Backend\Core\Database\sql;
 class SfeBackendCoreSql {
 	
 	function __construct(){
-		
+		$this->authproviders_identities = $this->authproviders_identities();
 	}
 	
 	public function authproviders_identities(){
