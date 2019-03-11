@@ -21,7 +21,7 @@ class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 	}
 	
 	function dbversion(){
-		return "ALTER TABLE ".$this->dbname." ADD COLUMN ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER version;";
+		return "ALTER TABLE ".$this->dbname.".dbversion ADD COLUMN ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER version;";
 	}
 	
 }
