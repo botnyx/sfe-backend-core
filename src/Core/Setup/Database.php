@@ -14,18 +14,16 @@ class Database {
 	var $pdo;
 	
 	function __construct($pdo){
-		
-		
 		$this->pdo= $pdo;
-		
-		
 	}
 	/*
 		Get the main installation sql 
 	*/
 	public function create(){
+		echo "\nBotnyx\Sfe\Backend\Core\Setup\create\n";
 		//"botnyx/sfe-backend-core/src/Core/Database/sql/setup.sql.php";
 		$installObject = new \Botnyx\Sfe\Backend\Core\Database\sql\SfeBackendCoreSql();
+		print_r($installObject);
 		foreach( get_object_vars ( $installObject ) as $o){
 			print_r($o);	
 		}
