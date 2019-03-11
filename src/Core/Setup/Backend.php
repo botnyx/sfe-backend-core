@@ -166,7 +166,7 @@ class Backend {
     {
         $pattern = sprintf('~%s=([^;]*)(?:;|$)~', preg_quote($dsnParameter, '~'));
 
-        $result = preg_match($pattern, $this->dsn, $matches);
+        $result = preg_match($pattern, $dsnParameter, $matches);
         if ($result === FALSE) {
             throw new RuntimeException('Regular expression matching failed unexpectedly.');
         }
