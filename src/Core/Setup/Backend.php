@@ -75,11 +75,12 @@ class Backend {
 			echo "found a previous `configuration.ini` ( ".$searchDir."/configuration.ini"." ) \n";	
 			
 			$app = $this->readConfiguration($searchDir."/configuration.ini" );
-			$coreversion = $this->getComponentVersion($this->installedComponents);
+			$coreComponent = $this->getComponentVersion($this->installedComponents);
 			
 			print_r($app->settings);
 			print_r($app->paths);
-			print_r($coreversion);
+			
+			print_r($coreComponent);
 			
 			echo "need to add config-parse code here..\n";
 			
@@ -99,7 +100,10 @@ class Backend {
 	private function getComponentVersion($installedComponents){
 		foreach($installedComponents as $c){
 			if($c->name=="botnyx/sfe-backend-core"){
-				return $c;
+				return (object)array("name"=>$c->name,
+							 "version"=>$c->version,
+							 "version_normalized"=>$c->version_normalized
+							);
 			}
 		}
 		
