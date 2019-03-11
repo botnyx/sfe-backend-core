@@ -70,7 +70,7 @@ class Database {
 	}
 	
 	private function getUpdates($vendorDir,$currentversion){
-		
+		/* VendorDir*/
 		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/";
 		$array= array();
 		foreach (glob($path."*.sql.php") as $filename) {
