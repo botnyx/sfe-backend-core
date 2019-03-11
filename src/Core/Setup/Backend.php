@@ -162,6 +162,17 @@ class Backend {
 		
 	}
 	
+	public function getDsnValue($dsnParameter, $default = NULL)
+    {
+        $pattern = sprintf('~%s=([^;]*)(?:;|$)~', preg_quote($dsnParameter, '~'));
+
+        $result = preg_match($pattern, $this->dsn, $matches);
+        if ($result === FALSE) {
+            throw new RuntimeException('Regular expression matching failed unexpectedly.');
+        }
+
+        return $result ? $matches[1] : $default;
+    }
 	
 	private function readConfiguration($configfile){
 		$app = new \Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
