@@ -21,6 +21,7 @@ abstract class updateInterface  {
 			echo "\n------------------------------------\nUpdating database from version ".$this->previousVersion." to version ".$this->thisVersion."\n";
 		}
 		
+		$this->start();
 		
 	}
 	
