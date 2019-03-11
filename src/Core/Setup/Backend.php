@@ -22,8 +22,8 @@ class Backend {
 		
 		$vendorDir = realpath($event->getComposer()->getConfig()->get('vendor-dir'));
 				
-		$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
-		$installer->update();
+		#$installer = new \Botnyx\Sfe\Backend\Core\Setup\Backend($vendorDir);
+		#$installer->update();
 		
 	}
 	
@@ -58,6 +58,8 @@ class Backend {
 		echo "\n\nUNFINISHED!!\n\n";
 		
 	}
+	
+	
 	public function setup (){
 		echo "\n";
 		echo "Setting up: `".$this->installedComponents[0]->name."`\n";
@@ -78,26 +80,53 @@ class Backend {
 			$coreComponent = $this->getComponentVersion($this->installedComponents);
 			
 			echo "\nsettings\n";
-			print_r($app->settings);
+			print_r($app->settings['conn']);
+			
+			
+			/* create the $this->pdo instance */
+			$this->createPDO($app->settings['conn']);
+			
+			
 			echo "\npaths\n";
 			print_r($app->paths);
-			
 			echo "\ncoreComponent\n";
 			print_r($coreComponent);
 			
 			echo "need to add config-parse code here..\n";
+			////////////////////////////////////////////////////
+			//$this->createdb($this->pdo);
+			
 			echo "\n\nUNFINISHED!!\n\n";
 			
 		}else{
 			echo "\n No configuration found, starting setup.\n";
 			$public_html = $this->public_html();
 			$tempFolder = $this->tempFolder();
+			
+			/* create the $this->pdo instance from requested credentials */
 			$dbCredentials = $this->dbCredentials();
+			
+			////////////////////////////////////////////////////
+			$this->pdo;
 			echo "\n\nUNFINISHED!!\n\n";
+			
+			
+			
 		}
 		echo "\n";
 	}
 	
+
+	private function createdb($pdo){
+		// verify db doenst exist
+		// createdb from sql
+	}
+	
+	private function updatedb(){
+		// get dbversion.
+		// get list of patches.
+		// patch db from dbversion and up.
+	}
 	
 	private function getComponentVersion($installedComponents){
 		foreach($installedComponents as $c){
@@ -128,6 +157,12 @@ class Backend {
 		echo "Please enter the database password \n";
 		$pass = rtrim(fgets(STDIN));
 		
+		try{ 
+			$this->createPDO(array("dsn"=>$dsn,"user"=>$user,"pass"=>$pass) ) ;
+		}catch(\Exception $e){
+			echo "\nERROR! - ".$e->getMessage();
+			return $this->dbCredentials();
+		}
 		
 		return array("dsn"=>$dsn,"user"=>$user,"pass"=>$pass);
 	}
@@ -158,5 +193,22 @@ class Backend {
 		return $input;
 	}
 	
-	
+	private function createPDO($c){
+		$dboptions = array(
+			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+			PDO::ATTR_EMULATE_PREPARES   => false,
+		);
+		/*  make db connection.  */
+		try{
+			//$pdo = new PDO($ini['database']['pdodsn']  );
+
+			$pdo = new PDO($c['dsn'], $c['dbuser'],$c['dbpassword'],$dboptions );
+			// set the default schema for the oauthserver.
+			//$result = $pdo->exec('SET search_path TO oauth2'); # POSTGRESQL Schema support
+		}catch(Exception $e){
+			throw new \Exception($e->getMessage());
+		}
+		$this->pdo = $pdo;
+	}
 }
