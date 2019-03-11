@@ -48,7 +48,7 @@ class Database {
 	
 	
 	public function update($vendordir,$version){
-		
+		echo "\n\n UPDATE() \n";
 		$updates = $this->getUpdates($vendordir,$version);
 		
 		foreach($updates as $update){
