@@ -83,7 +83,6 @@ class Backend {
 			print_r($coreComponent);
 			
 			echo "need to add config-parse code here..\n";
-			
 			echo "\n\nUNFINISHED!!\n\n";
 			
 		}else{
