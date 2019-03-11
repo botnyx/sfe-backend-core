@@ -232,9 +232,10 @@ class Backend {
 		$this->dbname = $this->getDsnValue($c['dsn'], $default = NULL);
 		
 		
-		$dsns = \Enqueue\Dsn\Dsn::parse($c['dsn']);
+		$dsns = \AD7six\Dsn\Dsn::parse($c['dsn']);
+		$d = $dsns->toArray();
 		
-		print_r($dsns);
+		print_r($d);
 		die();
 		
 		
