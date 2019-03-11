@@ -26,8 +26,14 @@ class Database {
 		
 		/* execute the sql */
 		foreach( $installObject->sql as $o){
-			echo "\n------------";
-			$this->dbexec($o);
+			echo "\ncreating table...";
+			try{
+				var_dump($this->dbexec($o));
+			}catch(\Exception $e){
+				echo "\n === FATAL ERROR ====";
+				throw new \Exception($e->getMessage());
+			}
+			
 		}
 		
 		
