@@ -206,7 +206,7 @@ class Backend {
 			$pdo = new \PDO($c['dsn'], $c['dbuser'],$c['dbpassword'],$dboptions );
 			// set the default schema for the oauthserver.
 			//$result = $pdo->exec('SET search_path TO oauth2'); # POSTGRESQL Schema support
-		}catch(Exception $e){
+		}catch(\Exception $e){
 			throw new \Exception($e->getMessage());
 		}
 		$this->pdo = $pdo;
