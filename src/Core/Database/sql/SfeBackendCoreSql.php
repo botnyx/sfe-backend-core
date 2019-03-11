@@ -9,7 +9,7 @@ class SfeBackendCoreSql {
 		
 	}
 	
-	function authproviders_identities(){
+	public function authproviders_identities(){
 		//DROP TABLE IF EXISTS `authproviders_identities`;
 return "CREATE TABLE `authproviders_identities`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
