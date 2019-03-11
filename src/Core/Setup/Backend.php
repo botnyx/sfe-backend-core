@@ -77,9 +77,12 @@ class Backend {
 			$app = $this->readConfiguration($searchDir."/configuration.ini" );
 			$coreComponent = $this->getComponentVersion($this->installedComponents);
 			
+			echo "settings\n";
 			print_r($app->settings);
+			echo "paths\n";
 			print_r($app->paths);
 			
+			echo "coreComponent\n";
 			print_r($coreComponent);
 			
 			echo "need to add config-parse code here..\n";
