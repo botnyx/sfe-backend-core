@@ -36,7 +36,8 @@ abstract class updateInterface  {
 		$stmt->execute();
 		return  $stmt->fetchAll();
 	}
-	function exec($sql){	
+	function exec($sql){
+		echo $sql."\n";
 		$stmt = $this->pdo->prepare($sql);
 		return $stmt->execute(); 
 	}

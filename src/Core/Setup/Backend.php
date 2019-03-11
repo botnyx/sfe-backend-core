@@ -240,7 +240,7 @@ class Backend {
 			}
 		}
 
-		var_dump($dbname);
+		echo "Using database:". $dbname."\n";
 		$this->dbname = $dbname;
 		
 		
