@@ -47,10 +47,11 @@ class Database {
 	}
 	
 	
-	public function update($vendordir,$version){
+	public function update($vendordir,$currentversion){
 		echo "\n\n UPDATE() \n";
-		$updates = $this->getUpdates($vendordir,$version);
+		$updates = $this->getUpdates($vendordir,$currentversion);
 		
+		var_dump($updates);
 		foreach($updates as $update){
 			echo "\n".$update['filename']."\n";
 			
