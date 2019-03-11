@@ -15,7 +15,9 @@ class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 		var_dump($this->exec($this->dbversion()) );
 		
 		/* finally, update the version number. */
+		echo "Update dbversion.\n";
 		$this->exec("INSERT INTO dbversion ( version ) VALUES ('".$this->thisVersion."');");
+		
 	}
 	
 	function dbversion(){
