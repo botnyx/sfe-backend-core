@@ -162,17 +162,7 @@ class Backend {
 		
 	}
 	
-	public function getDsnValue($dsnParameter, $default = NULL)
-    {
-        $pattern = sprintf('~%s=([^;]*)(?:;|$)~', preg_quote($dsnParameter, '~'));
-
-        $result = preg_match($pattern, $dsnParameter, $matches);
-        if ($result === FALSE) {
-            throw new RuntimeException('Regular expression matching failed unexpectedly.');
-        }
-
-        return $result ? $matches[1] : $default;
-    }
+	
 	
 	private function readConfiguration($configfile){
 		$app = new \Botnyx\Sfe\Shared\Application(parse_ini_file($configfile, true));
@@ -227,7 +217,7 @@ class Backend {
 	}
 	
 	private function createPDO($c){
-		$c['dsn']="mysql:host=localhost;dbname=backendtest";
+		#$c['dsn']="mysql:host=localhost;dbname=backendtest";
 		
 		
 		// get db from dsn.

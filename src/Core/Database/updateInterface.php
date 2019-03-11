@@ -29,7 +29,7 @@ abstract class updateInterface  {
 	}
 	
 	function updateVersionNumber(){
-		$this->exec("INSERT INTO ".$this->dbname.".dbversion ( version ) VALUES ('".$this->thisVersion."');");
+		return $this->exec("INSERT INTO ".$this->dbname.".dbversion ( version ) VALUES ('".$this->thisVersion."');");
 	}
 	
 	function fetch($sql){	
