@@ -18,7 +18,7 @@ abstract class updateInterface  {
 		if($this->thisVersion ==false || $this->previousVersion == false){
 			throw new \Exception("INVALID UPDATEFILE, Aborting...");
 		}else{
-			echo "\n------------------------------------\nUpdating ".$this->thisVersion." to ".$this->previousVersion."\n";
+			echo "\n------------------------------------\nUpdating database from version ".$this->previousVersion." to version ".$this->thisVersion."\n";
 		}
 		
 		
