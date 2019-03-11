@@ -17,6 +17,8 @@ abstract class updateInterface  {
 		$this->pdo=$pdo;
 		if($thisVersion ==false || $previousVersion == false){
 			throw new \Exception("INVALID UPDATEFILE, Aborting...");
+		}else{
+			echo "\n------------------------------------\nUpdating ".$this->thisVersion." to ".$this->previousVersion."\n";
 		}
 		
 		
