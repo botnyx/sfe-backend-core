@@ -10,7 +10,7 @@ class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 	var $previousVersion = 1;
 	
 	function start(){
-		print_r( $this->exec("SHOW TABLES;") );
+		print_r( $this->fetch("SHOW TABLES;") );
 	}
 	
 	
