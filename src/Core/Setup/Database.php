@@ -55,11 +55,11 @@ class Database {
 			echo "\n".$update['filename']."\n";
 			
 			require_once($update['filename']);
+			$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['filename'];
+			$dbupdate = new $className($this->pdo);
 		}
 		
 		
-		$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$version;
-		$dbupdate = new $className($this->pdo);
 		
 		die("_theend");
 	}
