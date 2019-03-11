@@ -52,7 +52,8 @@ class Database {
 		$updates = $this->getUpdates($vendordir,$version);
 		
 		foreach($updates as $update){
-			echo $update['filename']."\n";
+			echo "\n".$update['filename']."\n";
+			
 			require_once($update['filename']);
 		}
 		
