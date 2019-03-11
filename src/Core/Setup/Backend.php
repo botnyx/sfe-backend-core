@@ -240,7 +240,7 @@ class Backend {
 			}
 		}
 
-		
+		var_dump($dbname);
 		$this->dbname = $dbname;
 		
 		
