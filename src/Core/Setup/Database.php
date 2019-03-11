@@ -59,7 +59,7 @@ class Database {
 		return $sqlResult;
 	}
 	
-	private function getUpdates($vendorDir ){
+	public function getUpdates($vendorDir ){
 		
 		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/";
 		$array= array();
