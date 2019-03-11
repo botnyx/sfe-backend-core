@@ -9,10 +9,12 @@ class SfeBackendCoreSql {
 		$this->authproviders_identities = $this->authproviders_identities();
 		$this->authproviders_providers = $this->authproviders_providers();
 		$this->client_userlink = $this->client_userlink();
-		
-		
-		
-		
+		$this->frontend_config = $this->frontend_config();
+		$this->frontend_endpoints = $this->frontend_endpoints();
+		$this->frontend_menu = $this->frontend_menu();
+		$this->frontend_serviceworker = $this->frontend_serviceworker();
+		$this->dbversion = $this->dbversion();
+		$this->setversion = $this->setversion();
 	}
 	
 	public function authproviders_identities(){
