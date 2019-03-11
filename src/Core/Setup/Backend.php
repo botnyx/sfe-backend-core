@@ -138,11 +138,11 @@ class Backend {
 		}catch(\Exception $e){
 			echo $e->getMessage()."\n";
 		}
-		print_r($version['version']);
+		print_r("Currentversion: ".$version['version']);
 		
 		$updates = $setup->update($this->vendorDir,$version['version'] );
 		
-		print_r($updates);
+		//print_r($updates);
 		// get dbversion.
 		// get list of patches.
 		// patch db from dbversion and up.
