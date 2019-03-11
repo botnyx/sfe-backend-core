@@ -3,9 +3,8 @@
 
 namespace Botnyx\Sfe\Backend\Core\Database\updates;
 
-use \Botnyx\Sfe\Backend\Core\Database;
 
-class update2 extends updateInterface implements  updateInterfaceIf {
+class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implements  \Botnyx\Sfe\Backend\Core\Database\updateInterfaceIf {
 	
 	var $thisVersion = 2;
 	var $previousVersion = 1;
