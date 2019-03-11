@@ -83,11 +83,11 @@ class Database {
 		
 		foreach (glob($path."/*.sql.php") as $filename) {
 			$version = str_replace($path."/update","",$filename);
-			$version = str_replace(".sql.php","",$version);
+			$version = (int)str_replace(".sql.php","",$version);
 			//echo "\n ".$version." ".$filename." size " . filesize($filename) . "\n";
 			//var_dump($version);
 			if($version>$currentversion){
-				$array[]= array("filename"=>$filename,"version"=>(int)$version);
+				$array[]= array("filename"=>$filename,"version"=>$version);
 				//echo $filename." size " . filesize($filename) . "\n";
 			}
 			
