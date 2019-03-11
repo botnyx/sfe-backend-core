@@ -67,6 +67,7 @@ class Database {
 	}
 	
 	public function getVersion(){
+		/*   */
 		$sql = "SELECT version FROM dbversion order by version DESC LIMIT 1";
 		$stmt = $this->pdo->prepare($sql);
 		$stmt->execute(); // just merge two arrays
