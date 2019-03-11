@@ -9,12 +9,17 @@ interface updateInterfaceIf {
 
 abstract class updateInterface  { 
 	
-	var $thisVersion;
-	var $previousVersion;
+	var $thisVersion = false;
+	var $previousVersion = false;
 	
 	
 	function __construct($pdo){
 		$this->pdo=$pdo;
+		if($thisVersion ==false || $previousVersion == false){
+			throw new \Exception("INVALID UPDATEFILE, Aborting...");
+		}
+		
+		
 	}
 	
 	
