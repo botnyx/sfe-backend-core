@@ -229,14 +229,20 @@ class Backend {
 	private function createPDO($c){
 		$c['dsn']="mysql:host=localhost;dbname=backendtest";
 		
-		$this->dbname = $this->getDsnValue($c['dsn'], $default = NULL);
 		
+		// get db from dsn.
+		$dsnp = explode(";",$c['dsn']);
+		foreach($dsnp as $y){
+			parse_str($y,$x);
+			if(key($x)=="dbname"){
+				$dbname=$x['dbname'];
+				break;
+			}
+		}
+
 		
-		$dsns = \AD7six\Dsn\Dsn::parse($c['dsn']);
-		$d = $dsns->toArray();
+		$this->dbname = $dbname;
 		
-		print_r($d);
-		die();
 		
 		
 		$dboptions = array(
