@@ -4,8 +4,8 @@ namespace Botnyx\Sfe\Backend\Core\Database;
 
 class updateInterface { 
 	
-	var $thisVersion = "0.1.1";
-	var $previousVersion = "0.1";
+	var $thisVersion;
+	var $previousVersion;
 	
 	
 	function __construct($pdo){

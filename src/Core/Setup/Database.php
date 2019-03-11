@@ -49,8 +49,13 @@ class Database {
 	
 	public function update($vendordir,$version){
 		
-		return $this->getUpdates($vendordir,$version);
+		$updates = $this->getUpdates($vendordir,$version);
+		foreach($updates as $update){
+			require_once($update['filename']);
+		}
 		
+		
+		die("_theend");
 	}
 	
 	public function getVersion(){
