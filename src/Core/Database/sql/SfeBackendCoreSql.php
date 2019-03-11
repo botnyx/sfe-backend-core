@@ -6,6 +6,18 @@ namespace Botnyx\Sfe\Backend\Core\Database\sql;
 class SfeBackendCoreSql {
 	
 	function __construct(){
+		
+		$this->sql = array(
+			$this->authproviders_identities(),
+			$this->authproviders_providers(),
+			$this->client_userlink(),
+			$this->frontend_config(),
+			$this->frontend_endpoints(),
+			$this->frontend_menu(),
+			$this->frontend_serviceworker(),
+			$this->dbversion(),
+			$this->setversion()
+		);
 		/*$this->authproviders_identities = $this->authproviders_identities();
 		$this->authproviders_providers = $this->authproviders_providers();
 		$this->client_userlink = $this->client_userlink();
