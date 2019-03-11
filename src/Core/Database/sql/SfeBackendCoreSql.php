@@ -146,7 +146,7 @@ return "CREATE TABLE `dbversion`  (
 	}
 	
 	public function setversion(){
-		return "INSERT INTO `dbversion` VALUES ('000001');";
+		return "INSERT INTO `dbversion` VALUES (1);";
 	}
 	
 }
