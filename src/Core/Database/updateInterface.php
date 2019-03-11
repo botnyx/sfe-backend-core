@@ -20,9 +20,7 @@ abstract class updateInterface  {
 	
 	
 	function exec($sql){	
-		//$sql = "SELECT * FROM frontend_config WHERE client_id=:clientid";
 		$stmt = $this->pdo->prepare($sql);
-		return $stmt->execute(); // just merge two arrays
-		//$sqlResult = $stmt->fetch();
+		return $stmt->execute(); 
 	}
 }
