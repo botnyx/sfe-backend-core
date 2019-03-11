@@ -14,9 +14,9 @@ class Database {
 	var $pdo;
 	
 	function __construct($pdo){
+		
+		
 		$this->pdo= $pdo;
-		
-		
 		
 		
 	}
