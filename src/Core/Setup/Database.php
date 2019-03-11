@@ -55,6 +55,9 @@ class Database {
 		}
 		
 		
+		$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
+		$dbupdate = new $className($this->pdo);
+		
 		die("_theend");
 	}
 	

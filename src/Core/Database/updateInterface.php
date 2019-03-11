@@ -2,7 +2,7 @@
 namespace Botnyx\Sfe\Backend\Core\Database;
 
 
-class updateInterface { 
+interface updateInterface { 
 	
 	var $thisVersion;
 	var $previousVersion;
