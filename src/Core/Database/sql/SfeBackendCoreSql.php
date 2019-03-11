@@ -6,7 +6,7 @@ namespace Botnyx\Sfe\Backend\Core\Database\sql;
 class SfeBackendCoreSql {
 	
 	function __construct(){
-		$this->authproviders_identities = $this->authproviders_identities();
+		/*$this->authproviders_identities = $this->authproviders_identities();
 		$this->authproviders_providers = $this->authproviders_providers();
 		$this->client_userlink = $this->client_userlink();
 		$this->frontend_config = $this->frontend_config();
@@ -14,7 +14,7 @@ class SfeBackendCoreSql {
 		$this->frontend_menu = $this->frontend_menu();
 		$this->frontend_serviceworker = $this->frontend_serviceworker();
 		$this->dbversion = $this->dbversion();
-		$this->setversion = $this->setversion();
+		$this->setversion = $this->setversion();*/
 	}
 	
 	public function authproviders_identities(){

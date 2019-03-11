@@ -26,7 +26,7 @@ class Database {
 		$installObject = new \Botnyx\Sfe\Backend\Core\Database\sql\SfeBackendCoreSql();
 		print_r($installObject);
 		
-		foreach( get_object_vars ( $installObject ) as $o){
+		foreach( get_object_methods ( $installObject ) as $o){
 			print_r($o);	
 		}
 		
