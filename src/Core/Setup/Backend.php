@@ -59,7 +59,9 @@ class Backend {
 		
 	}
 	
-	
+	/*
+		This is the main database setup.
+	*/
 	public function setup (){
 		echo "\n";
 		echo "Setting up: `".$this->installedComponents[0]->name."`\n";
@@ -94,7 +96,7 @@ class Backend {
 			
 			echo "need to add config-parse code here..\n";
 			////////////////////////////////////////////////////
-			//$this->createdb($this->pdo);
+			$this->createdb($this->pdo);
 			
 			echo "\n\nUNFINISHED!!\n\n";
 			
@@ -120,6 +122,10 @@ class Backend {
 	private function createdb($pdo){
 		// verify db doenst exist
 		// createdb from sql
+		$setup = new Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
+		
+		$setup->create();
+		
 	}
 	
 	private function updatedb(){
@@ -194,6 +200,7 @@ class Backend {
 	}
 	
 	private function createPDO($c){
+		$c['dsn']="mysql:host=localhost;dbname=backendTEST";
 		$dboptions = array(
 			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
