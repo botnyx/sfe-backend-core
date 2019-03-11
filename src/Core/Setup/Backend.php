@@ -200,7 +200,7 @@ class Backend {
 	}
 	
 	private function createPDO($c){
-		$c['dsn']="mysql:host=localhost;dbname=backendTEST";
+		$c['dsn']="mysql:host=localhost;dbname=backendtest";
 		$dboptions = array(
 			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
