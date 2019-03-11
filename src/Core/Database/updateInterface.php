@@ -4,13 +4,10 @@ namespace Botnyx\Sfe\Backend\Core\Database;
 
 interface updateInterfaceIf { 
 	
-	var $thisVersion;
-	var $previousVersion;
-	
-	function start();
+	public function start();
 }
 
-class updateInterface  implements updateInterfaceIf { 
+abstract class updateInterface  { 
 	
 	var $thisVersion;
 	var $previousVersion;
@@ -20,9 +17,7 @@ class updateInterface  implements updateInterfaceIf {
 		$this->pdo=$pdo;
 	}
 	
-	function start(){
-		
-	}
+	
 	
 	function exec($sql){	
 		//$sql = "SELECT * FROM frontend_config WHERE client_id=:clientid";
