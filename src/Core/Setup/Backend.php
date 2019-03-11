@@ -230,6 +230,14 @@ class Backend {
 		$c['dsn']="mysql:host=localhost;dbname=backendtest";
 		
 		$this->dbname = $this->getDsnValue($c['dsn'], $default = NULL);
+		
+		
+		$dsns = \Enqueue\Dsn\Dsn::parse($c['dsn']);
+		
+		print_r($dsns);
+		die();
+		
+		
 		$dboptions = array(
 			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
