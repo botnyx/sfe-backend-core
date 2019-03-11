@@ -195,15 +195,15 @@ class Backend {
 	
 	private function createPDO($c){
 		$dboptions = array(
-			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-			PDO::ATTR_EMULATE_PREPARES   => false,
+			\PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
+			\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+			\PDO::ATTR_EMULATE_PREPARES   => false,
 		);
 		/*  make db connection.  */
 		try{
 			//$pdo = new PDO($ini['database']['pdodsn']  );
 
-			$pdo = new PDO($c['dsn'], $c['dbuser'],$c['dbpassword'],$dboptions );
+			$pdo = new \PDO($c['dsn'], $c['dbuser'],$c['dbpassword'],$dboptions );
 			// set the default schema for the oauthserver.
 			//$result = $pdo->exec('SET search_path TO oauth2'); # POSTGRESQL Schema support
 		}catch(Exception $e){
