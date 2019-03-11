@@ -79,9 +79,10 @@ class Database {
 		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates";
 		$array= array();
 		foreach (glob($path."/*.sql.php") as $filename) {
-			echo "\n".$filename." size " . filesize($filename) . "\n";
+			$version = str_replace($path."/update","",$filename);
+			$version = (int)str_replace(".sql.php","",$version);
 			
-			$version = (int)str_replace(".sql.php","",str_replace($path,"",$filename));
+			echo "\n ".$version." ".$filename." size " . filesize($filename) . "\n";
 			
 			print_r($version);
 			if($version>$currentversion){
