@@ -124,11 +124,22 @@ class Backend {
 		// createdb from sql
 		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
 		
-		$setup->create();
-		
+		try{
+			$setup->create();
+		}catch(\Exception $e){
+			echo $e->getMessage()."\n";
+		}
+		$this->updatedb($pdo);
 	}
 	
-	private function updatedb(){
+	private function updatedb($pdo){
+		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
+		try{
+			$version = $setup->getVersion();
+		}catch(\Exception $e){
+			echo $e->getMessage()."\n";
+		}
+		print_r($version);
 		// get dbversion.
 		// get list of patches.
 		// patch db from dbversion and up.

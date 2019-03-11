@@ -26,11 +26,11 @@ class Database {
 		
 		/* execute the sql */
 		foreach( $installObject->sql as $o){
-			echo "\ncreating table...";
+			echo "creating table...";
 			try{
 				var_dump($this->dbexec($o));
 			}catch(\Exception $e){
-				echo "\n === FATAL ERROR ====";
+				echo "\n === FATAL ERROR ====\n";
 				throw new \Exception($e->getMessage());
 			}
 			
@@ -49,6 +49,14 @@ class Database {
 	
 	public function update(){
 		
+	}
+	
+	public function getVersion(){
+		$sql = "SELECT version FROM dbversion order by version DESC LIMIT 1";
+		$stmt = $this->pdo->prepare($sql);
+		$stmt->execute(); // just merge two arrays
+		$sqlResult = $stmt->fetch();
+		return $sqlResult;
 	}
 	
 	private function getUpdates(){
