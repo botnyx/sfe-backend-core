@@ -66,7 +66,7 @@ class Database {
 		foreach (glob($path."*.sql.php") as $filename) {
 			$version = (int)str_replace(".sql.php","",str_replace($path,"",$filename));
 			$array[]= array("filename"=>$filename,"version"=>$version);
-			echo $file." size " . filesize($filename) . "\n";
+			echo $filename." size " . filesize($filename) . "\n";
 		}
 		return $array;
 	}
