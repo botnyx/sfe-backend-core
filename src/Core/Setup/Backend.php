@@ -122,7 +122,7 @@ class Backend {
 	private function createdb($pdo){
 		// verify db doenst exist
 		// createdb from sql
-		$setup = new Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
+		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
 		
 		$setup->create();
 		
