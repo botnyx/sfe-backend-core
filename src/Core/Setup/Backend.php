@@ -81,20 +81,20 @@ class Backend {
 			$app = $this->readConfiguration($searchDir."/configuration.ini" );
 			$coreComponent = $this->getComponentVersion($this->installedComponents);
 			
-			echo "\nsettings\n";
-			print_r($app->settings['conn']);
+			#echo "\nsettings\n";
+			#print_r($app->settings['conn']);
 			
 			
 			/* create the $this->pdo instance */
 			$this->createPDO($app->settings['conn']);
 			
 			
-			echo "\npaths\n";
-			print_r($app->paths);
+			#echo "\npaths\n";
+			#print_r($app->paths);
 			echo "\ncoreComponent\n";
 			print_r($coreComponent);
 			
-			echo "need to add config-parse code here..\n";
+			#echo "need to add config-parse code here..\n";
 			////////////////////////////////////////////////////
 			$this->createdb($this->pdo);
 			
