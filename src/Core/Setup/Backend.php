@@ -140,9 +140,9 @@ class Backend {
 		}
 		print_r($version['version']);
 		
-		$updates = $setup->getUpdates($this->vendorDir );
+		$updates = $setup->update($this->vendorDir,$version['version'] );
 		
-		print_r($x);
+		print_r($updates);
 		// get dbversion.
 		// get list of patches.
 		// patch db from dbversion and up.

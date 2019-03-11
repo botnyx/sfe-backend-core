@@ -47,7 +47,9 @@ class Database {
 	}
 	
 	
-	public function update(){
+	public function update($vendordir,$version){
+		
+		return $this->getUpdates($vendordir,$version);
 		
 	}
 	
@@ -59,14 +61,17 @@ class Database {
 		return $sqlResult;
 	}
 	
-	public function getUpdates($vendorDir ){
+	private function getUpdates($vendordir,$currentversion){
 		
 		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/";
 		$array= array();
 		foreach (glob($path."*.sql.php") as $filename) {
 			$version = (int)str_replace(".sql.php","",str_replace($path,"",$filename));
-			$array[]= array("filename"=>$filename,"version"=>$version);
-			echo $filename." size " . filesize($filename) . "\n";
+			if($version>$currentversion){
+				$array[]= array("filename"=>$filename,"version"=>$version);
+				echo $filename." size " . filesize($filename) . "\n";
+			}
+			
 		}
 		return $array;
 	}
