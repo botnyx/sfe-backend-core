@@ -57,15 +57,16 @@ class Database {
 				require_once($update['filename']);
 				$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
 				$dbupdate = new $className($this->pdo);
-			}			
+			}
+			
 		}else{
 			echo "No database upgrades needed.\n";
 			return;
 		}
 		
+		echo "\n---\nUpdate finished\n";
 		
-		
-		die("\n_theend\n");
+		//die("\n_theend\n");
 	}
 	
 	public function getVersion(){

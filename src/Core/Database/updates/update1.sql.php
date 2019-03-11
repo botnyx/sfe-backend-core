@@ -13,7 +13,7 @@ class update1 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 	function start(){
 		echo "DUMMY!\n";
 		/* finally, update the version number. */
-		$this->exec("INSERT INTO `dbversion` VALUES ('".$this->thisVersion."');");
+		//$this->exec("INSERT INTO `dbversion` VALUES ('".$this->thisVersion."');");
 	}
 	
 }
