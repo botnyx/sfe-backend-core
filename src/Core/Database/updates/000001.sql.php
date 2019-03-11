@@ -3,6 +3,6 @@
 
 namespace Botnyx\Sfe\Backend\Core\Database\updates;
 
-class version0001 {
+class version000001 {
 	
 }
