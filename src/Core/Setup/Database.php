@@ -24,7 +24,7 @@ class Database {
 	public function create(){
 		//"botnyx/sfe-backend-core/src/Core/Database/sql/setup.sql.php";
 		
-		$installObject = new Botnyx\Sfe\Backend\Core\Database\SfeBackendCoreSql();
+		$installObject = new \Botnyx\Sfe\Backend\Core\Database\SfeBackendCoreSql();
 		foreach( get_object_vars ( $installObject ) as $o){
 			print_r($o);	
 		}
