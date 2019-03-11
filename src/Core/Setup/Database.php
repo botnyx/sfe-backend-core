@@ -52,13 +52,17 @@ class Database {
 		$updates = $this->getUpdates($vendordir,$currentversion);
 		
 		//var_dump($updates);
-		
-		foreach($updates as $update){
-			echo "\n".$update['filename']."\n";
-			
-			require_once($update['filename']);
-			$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
-			$dbupdate = new $className($this->pdo);
+		if(count($updates)>0){
+			foreach($updates as $update){
+				echo "\n".$update['filename']."\n";
+
+				require_once($update['filename']);
+				$className = "\\Botnyx\\Sfe\\Backend\\Core\\Database\\updates\\update".$update['version'];
+				$dbupdate = new $className($this->pdo);
+			}			
+		}else{
+			echo "No database upgrades needed.\n";
+			return;
 		}
 		
 		
