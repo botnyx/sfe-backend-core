@@ -7,6 +7,12 @@ class SfeBackendCoreSql {
 	
 	function __construct(){
 		$this->authproviders_identities = $this->authproviders_identities();
+		$this->authproviders_providers = $this->authproviders_providers();
+		$this->client_userlink = $this->client_userlink();
+		
+		
+		
+		
 	}
 	
 	public function authproviders_identities(){
