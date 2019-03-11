@@ -59,10 +59,14 @@ class Database {
 		return $sqlResult;
 	}
 	
-	private function getUpdates(){
+	private function getUpdates($vendorDir ){
 		
-		foreach (glob("botnyx/sfe-backend-core/src/Core/Database/updates/*.sql.php") as $filename) {
-			echo "$filename size " . filesize($filename) . "\n";
+		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/";
+		$array= array();
+		foreach (glob($path."*.sql.php") as $filename) {
+			$version = (int)str_replace(".sql.php","",str_replace($path,"",$filename));
+			$array[]= array("filename"=>$filename,"version"=>$version);
+			echo $file." size " . filesize($filename) . "\n";
 		}
 		return $array;
 	}

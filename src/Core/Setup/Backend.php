@@ -123,7 +123,6 @@ class Backend {
 		// verify db doenst exist
 		// createdb from sql
 		$setup = new \Botnyx\Sfe\Backend\Core\Setup\Database($pdo);
-		
 		try{
 			$setup->create();
 		}catch(\Exception $e){
@@ -139,7 +138,11 @@ class Backend {
 		}catch(\Exception $e){
 			echo $e->getMessage()."\n";
 		}
-		print_r($version);
+		print_r($version['version']);
+		
+		$updates = $setup->getUpdates($this->vendorDir );
+		
+		print_r($x);
 		// get dbversion.
 		// get list of patches.
 		// patch db from dbversion and up.
