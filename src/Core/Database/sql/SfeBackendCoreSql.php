@@ -23,7 +23,7 @@ return "CREATE TABLE `authproviders_identities`  (
 	}
 	
 	
-	function authproviders_providers (){
+	public function authproviders_providers (){
 		//DROP TABLE IF EXISTS `authproviders_providers`;
 return "CREATE TABLE `authproviders_providers`  (
   `providerId` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,7 +37,7 @@ return "CREATE TABLE `authproviders_providers`  (
 	}
 	
 	
-	function client_userlink (){
+	public function client_userlink (){
 		// DROP TABLE IF EXISTS `client_userlink`;
 		return "CREATE TABLE `client_userlink`  (
   `id` int(255) NOT NULL AUTO_INCREMENT,
@@ -48,7 +48,7 @@ return "CREATE TABLE `authproviders_providers`  (
 	}
 	
 	
-	function frontend_config(){
+	public function frontend_config(){
 		// DROP TABLE IF EXISTS `frontend_config`;
 return "CREATE TABLE `frontend_config`  (
   `client_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -68,7 +68,7 @@ return "CREATE TABLE `frontend_config`  (
 	}
 	
 	
-	function frontend_endpoints(){
+	public function frontend_endpoints(){
 		//DROP TABLE IF EXISTS `frontend_endpoints`;
 return "CREATE TABLE `frontend_endpoints`  (
   `id` bigint(255) NOT NULL AUTO_INCREMENT,
@@ -82,7 +82,7 @@ return "CREATE TABLE `frontend_endpoints`  (
 	}
 	
 		
-	function frontend_menu(){
+	public function frontend_menu(){
 		// DROP TABLE IF EXISTS `frontend_menu`;
 return "CREATE TABLE `frontend_menu`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -100,7 +100,7 @@ return "CREATE TABLE `frontend_menu`  (
 	}
 	
 	
-	function frontend_serviceworker(){
+	public function frontend_serviceworker(){
 		// DROP TABLE IF EXISTS `frontend_serviceworker`;
 
 return "CREATE TABLE `frontend_serviceworker`  (
@@ -116,7 +116,7 @@ return "CREATE TABLE `frontend_serviceworker`  (
 	}
 	
 	
-	function dbversion(){
+	public function dbversion(){
 		// DROP TABLE IF EXISTS `dbversion`;
 return "CREATE TABLE `dbversion`  (
   `version` bigint(255) NOT NULL,
@@ -126,7 +126,7 @@ return "CREATE TABLE `dbversion`  (
 	}
 	
 	
-	function setversion(){
+	public function setversion(){
 		return "INSERT INTO `dbversion` VALUES ('000001');";
 	}
 	
