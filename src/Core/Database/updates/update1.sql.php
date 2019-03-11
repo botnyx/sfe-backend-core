@@ -12,7 +12,7 @@ class update1 extends updateInterface implements  updateInterfaceIf  {
 	
 	
 	function start(){
-		// $this->exec("sql");
+		echo "DUMMY!\n";
 	}
 	
 }
