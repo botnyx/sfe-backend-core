@@ -10,8 +10,15 @@ class update2 extends \Botnyx\Sfe\Backend\Core\Database\updateInterface implemen
 	var $previousVersion = 1;
 	
 	function start(){
-		print_r( $this->fetch("SHOW TABLES;") );
+		
+		$this->exec($this->dbversion());
+		
+		/* finally, update the version number. */
+		$this->exec("INSERT INTO `dbversion` VALUES ('".$this->thisVersion."');");
 	}
 	
+	function dbversion(){
+		return "ALTER TABLE `backendtest`.`dbversion` ADD COLUMN `ts` TIMESTAMP DEFAULT CURRENT_TIMESTAMP AFTER `version`;";
+	}
 	
 }
