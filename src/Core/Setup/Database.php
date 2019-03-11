@@ -71,7 +71,7 @@ class Database {
 	
 	private function getUpdates($vendorDir,$currentversion){
 		/* VendorDir*/
-		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/";
+		$path = $vendorDir."/botnyx/sfe-backend-core/src/Core/Database/updates/update";
 		$array= array();
 		foreach (glob($path."*.sql.php") as $filename) {
 			$version = (int)str_replace(".sql.php","",str_replace($path,"",$filename));
