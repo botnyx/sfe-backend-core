@@ -91,7 +91,7 @@ class Endpoint{
 		if($templateFile=='.html'){ $templateFile='index.html'; }
 		
 		
-		if($requestedPath=="/index"){ $requestedPath="/";}
+		
 		
 		if( count($variables)>0 ){
 			$requestedPath = "/".str_replace(".html","",$templateFile)."/"."{".key($variables)."}" ;
@@ -99,7 +99,7 @@ class Endpoint{
 			$requestedPath = "/".str_replace(".html","",$templateFile) ;
 		}
 		
-		
+		if($requestedPath=="/index"){ $requestedPath="/";}
 		
 		# echo "<br>real requestedPath:".$requestedPath."<br>";
 		
@@ -353,7 +353,7 @@ class Endpoint{
 			$clientHtmlLoader = new \Botnyx\Sfe\Backend\Core\Template\ClientLoader($base_paths,$clientID,$this->paths);
 			//$html = $clientHtmlLoader->get();
 			
-			$html = $clientHtmlLoader->fromString($html);
+			$html = $clientHtmlLoader->fromString($html,$templateVars);
 			
 		}catch(\Twig\Error\LoaderError $e){
 			//Thrown when an error occurs during template loading.

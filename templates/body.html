@@ -2,6 +2,11 @@
 	<h1>Template error.</h1>
 	<p>Missing body.html</p>
 	<pre>`body.html` is missing in the client-template or origin template folder.</pre>
-	<!---    --->
-	{{ dump() }}
+<!--
+	Template Missing: body.html
+	
+	Requested URL : {{ thisRoute.uri }}
+	Client-Template : {{ thisRoute.client_id }}
+	Origin-Template : {{ thisRoute.tmpl }}
+-->
 </div>
