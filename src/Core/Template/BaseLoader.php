@@ -53,7 +53,7 @@ class BaseLoader {
 	}
 	
 	
-	function fromString($html){
+	function fromString($html,$templateVars=array()){
 		
 		$loader = new \Twig\Loader\FilesystemLoader( $this->paths );	
 		$twig = new \Twig_Environment($loader,
@@ -68,7 +68,7 @@ class BaseLoader {
 		$template = $twig->createTemplate($html);
 		
 		
-		return  $template->render(['name' => 'Bob']);
+		return  $template->render($templateVars);
 	}
 	
 	
