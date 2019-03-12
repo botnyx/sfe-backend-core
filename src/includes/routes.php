@@ -20,6 +20,9 @@ $app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configu
 */
 $app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
 
+
+
+
 #$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\SfeBackend\\StaticFrontEnd:get');
 
 
