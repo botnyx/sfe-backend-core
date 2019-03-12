@@ -62,7 +62,9 @@ class BaseLoader {
 				'debug' => $this->debug
 			]
 		);
-
+		if($this->debug==true){
+			$twig->addExtension(new \Twig_Extension_Debug() );
+		}
 		$template = $twig->createTemplate($html);
 		
 		

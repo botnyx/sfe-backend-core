@@ -91,13 +91,15 @@ class Endpoint{
 		if($templateFile=='.html'){ $templateFile='index.html'; }
 		
 		
+		if($requestedPath=="/index"){ $requestedPath="/";}
+		
 		if( count($variables)>0 ){
 			$requestedPath = "/".str_replace(".html","",$templateFile)."/"."{".key($variables)."}" ;
 		}else{
 			$requestedPath = "/".str_replace(".html","",$templateFile) ;
 		}
 		
-		if($requestedPath=="/index"){ $requestedPath="/";}
+		
 		
 		# echo "<br>real requestedPath:".$requestedPath."<br>";
 		
