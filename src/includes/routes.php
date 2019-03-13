@@ -19,7 +19,7 @@ $app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configu
 /*
 	Static url proxy : /_/a/js/sfe-bootstrap.js
 */
-$app->get('/_/a/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
+$app->get('/_/assets/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
 
 /*
 	Static assets url proxy
