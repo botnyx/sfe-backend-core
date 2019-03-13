@@ -12,6 +12,7 @@ class BackendProxy {
 	
 	function __construct(ContainerInterface $container){
 		
+		$this->proxy = new \Botnyx\Sfe\Shared\WebAssets\AssetProxy($container);
 	}
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){

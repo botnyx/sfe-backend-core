@@ -16,22 +16,16 @@ use Psr\Http\Message\ResponseInterface;
 */
 $app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get');
 
-
-
 /*
-	Static url proxy
-	/_/a/js/sfe-bootstrap.js
+	Static url proxy : /_/a/js/sfe-bootstrap.js
 */
 $app->get('/_/a/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
 
-
-
-
 /*
 	Static assets url proxy
-
 */
 $app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
+
 
 
 
