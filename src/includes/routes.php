@@ -33,7 +33,7 @@ $app->get('/_/a/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendPr
 
 
 
-#$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\SfeBackend\\StaticFrontEnd:get');
+$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
 
 
 
