@@ -32,13 +32,15 @@ class BackendProxy {
 			
 			
 		}
-		$res = $response->withJson( $r );
 		
 		
+		return  $response->withJson( $r );
+		
+		/*
 		$responseWithCacheHeader = $this->cacher->withExpires($res, time() + 3600);
 		$responseWithCacheHeader = $this->cacher->withLastModified($responseWithCacheHeader, $returnedData['Last-Modified'] );
 		return $responseWithCacheHeader;
-		
+		*/
 		
 		
 		
