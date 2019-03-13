@@ -10,15 +10,17 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 
+
+/*
+	Frontend configuration.
+*/
 $app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get');
 
 
 
 /*
 	Static url proxy
-
 	/_/a/js/sfe-bootstrap.js
-	
 */
 $app->get('/_/a/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
 
@@ -29,11 +31,19 @@ $app->get('/_/a/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendPr
 	Static assets url proxy
 
 */
-
-
-
-
 $app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
+
+
+
+
+
+/*
+
+	ServiceWorker JS endpoint..
+
+* /
+
+$app->get('/api/sfe/{clientid}/ui/sw','\\Botnyx\\SfeBackend\\Serviceworker\\generator:get');
 
 
 
@@ -50,15 +60,6 @@ $app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\F
 
 * /
 $app->get('/api/sfe/ui/extcfg','\\Botnyx\\SfeBackend\\Api\\Config:get');
-
-/*
-
-	ServiceWorker JS endpoint..
-
-* /
-
-$app->get('/api/sfe/{clientid}/ui/sw','\\Botnyx\\SfeBackend\\Serviceworker\\generator:get');
-
 
 
 
