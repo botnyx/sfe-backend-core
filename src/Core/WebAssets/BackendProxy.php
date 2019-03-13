@@ -13,6 +13,8 @@ class BackendProxy {
 	function __construct(ContainerInterface $container){
 		
 		$this->proxy = new \Botnyx\Sfe\Shared\WebAssets\AssetProxy($container);
+		$this->cacher = $container->get('cache');
+		
 	}
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
@@ -30,10 +32,17 @@ class BackendProxy {
 			
 			
 		}
+		$res = $response->withJson( $r );
+		
+		
+		$responseWithCacheHeader = $this->cacher->withExpires($res, time() + 3600);
+		$responseWithCacheHeader = $this->cacher->withLastModified($responseWithCacheHeader, $returnedData['Last-Modified'] );
+		return $responseWithCacheHeader;
 		
 		
 		
-		return $response->withJson( $r );
+		
+		//return $response->withJson( $r );
 		
 	}
 	
