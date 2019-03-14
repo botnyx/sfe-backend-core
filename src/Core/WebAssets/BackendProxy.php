@@ -53,7 +53,7 @@ class BackendProxy {
 			}
 			
 			
-			die($args['path']);
+			//die($args['path']);
 			
 			$response = $response->write( $javascript )->withHeader("content-type", "text/javascript");
 			$LastModified = time() + 3600;
