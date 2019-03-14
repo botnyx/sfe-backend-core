@@ -27,6 +27,9 @@ class BackendProxy {
 		
 		$this->sfeJS = new \Botnyx\Sfe\Javascript\sfelib($root,$temp);
 		
+		
+		
+		
 	}
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
@@ -44,11 +47,13 @@ class BackendProxy {
 			try{
 				$javascript =  $this->sfeJS->get($r['_'],array("client_id"=>$client_id));
 			}catch(\Exception $e){
-				echo $e->getMessage();
+				//echo $e->getMessage();
+				return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,3207,$e->getMessage(),true);
+				//return $response->withJson( array("error"=>$e->getMessage()) );//->withStatus(404);
 			}
 			
 			
-			//die($args['path']);
+			die($args['path']);
 			
 			$response = $response->write( $javascript )->withHeader("content-type", "text/javascript");
 			$LastModified = time() + 3600;
