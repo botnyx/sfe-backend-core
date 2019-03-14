@@ -13,6 +13,7 @@
     "require": {
 		    "php": ">=7.1",
         "botnyx/sfe-shared-core": "^0.1",
+        "botnyx/sfe-backend-js": "^0.1",
          "firebase/php-jwt": "^5.0"
     },
     "require-dev": {
