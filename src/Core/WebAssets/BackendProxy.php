@@ -21,34 +21,30 @@ class BackendProxy {
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
 		$r = explode("/",$args['path']);
+		$client_id = $r[0];
+		$r['_']=str_replace($r[0]."/","",$args['path']);
+		
 		$lastElement = end($r); 
-		if(strpos($lastElement,"sfe-")){
+		if(strpos($lastElement,"sfe-")==0){
 			// this is a SFE  lib.
 			
-		}elseif(strpos($lastElement,"bundle-")){
+			
+		}elseif(strpos($lastElement,"bundle-")==0){
+			// this is a bundle request.
+			
 			
 		}else{
 			// this is a CDN request
 			//proxy $args['path']
-			$uri = $this->paths['cdn']."/assets/".$args['path'];
+			/* 
+				strip the clientid from path, as the cdn has no clientspecific stuff..
+			*/
+			$uri = $this->paths['cdn']."/assets/".str_replace($r[0]."/","",$args['path']);;
 			try{
 				return $this->proxy->get($response,$uri);	
 			}catch(\Exception $e){
-				
-				
-				//throw new \Exception("",$e->getCode());
-				//var_dump( $e->getCode() );
-				//die($uri);
-				
-				//		Botnyx\Sfe\Shared\ExceptionResponse
 				$response = \Botnyx\Sfe\Shared\ExceptionResponse::get($response,$e->getCode(),'Cdn reports: 404 Not Found');
-				return $response->withStatus($e->getCode());;
-				var_dump($x->getBody());
-				//$e->getMessage()
-				die();
-#				
-				
-				
+				return $response->withStatus($e->getCode());
 			}
 			
 			
