@@ -41,13 +41,14 @@ class BackendProxy {
 		
 		//echo $lastElement;
 		//Thu, 08 Dec 2016 01:00:57 GMT
-		
-		if(strpos($lastElement,"sfe-")==0){
+		//var_dump( strpos($lastElement,"sfe-") );
+		//die();
+		if(strpos($lastElement,"sfe-")===0){
 			// this is a SFE  lib.
 			try{
 				$javascript =  $this->sfeJS->get($r['_'],array("client_id"=>$client_id));
 			}catch(\Exception $e){
-				//echo $e->getMessage();
+				//die();
 				return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,3207,$e->getMessage(),true);
 				//return $response->withJson( array("error"=>$e->getMessage()) );//->withStatus(404);
 			}
@@ -71,7 +72,7 @@ class BackendProxy {
 			
 			
 			die("......./.../...");
-		}elseif(strpos($lastElement,"bundle-")==0){
+		}elseif(strpos($lastElement,"bundle-")===0){
 			// this is a bundle request.
 			$r['_TODO']="bundle-request  BackendProxy.php";
 			
