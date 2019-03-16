@@ -3,10 +3,15 @@
 		template: {{ thisRoute.tmpl }}
 		client_id: {{ thisRoute.client_id }}
 		uri: {{ thisRoute.uri }}
-	--->
-	<head>
+	---><head>
 		<meta charset="utf-8">
 		<meta name="generator" content="SFE 0.1" />
+<script>
+	window.options = {
+		"mode": "dev",
+		"extcfg": JSON.parse('{"clientId":"909b6bb0-servenow-website","htmlts":1234,"html":null,"lang":["en-UK","nl-NL"],"js":[],"css":[],"template":"","extracfg":{"client_id":"7909b6bb0-servenow-website","template":"","allowedorigin":"*","htmlstamp":12345,"languages":"en-UK,nl-NL","disabled":0,"disabledreason":null,"hostname":"devpoc.nl","backendhostname":"backend.servenow.nl","cdnhostname":"cdn.servenow.nl","defaultpage":null,"workbox":1,"workboxnav":null}}')
+	}
+</script>	
 	
 {% for css in assets.sfe.css %}
 	<link href="{{ css }}" rel="stylesheet" type="text/css">

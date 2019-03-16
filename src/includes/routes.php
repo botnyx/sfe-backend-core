@@ -31,6 +31,31 @@ $app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\F
 
 
 
+
+
+/*
+
+	ui load endpoint..
+
+*/
+$app->get('/api/sfe/{clientId}/ui/load', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:get' );
+
+
+/*
+
+	ui click endpoint..
+
+*/
+$app->get('/api/sfe/{clientId}/ui/click', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:getMain' );
+
+
+
+
+
+
+
+
+
 /*
 
 	ServiceWorker JS endpoint..
@@ -73,23 +98,6 @@ $app->get('/api/sfe/{clientid}/ui/status', function ( $request,  $response, arra
 	return $response->withJson($data);//->withStatus(500);
 });
 
-
-
-
-/*
-
-	ui load endpoint..
-
-* /
-$app->get('/api/sfe/{clientId}/ui/load', '\\Botnyx\\SfeBackend\\Api\\Load:get' );
-
-
-/*
-
-	ui click endpoint..
-
-* /
-$app->get('/api/sfe/{clientId}/ui/click', '\\Botnyx\\SfeBackend\\Api\\Click:get' );
 
 
 
