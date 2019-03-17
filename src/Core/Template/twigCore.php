@@ -13,28 +13,12 @@ namespace Botnyx\Sfe\Backend\Core\Template;
 */
 
 
-class pageProps{
-	
-	var $clientid;
-	
-	
-	function setClientId(){
-		
-	}
-	
-}
 
 
-
-class ElementLoader {
-	
-	var $paths;
-	var $clientid;
-	var $debug = true;
+class twigCore {
 	
 	
-	
-	function __construct($clientid){
+	function __construct( twigConfig $config){
 		
 		
 		
@@ -47,6 +31,7 @@ class ElementLoader {
 	private function getDebugDir(){
 		return $this->debug;
 	}
+	
 	private function getTemplatePaths(){
 		return $this->paths;
 	}
