@@ -13,17 +13,6 @@ namespace Botnyx\Sfe\Backend\Core\Template;
 */
 
 
-class pageProps{
-	
-	var $clientid;
-	
-	
-	function setClientId(){
-		
-	}
-	
-}
-
 
 
 class ElementLoader {
@@ -47,6 +36,7 @@ class ElementLoader {
 	private function getDebugDir(){
 		return $this->debug;
 	}
+	
 	private function getTemplatePaths(){
 		return $this->paths;
 	}
