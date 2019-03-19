@@ -84,6 +84,7 @@ class Backend {
 			#echo "\nsettings\n";
 			#print_r($app->settings['conn']);
 			
+			print_r($app);
 			
 			/* create the $this->pdo instance */
 			$this->createPDO($app->settings['conn']);
