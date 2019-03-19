@@ -107,12 +107,12 @@ class SlimLogic {
 
 		$backendMiddleware = function ($request, $response, $next)  {
 			
-			
-			print_r($this->get('settings'));
-			die();
+			#echo "<pre>";
+			#print_r($this->get('settings')['sfe']->hosts->auth);
+			#die();
 			
 			//$this->container->get('settings')['sfe']->role;
-			$clientIssuer=_SETTINGS['sfeBackend']['sfeAuthSrv'];//"https://auth.devpoc.nl";
+			$clientIssuer="https://".$this->get('settings')['sfe']->hosts->auth;
 
 			$sfeBackendMiddleWare = new \Botnyx\Sfe\Backend\Core\MiddleWare($request, $response,$this->pdo,$clientIssuer );
 			// Add requestAttributes.
@@ -123,6 +123,7 @@ class SlimLogic {
 			return $response;//->withHeader('Access-Control-Allow-Origin','*');
 		};
 		/*
+			
 		*/
 
 		/**/

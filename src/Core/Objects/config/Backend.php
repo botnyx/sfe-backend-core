@@ -36,22 +36,22 @@ class Backend {
 		if(!array_key_exists('sfeAuth',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeAuth` in the `sfeBackend` section.");
 		}
-		$hosts->auth = $settings['sfeFrontend']['sfeAuth'];
+		$hosts->auth = $settings['sfeBackend']['sfeAuth'];
 		
 		
 		if(!array_key_exists('sfeCdn',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeCdn` in the `sfeBackend` section.");
 		}
-		$hosts->cdn = $settings['sfeFrontend']['sfeCdn'];
+		$hosts->cdn = $settings['sfeBackend']['sfeCdn'];
 		
 		if(!array_key_exists('sfeBackend',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeBackend` in the `sfeBackend` section.");
 		}
-		$hosts->backend = $settings['sfeFrontend']['sfeBackend'];
+		$hosts->backend = $settings['sfeBackend']['sfeBackend'];
 		
 		
 		
-		
+		$this->hosts = $hosts;
 		
 		if(!array_key_exists('conn',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `conn` in the `sfeFrontend` section.");
