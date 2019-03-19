@@ -1,7 +1,7 @@
 <?php
 
 
-
+/*
 $container['cache'] = function () {
     return new \Slim\HttpCache\CacheProvider();
 };
@@ -13,7 +13,7 @@ $container['cache'] = function () {
 $container['view'] = function ($c){
 
 	$view = new \Slim\Views\Twig(_SETTINGS['paths']['templates'], [
-		'cache' => false /*_SETTINGS['twig']['cache']*/,
+		'cache' => false /*_SETTINGS['twig']['cache']* /,
 		'debug' => _SETTINGS['twig']['debug']
 	]);
 
@@ -43,3 +43,4 @@ $container['view'] = function ($c){
 	}
 	return $view;
 };
+*/
