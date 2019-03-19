@@ -34,7 +34,7 @@ class Endpoint{
 		//var_dump((bool)$this->settings['debug']);
 		
 		//die();
-		$this->debug = (bool)$this->settings['debug'];
+		$this->debug = true;//(bool)$this->settings['debug'];
 		
 		/*
 			$this->settings 
