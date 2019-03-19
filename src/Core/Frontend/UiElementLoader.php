@@ -17,6 +17,7 @@ class UiElementLoader {
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
 		$item = $request->getQueryParam('item');
+		
 		$client_id = $args['clientId'];		
 		
 		
