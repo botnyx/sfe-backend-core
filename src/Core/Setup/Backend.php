@@ -79,8 +79,8 @@ class Backend {
 			$app = $this->readConfiguration($searchDir."/configuration.ini" );
 			$coreComponent = $this->getComponentVersion($this->installedComponents);
 			
-			#echo "\nsettings\n";
-			#print_r($app->settings['conn']);
+			echo "\nsettings\n";
+			//print_r($app->settings['conn']);
 			
 			print_r($app);
 			
