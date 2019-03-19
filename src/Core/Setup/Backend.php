@@ -82,10 +82,10 @@ class Backend {
 			echo "\nsettings\n";
 			//print_r($app->settings['conn']);
 			
-			print_r($app);
+			//print_r();
 			
 			/* create the $this->pdo instance */
-			$this->createPDO($app->settings['conn']);
+			$this->createPDO($app->configuration->role->conn);
 			
 			
 			#echo "\npaths\n";
@@ -218,7 +218,7 @@ class Backend {
 		
 		
 		// get db from dsn.
-		$dsnp = explode(";",$c['dsn']);
+		$dsnp = explode(";",$c->dsn);
 		foreach($dsnp as $y){
 			parse_str($y,$x);
 			if(key($x)=="dbname"){
@@ -241,7 +241,7 @@ class Backend {
 		try{
 			//$pdo = new PDO($ini['database']['pdodsn']  );
 
-			$pdo = new \PDO($c['dsn'], $c['dbuser'],$c['dbpassword'],$dboptions );
+			$pdo = new \PDO($c->dsn, $c->dbuser,$c->dbpassword,$dboptions );
 			// set the default schema for the oauthserver.
 			//$result = $pdo->exec('SET search_path TO oauth2'); # POSTGRESQL Schema support
 		}catch(\Exception $e){
