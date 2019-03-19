@@ -69,8 +69,6 @@ class Backend {
 		//$installed[0]->version_normalized;
 		
 		
-		
-		
 		#var_dump("xyz");
 		echo "-----------------------------------------\n";
 		
