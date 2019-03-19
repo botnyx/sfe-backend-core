@@ -21,18 +21,37 @@ class Backend {
 		
 		#$section_settings = $settings['sfeBackend'];
 
+		
+		
+		
 		if(!array_key_exists('clientSecret',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `clientSecret` in the `sfeBackend` section.");
 		}else{
 			$this->clientsecret = new \Botnyx\Sfe\Shared\ProtectedValue($settings['sfeBackend']['clientSecret']);
 		}
+		
+		
+		$hosts = new \Botnyx\Sfe\Shared\Objects\config\SfeHosts();
+
 		if(!array_key_exists('sfeAuth',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeAuth` in the `sfeBackend` section.");
 		}
+		$hosts->auth = $settings['sfeFrontend']['sfeAuth'];
+		
+		
 		if(!array_key_exists('sfeCdn',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeCdn` in the `sfeBackend` section.");
 		}
-
+		$hosts->cdn = $settings['sfeFrontend']['sfeCdn'];
+		
+		if(!array_key_exists('sfeBackend',$settings['sfeBackend'])){
+			throw new \Exception("Fatal Error in Configuration.ini : Missing `sfeBackend` in the `sfeBackend` section.");
+		}
+		$hosts->backend = $settings['sfeFrontend']['sfeBackend'];
+		
+		
+		
+		
 		
 		if(!array_key_exists('conn',$settings['sfeBackend'])){
 			throw new \Exception("Fatal Error in Configuration.ini : Missing `conn` in the `sfeFrontend` section.");
