@@ -14,11 +14,18 @@ use Slim\Views;
 class SlimLogic {
 	
 	
+	
+	
 	public function getContainer($container){
 		
 		
-
-
+		#print_r($container->get('sfe'));
+		#die();
+		#$container->get('sfe')->twig('cache');
+		#$container->get('sfe')->twig('debug');
+		#$container->get('sfe')->twig('extensions');
+		
+		#$container->get('sfe')->paths->templates;
 		
 		$container['cache'] = function ($c) {
 			return new \Slim\HttpCache\CacheProvider();
@@ -27,9 +34,9 @@ class SlimLogic {
 		
 		$container['view'] = function ($c){
 
-			$view = new \Slim\Views\Twig(_SETTINGS['paths']['templates'], [
-				'cache' => false /*_SETTINGS['twig']['cache']*/,
-				'debug' => _SETTINGS['twig']['debug']
+			$view = new \Slim\Views\Twig($container->get('sfe')->paths->templates, [
+				'cache' => $container->get('sfe')->twig('cache'),
+				'debug' => $container->get('sfe')->twig('debug')
 			]);
 
 			// Instantiate and add Slim specific extension
@@ -39,23 +46,27 @@ class SlimLogic {
 			$view->addExtension(new \Slim\Views\TwigExtension($c->get('router'), $basePath));
 
 			// Add the debug extension
-			if(_SETTINGS['twig']['debug']==true){
-				$view->addExtension(new \Twig_Extension_Debug() );
+			#if(_SETTINGS['twig']['debug']==true){
+			#	$view->addExtension(new \Twig_Extension_Debug() );
+			#}
+			
+			foreach( $container->get('sfe')->twig('extensions') as $ext){
+				$view->addExtension( $ext );
 			}
-
+				
 			// add Translation extensions.
-			$view->addExtension(new \Twig_Extensions_Extension_I18n());
+			
 
 			//$view->addExtension(new \Twig_Extensions_Extension_Intl());
 			//$twig->addExtension(new Project_Twig_Extension());
 			//
 			//$twig->addFunction('functionName', new Twig_Function_Function('someFunction'));
 
-			if(array_key_exists('sfeBackend',_SETTINGS)){
+			#if(array_key_exists('sfeBackend',_SETTINGS)){
 				//$view->addFunction('functionName', new Twig_Function_Function('someFunction'));
 
 				//$view->addExtension ( new \Botnyx\sfeBackend\twigExtension\Userinfo() );
-			}
+			#}
 			return $view;
 		};
 
@@ -68,9 +79,10 @@ class SlimLogic {
 	public function getMiddleware($app,$container){
 		
 		
+		
 		if(!array_key_exists('pdo',$container)){
 			/* Database initialization*/
-			$conn =$container->get('settings')['sfe']->conn;
+			$conn = $container->get('sfe')->role->conn;
 			if(isset($pdo)==false){
 
 				$dboptions = array(
@@ -104,15 +116,15 @@ class SlimLogic {
 		  return new \SlimSession\Helper;
 		};
 
-
+		
 		$backendMiddleware = function ($request, $response, $next)  {
 			
-			#echo "<pre>";
-			#print_r($this->get('settings')['sfe']->hosts->auth);
+			//echo "<pre>";
+			#print_r($this->get('sfe')->hosts);
 			#die();
 			
 			//$this->container->get('settings')['sfe']->role;
-			$clientIssuer="https://".$this->get('settings')['sfe']->hosts->auth;
+			$clientIssuer="https://".$this->get('sfe')->hosts->auth;
 
 			$sfeBackendMiddleWare = new \Botnyx\Sfe\Backend\Core\MiddleWare($request, $response,$this->pdo,$clientIssuer );
 			// Add requestAttributes.
