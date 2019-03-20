@@ -19,11 +19,26 @@ class Endpoint{
 	
 	function __construct(ContainerInterface $container){
 		$this->container = $container;
-		$pdo  = $container->get('pdo');
+		$this->sfe = $container->get('sfe');
 		$this->cache  = $container->get('cache');
 		
-		$this->settings  = $container->get('settings')['sfe'];
-		$this->paths  = $container->get('settings')['paths'];
+		$this->paths = $this->sfe->paths;
+		
+		$pdo  = $container->get('pdo');
+		
+		#print_r($this->sfe);
+		
+		#die();
+		/*
+		$this->sfe->type
+		$this->sfe->paths
+		$this->sfe->hosts
+		$this->sfe->clientid
+		$this->sfe->debug
+			*/
+		
+		#$this->settings  = $container->get('sfe')['sfe'];
+		#$this->paths  = $container->get('settings')['paths'];
 		
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 
@@ -35,7 +50,7 @@ class Endpoint{
 		//var_dump((bool)$this->settings['debug']);
 		
 		//die();
-		$this->debug = true;//(bool)$this->settings['debug'];
+		$this->debug = $this->sfe->debug;//(bool)$this->settings['debug'];
 		
 		/*
 			$this->settings 
@@ -199,13 +214,13 @@ class Endpoint{
 		#die();
 		
 		
-		$pathInfo['_template_sfecore'] = $this->paths['root']."/vendor/botnyx/sfe-backend-core/templates";
+		$pathInfo['_template_sfecore'] = $this->paths->root."/vendor/botnyx/sfe-backend-core/templates";
 		
 		
-		if(!file_exists( $this->paths['templates']."/_Clients" )){
-			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2200, $this->paths['templates']."/_Clients" ,$this->debug);
+		if(!file_exists( $this->paths->templates."/_Clients" )){
+			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2200, $this->paths->templates."/_Clients" ,$this->debug);
 		}
-		$pathInfo['_template_client'] = $this->paths['templates']."/_Clients/".$pathInfo['client_id'];
+		$pathInfo['_template_client'] = $this->paths->templates."/_Clients/".$pathInfo['client_id'];
 		
 		//var_dump($pathInfo['_template_client']);
 		
@@ -217,7 +232,7 @@ class Endpoint{
 		
 		
 		#var_dump(file_exists($this->paths['root']."/vendor/botnyx/sfe-backend-core/templates"));
-		$pathInfo['_template_origin'] = $this->paths['templates']."/".$pathInfo['tmpl'];
+		$pathInfo['_template_origin'] = $this->paths->templates."/".$pathInfo['tmpl'];
 		if(!file_exists($pathInfo['_template_origin'])){
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,2202,$pathInfo['_template_origin'],$this->debug);
 			//return $response->withJson($this->outputFormat->response("Origin template not found for client",500))->withStatus(500);
