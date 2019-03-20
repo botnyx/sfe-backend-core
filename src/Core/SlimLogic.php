@@ -251,8 +251,8 @@ class SlimLogic {
 
 			$app->get('/robots.txt',  function ( $request,  $response, array $args){
 				$res = "User-agent: *".PHP_EOL."Disallow: /";
-				print_r($this->get('sfe'));
-				die();
+				//print_r($this->get('sfe'));
+				//die();
 				return $response->write($res);
 
 			});
