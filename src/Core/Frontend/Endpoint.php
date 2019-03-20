@@ -26,9 +26,8 @@ class Endpoint{
 		
 		$pdo  = $container->get('pdo');
 		
-		#print_r($this->sfe);
 		
-		#die();
+	
 		/*
 		$this->sfe->type
 		$this->sfe->paths
@@ -42,6 +41,11 @@ class Endpoint{
 		
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 
+		
+		#var_dump($this->feConfig);
+		
+		#die();
+		
 		$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
 		
 	//	print_r($container->get('settings'));
@@ -136,8 +140,7 @@ class Endpoint{
 			// Clientid not found in database
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1105);
 		}
-		//var_dump($ClientConfig);
-		//die();
+		
 		
 		
 		$ClientRoutes =$this->feConfig->getFrontendEndpoints($clientID);
@@ -146,12 +149,12 @@ class Endpoint{
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1106);
 		}
 		
-		//$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
-		//$tmp['menus'] =$this->fe_cfg->getByMenuClientId($args['clientid']);
+		$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
+		$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
 		
 		
-		//var_dump($tmp);
-		//die();
+		#var_dump($tmp);
+		#die();
 		
 		// 
 		$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
@@ -202,9 +205,11 @@ class Endpoint{
 		
 		
 		
+		
 		if($thisRoute==false){
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2203, $parsedPath['requestedPath'],$this->debug);
 		}
+		
 		
 		
 		$pathInfo = array_merge($parsedPath,$thisRoute);
@@ -288,7 +293,6 @@ class Endpoint{
 		$SfePageAssets->js;
 	
 		
-		
 		try{
 			$ClientPageAssets = new \Botnyx\Sfe\Backend\Core\Template\AssetsLoader($pathInfo['_template_client']);
 			
@@ -322,6 +326,7 @@ class Endpoint{
 		#die();
 		
 		
+		
 		/*
 			Base loader,  loads the main document, head and body section (from core)
 		*/
@@ -347,8 +352,12 @@ class Endpoint{
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3204, $e->getMessage(),$this->debug );
 		}catch(\Exception $e){
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 3205, $e->getMessage(),$this->debug );
-			//print_r($e->getMessage());
+			print_r($e->getMessage());
 		}
+		
+		
+		#var_dump($thisRoute);
+		#die();
 		
 		
 		

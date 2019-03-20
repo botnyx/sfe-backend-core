@@ -19,7 +19,7 @@ class BaseLoader {
 	function __construct($lookpaths,$clientid,$configpaths){
 		$this->paths = $lookpaths;
 		$this->clientid = $clientid;
-		$this->tmp = $this->paths->temp;
+		$this->tmp = $configpaths->temp;
 		
 	}
 	
