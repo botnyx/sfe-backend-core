@@ -18,14 +18,15 @@ class BackendProxy {
 		$this->cacher =new \Slim\HttpCache\CacheProvider('public', $maxAge = 86400, false);
 		
 		//$this->cacher = $container->get('cache');
-		$this->paths = $container->get('settings')['paths'];
+		$this->paths = $container->get('sfe')->paths;
+		$this->hosts = $container->get('sfe')->hosts;
 		$this->debug = true;
 		
 				
-		$root = $this->paths['root'];//."/vendor/botnyx/sfe-backend-js/src/sfe/";
-		$temp = $this->paths['temp'];//."/sfe-js";
+		#$root = $this->paths['root'];//."/vendor/botnyx/sfe-backend-js/src/sfe/";
+		#$temp = $this->paths['temp'];//."/sfe-js";
 		
-		$this->sfeJS = new \Botnyx\Sfe\Javascript\sfelib($root,$temp);
+		$this->sfeJS = new \Botnyx\Sfe\Javascript\sfelib($this->paths->root,$this->paths->temp);
 		
 		
 		
@@ -82,7 +83,8 @@ class BackendProxy {
 			/* 
 				strip the clientid from path, as the cdn has no clientspecific stuff..
 			*/
-			$uri = $this->paths['cdn']."/assets/".str_replace($r[0]."/","",$args['path']);;
+			
+			$uri = $this->hosts->cdn."/assets/".str_replace($r[0]."/","",$args['path']);;
 			try{
 				return $this->proxy->get($response,$uri);	
 			}catch(\Exception $e){
