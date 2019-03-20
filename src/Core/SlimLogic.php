@@ -21,11 +21,14 @@ class SlimLogic {
 		
 		#print_r($container->get('sfe'));
 		#die();
+		#$container->get('sfe')->clientid;
+		#$container->get('sfe')->paths->templates;
+		#$container->get('sfe')->hosts->backend;
+		#$container->get('sfe')->debug;
+		
 		#$container->get('sfe')->twig('cache');
 		#$container->get('sfe')->twig('debug');
 		#$container->get('sfe')->twig('extensions');
-		
-		#$container->get('sfe')->paths->templates;
 		
 		$container['cache'] = function ($c) {
 			return new \Slim\HttpCache\CacheProvider();
