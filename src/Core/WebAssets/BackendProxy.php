@@ -91,8 +91,8 @@ class BackendProxy {
 			try{
 				return $this->proxy->get($response,$uri);	
 			}catch(\Exception $e){
-				$response = \Botnyx\Sfe\Shared\ExceptionResponse::get($response,$e->getCode(),'Cdn reports: 404 Not Found');
-				return $response->withStatus($e->getCode());
+				throw new \Exception('Cdn reports: 404 Not Found',404);
+				//return $response->withStatus($e->getCode());
 			}
 			
 			
