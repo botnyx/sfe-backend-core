@@ -138,6 +138,7 @@ class Endpoint{
 		$ClientConfig =$this->feConfig->getConfigByClientId($clientID);
 		if($ClientConfig==false){
 			// Clientid not found in database
+			die('xx');
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1105);
 		}
 		
@@ -207,6 +208,8 @@ class Endpoint{
 		
 		
 		if($thisRoute==false){
+			throw new \Exception("Route doesnt exist.",404);
+			die("x");
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2203, $parsedPath['requestedPath'],$this->debug);
 		}
 		
