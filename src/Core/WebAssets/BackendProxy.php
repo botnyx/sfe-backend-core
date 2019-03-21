@@ -45,13 +45,16 @@ class BackendProxy {
 		//var_dump( strpos($lastElement,"sfe-") );
 		//die();
 		if(strpos($lastElement,"sfe-")===0){
+			
 			// this is a SFE  lib.
 			try{
 				$javascript =  $this->sfeJS->get($r['_'],array("client_id"=>$client_id));
-			}catch(\Exception $e){
-				//die();
-				return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,3207,$e->getMessage(),true);
-				//return $response->withJson( array("error"=>$e->getMessage()) );//->withStatus(404);
+			} catch(\Twig\Error\LoaderError $e){
+				// Thrown when an error occurs during template loading.
+				throw new \Exception($e->getMessage(),404);
+				
+				print_r((string)$e->getCode());
+				print_r((string)$e);
 			}
 			
 			
