@@ -49,7 +49,7 @@ class Builder{
 		*/
 		$meta[]=array('charset' => 'utf-8');
 		$meta[]=array('name'=>'viewport','content'=> $this->viewport  );
-		$meta[]=array('name'=>'CID', 'content' => $this->clientid);
+		$meta[]=array('name'=>'CID', 'content' => $this->pageConfig->client_id);
 			
 		
 		

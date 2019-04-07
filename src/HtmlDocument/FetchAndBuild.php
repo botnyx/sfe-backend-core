@@ -33,6 +33,7 @@ class FetchAndBuild{
 		
 		
 		$buildconf = array( 
+			"client_id"=>"ikke",
 			"baseDomain"=>"localhost", 
 			"cache"=>false, 
 			"visibility"=>"", 
