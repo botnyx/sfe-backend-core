@@ -5,8 +5,8 @@ namespace Botnyx\Sfe\Backend\HtmlDocument;
 //  pageFetcher;
 class Fetcher {
 	
-	function __construct(endpointSettings $endpointSettings){
-		$this->endpointSettings= $endpointSettings;
+	function __construct(FetcherConfig $config){
+		$this->endpointSettings= $config;
 		//print_r($endpointSettings);
 		
 		$this->endpointSettings->cdnserver;

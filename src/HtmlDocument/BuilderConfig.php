@@ -3,7 +3,7 @@
 namespace Botnyx\Sfe\Backend\HtmlDocument;
 
 
-class BuilderConfig extends Botnyx\SimpleObject {
+class BuilderConfig extends \Botnyx\SimpleObject {
 	function objectProperties(){
 		return array(
 			"baseDomain"=>	array( "type"=>"string",  "required"=>false,  "defval"=>"localhost"  ),

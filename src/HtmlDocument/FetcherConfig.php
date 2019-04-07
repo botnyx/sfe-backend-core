@@ -4,7 +4,7 @@ namespace Botnyx\Sfe\Backend\HtmlDocument;
 
 
 // extends ob_Props
-class FetcherConfig extends Botnyx\SimpleObject {
+class FetcherConfig extends \Botnyx\SimpleObject {
 	
 	function objectProperties(){
 		return array(

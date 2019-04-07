@@ -30,9 +30,9 @@ class Parser {
 		
 	function __construct($html){
 		
-		$this->doc = $doc = new DOMDocument();
+		$this->doc = $doc = new \DOMDocument();
 		$this->doc->loadHTML($html, LIBXML_NOWARNING | LIBXML_NOERROR);
-		$this->xpath = new DOMXpath($this->doc);
+		$this->xpath = new \DOMXpath($this->doc);
 		
 		$this->parseHEAD();
 		$this->parseBODYforComponents();

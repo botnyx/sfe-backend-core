@@ -16,8 +16,8 @@ class Builder{
 	private $pageConfig;
 	
 	
-	function __construct( pageConfig $pageConfig){
-		$this->pageConfig = $pageConfig;
+	function __construct( BuilderConfig $Config){
+		$this->pageConfig = $Config;
 	}
 	function setViewport($v){
 		$this->viewport = $v;
@@ -39,7 +39,7 @@ class Builder{
 	
 	function __toString(){
 		
-		$doc = new DOMDocument;
+		$doc = new \DOMDocument;
 		$html = $doc->appendChild( $doc->createElement('html'));
 		$head = $html->appendChild($doc->createElement('head'));
 		$body = $html->appendChild($doc->createElement('body'));
