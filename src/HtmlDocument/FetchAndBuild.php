@@ -18,22 +18,26 @@ class FetchAndBuild{
 			"clientid" => "0000-0000-0000-0000-000000",
 			"endpoint" => "/",
 			"template"=>"",
+			"frontendserver"=>"servenow.nl",
 			"cdnserver"=>"freelance.bss.servenow.nl",
-			"backendserver"=>"",
-			"authserver"=>""
+			"backendserver"=>"backend.servenow.nl",
+			"authserver"=>"auth.servenow.nl"
 		);
 
-		$this->fetchConfig = new FetcherConfig($array);
+		$this->fetchConfig = new FetcherConfig($fetchConfigArray);
 		
 		$this->originalHtml = $this->fetchHtml($this->fetchConfig);
 		
+		
+		
+		//die();
 		
 		
 		$this->originalHtmlObject = $this->parseHtml($this->originalHtml);
 		
 		
 		$buildconf = array( 
-			"client_id"=>"ikke",
+			"client_id"=>$this->fetchConfig->clientid,
 			"baseDomain"=>"localhost", 
 			"cache"=>false, 
 			"visibility"=>"", 

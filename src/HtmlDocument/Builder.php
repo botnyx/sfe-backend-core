@@ -50,6 +50,7 @@ class Builder{
 		$meta[]=array('charset' => 'utf-8');
 		$meta[]=array('name'=>'viewport','content'=> $this->viewport  );
 		$meta[]=array('name'=>'CID', 'content' => $this->pageConfig->client_id);
+		
 			
 		
 		
@@ -57,6 +58,7 @@ class Builder{
 #		$meta[]=array('description' => $this->pageConfig->description);
 	#	$meta[]=array('keywords' 	=> $this->pageConfig->keywords);
 		$meta[]=array('generator' 	=> "SFE-FRAMEWORK");
+		$meta[]=array('name'		=>'generated', 'content' => date(DATE_RFC2822));
 			
 			
 			
