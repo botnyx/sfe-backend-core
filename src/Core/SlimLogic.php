@@ -152,53 +152,27 @@ class SlimLogic {
 			Frontend configuration.
 		*/
 		$app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get');
-
 		/*
 			Static url proxy : /_/a/js/sfe-bootstrap.js
 		*/
 		$app->get('/_/assets/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
-
 		/*
 			Static assets url proxy
 		*/
 		$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
-
-
-
-
-
-
-
-
 		/*
-
 			ui load endpoint..
-
 		*/
 		$app->get('/api/sfe/{clientId}/ui/load', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:get' );
-
-
 		/*
-
 			ui click endpoint..
-
 		*/
 		$app->get('/api/sfe/{clientId}/ui/click', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:getMain' );
 
 
-
-
-
-
-
-
-
 		/*
-
 			ServiceWorker JS endpoint..
-
 		* /
-
 		$app->get('/api/sfe/{clientid}/ui/sw','\\Botnyx\\SfeBackend\\Serviceworker\\generator:get');
 
 
