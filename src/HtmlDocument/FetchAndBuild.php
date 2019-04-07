@@ -18,7 +18,7 @@ class FetchAndBuild{
 			"clientid" => "0000-0000-0000-0000-000000",
 			"endpoint" => "/",
 			"template"=>"",
-			"frontendserver"=>"servenow.nl",
+			"frontendserver"=>"www.servenow.nl",
 			"cdnserver"=>"freelance.bss.servenow.nl",
 			"backendserver"=>"backend.servenow.nl",
 			"authserver"=>"auth.servenow.nl"
@@ -38,7 +38,7 @@ class FetchAndBuild{
 		
 		$buildconf = array( 
 			"client_id"=>$this->fetchConfig->clientid,
-			"baseDomain"=>"localhost", 
+			"baseDomain"=>$this->fetchConfig->frontendserver, 
 			"cache"=>false, 
 			"visibility"=>"", 
 			"type"=>"", 
