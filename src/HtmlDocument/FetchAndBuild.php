@@ -5,7 +5,14 @@ namespace Botnyx\Sfe\Backend\HtmlDocument;
 
 class FetchAndBuild{
 	
-	function __construct(){
+	private $fetchConfig;
+	private $buildConfig;
+	
+	private $originalHtml;
+	private $originalHtmlObject;
+	
+	
+	function __construct($fetchConfigArray=array()){
 		
 		$array=array(
 			"clientid" => "0000-0000-0000-0000-000000",
@@ -16,12 +23,13 @@ class FetchAndBuild{
 			"authserver"=>""
 		);
 
-		$fetchConfig = new FetcherConfig($array);
+		$this->fetchConfig = new FetcherConfig($array);
 		
-		$html = $this->fetchHtml($fetchConfig);
+		$this->originalHtml = $this->fetchHtml($this->fetchConfig);
 		
 		
-		$parsedObject = $this->parseHtml($html);
+		
+		$this->originalHtmlObject = $this->parseHtml($this->originalHtml);
 		
 		
 		$buildconf = array( 
@@ -36,13 +44,17 @@ class FetchAndBuild{
 			"image"=>""
 		);
 
-		$cfg = new BuilderConfig( $buildconf );
+		$this->buildConfig = new BuilderConfig( $buildconf );
 			
-		$this->constructHtml($cfg, $parsedObject);
+		
+		$this->html = $this->constructHtml($this->buildConfig, $this->originalHtmlObject);
 		
 		
 	}
 	
+	function __toString(){
+		return (string)$this->html;
+	}
 	
 	function fetchHtml( $fetcherconfig){
 		$html = new Fetcher( $fetcherconfig );
@@ -54,14 +66,6 @@ class FetchAndBuild{
 		$templateParser = new Parser ($html);
 		
 		return $templateParser;
-		
-		$viewport 	= $templateParser->getViewport();
-		$css 		= $templateParser->getCss();
-		$js 		= $templateParser->getScripts();
-		$body 		= $templateParser->getBody();
-		$bodyjs 	= $templateParser->getBodyJs();
-		
-		$components = $templateParser->getComponents();
 	}
 	
 	
@@ -93,7 +97,7 @@ class FetchAndBuild{
 
 		$page->addBody( $body );
 
-		echo $page;
+		return $page;
 	}
 	
 }
