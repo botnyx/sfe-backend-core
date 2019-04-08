@@ -100,9 +100,9 @@ class Endpoint{
 		
 		if( count($variables)>0 ){
 			// this url has a dynamic variable.
-			#echo "DYNAMIC<br>";
+			echo "DYNAMIC<br>";
 		}else{
-			#echo "STATIC<br>";
+			echo "STATIC<br>";
 		}
 		
 		// /////////////////////////////////////////////////////////
@@ -134,7 +134,8 @@ class Endpoint{
 		//
 		$clientID = $args['clientid'];
 		
-		//
+		// get the configuration for this client.
+		
 		$ClientConfig =$this->feConfig->getConfigByClientId($clientID);
 		if($ClientConfig==false){
 			// Clientid not found in database
@@ -143,6 +144,7 @@ class Endpoint{
 		}
 		
 		
+		// get the routes for this client.
 		
 		$ClientRoutes =$this->feConfig->getFrontendEndpoints($clientID);
 		if($ClientRoutes==false){
@@ -153,15 +155,19 @@ class Endpoint{
 		$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
 		$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
 		
+		echo "<pre>";
+		//print_r($ClientConfig);
+		//print_r($tmp);
+		$route = $request->getAttribute('route');
+    	//$courseId = $route->getArgument('id');
 		
-		#var_dump($tmp);
-		#die();
+		print_r($route);
 		
 		// 
 		$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
 		
 		
-		//echo "<pre>";
+		echo "<pre>";
 		
 		// we now know:
 		$parsedPath->variables;
@@ -171,7 +177,7 @@ class Endpoint{
 		//print_r($parsedPath);
 		
 		
-		//print_r($parsedPath);
+		print_r($parsedPath);
 		//echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
 		
 		//die();
@@ -186,6 +192,10 @@ class Endpoint{
 		//var_dump($requestedPath);
 		//var_dump($requestedPath);
 
+		
+die();		
+		
+		
 		//print_r($tmp['routes']);
 		
 		/* define a 404 route 

@@ -7,7 +7,7 @@ use \Firebase\JWT\JWT;
 
 class MiddleWare {
 
-  var $client_id=false;
+    var $client_id=false;
 	var $hostname=false;
 	var $auth_token=false;
 	var $clientIssuer = "";
