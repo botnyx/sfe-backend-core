@@ -84,55 +84,15 @@ class Endpoint{
 	}
 	
 	
-	private function parsePath($path,$routeInfo){
-		
-		$pathParts = explode('/',$path);
-		
-		// move the internal pointer to the end of the array
-		end($pathParts);
-		
-		// fetches the key of the element pointed to by the internal pointer
-		$key = key($pathParts);
-		$reqUrlParts =parse_url($routeInfo['request'][1]);
-		
-		// fill teh req $variables
-		parse_str(str_replace('.html','',$reqUrlParts['query']), $variables);
-		
-		if( count($variables)>0 ){
-			// this url has a dynamic variable.
-			echo "DYNAMIC<br>";
-		}else{
-			echo "STATIC<br>";
-		}
-		
-		// /////////////////////////////////////////////////////////
-		
-		$templateFile = implode('/',$pathParts).".html";
-		if($templateFile=='.html'){ $templateFile='index.html'; }
-		
-		
-		
-		
-		if( count($variables)>0 ){
-			$requestedPath = "/".str_replace(".html","",$templateFile)."/"."{".key($variables)."}" ;
-		}else{
-			$requestedPath = "/".str_replace(".html","",$templateFile) ;
-		}
-		
-		if($requestedPath=="/index"){ $requestedPath="/";}
-		
-		# echo "<br>real requestedPath:".$requestedPath."<br>";
-		
-		$clientid=$args['clientid'];
-		$variables;
-		
-		return array("templateFile"=>$templateFile,"variables"=>$variables,"requestedPath"=>$requestedPath);
-	}
+	
+	
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
-		
+		$allGetVars = $request->getQueryParams();
+		$allPostPutVars = $request->getParsedBody();
 		//
 		$clientID = $args['clientid'];
+		$language = $args['language'];
 		
 		// get the configuration for this client.
 		
@@ -155,23 +115,48 @@ class Endpoint{
 		
 		
 		
-		
 		$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
 		$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
 		
-		echo "<pre>";
-		print_r($ClientRoutes);
+		
+		
+		$key = array_search($args['path'], array_column($ClientRoutes, 'id'));
+		
+		//print_r($args['path']);
+		if($key===false){
+			// NONEXISTENT ROUTE!
+			throw new \Exception("Route doesnt exist.",404);
+			var_dump($key);
+			echo "<hr>";
+			die();
+		}
+		
+		
+		//print_r( $ClientRoutes[$key] );
+		
+		$parsedPath = (object)array(
+			"language"=>$language,
+			"templateFile"=>$ClientRoutes[$key]['tmpl'],
+			"requestedPath"=>$ClientRoutes[$key]['uri'],
+			"variables"=>$allGetVars,
+			"clientId"=>$ClientRoutes[$key]['client_id']
+		);
+		
+		
+		
+		//die();
 		//print_r($ClientConfig);
 		//print_r($tmp);
-		$route = $request->getAttribute('route');
+		//$route = $request->getAttribute('route');
     	//$courseId = $route->getArgument('id');
 		
 		//print_r($route);
 		
 		
 		
+		
 		// 
-		$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
+		//$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
 		
 		
 		echo "<pre>";
