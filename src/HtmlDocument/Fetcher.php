@@ -20,15 +20,17 @@ class Fetcher {
 	function get (){
 		//$url= 'http://'.$this->endpointSettings->endpoint;
 		
-		if( strpos($this->endpointSettings->template,"http")==0 ){
+		//var_dump(strpos($this->endpointSettings->template,"http"));
+		
+		if( strpos($this->endpointSettings->template,"http")!==false ){
 			// 	
 			$url= $this->endpointSettings->template;
 		}else{
 			//
-			$url= 'http://'.$this->endpointSettings->cdnserver.$this->endpointSettings->endpoint;
+			$url= 'http://'.$this->endpointSettings->cdnserver."/templates/".$this->endpointSettings->endpoint."/".$this->endpointSettings->template;
 		}
 		
-		#echo $this->endpointSettings->template;
+		//echo $this->endpointSettings->template;
 		#var_dump(strpos($this->endpointSettings->template,"http"));
 		
 		//var_dump($url);

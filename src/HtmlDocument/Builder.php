@@ -124,7 +124,7 @@ class Builder{
 			
 		$link=array();	
 		foreach($this->Css as $cSS){
-			$link[]=array('rel' => 'stylesheet','src'=>$cSS);	
+			$link[]=array('rel' => 'stylesheet','href'=>$cSS);	
 		}
 		
 			

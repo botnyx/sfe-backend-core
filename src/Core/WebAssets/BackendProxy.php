@@ -36,14 +36,16 @@ class BackendProxy {
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
 		$r = explode("/",$args['path']);
-		$client_id = $r[0];
+		//$client_id = $r[0];
 		$lastElement = end($r); 
 		$r['_']=str_replace($r[0]."/","",$args['path']);
 		
 		//echo $lastElement;
 		//Thu, 08 Dec 2016 01:00:57 GMT
 		//var_dump( strpos($lastElement,"sfe-") );
-		//die();
+		
+		
+		
 		if(strpos($lastElement,"sfe-")===0){
 			
 			// this is a SFE  lib.
@@ -86,8 +88,12 @@ class BackendProxy {
 			/* 
 				strip the clientid from path, as the cdn has no clientspecific stuff..
 			*/
+			print_r($args['clientid']);
 			
 			$uri = $this->hosts->cdn."/assets/".str_replace($r[0]."/","",$args['path']);;
+			
+			die($uri);
+			$uri = "http://freelance.bss.servenow.nl/".$args['path'];
 			try{
 				return $this->proxy->get($response,$uri);	
 			}catch(\Exception $e){
