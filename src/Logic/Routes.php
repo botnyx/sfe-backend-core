@@ -17,7 +17,8 @@ class Routes {
 		/*
 			Static url proxy : /_/a/js/sfe-bootstrap.js
 		*/
-		$app->get('/_/assets/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
+		$app->get('/assets/{clientid}/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
+		//$app->get('/_/assets/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:aget');
 		
 		
 		/*
