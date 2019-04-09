@@ -6,6 +6,16 @@ use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+
+
+use Botnyx\Sfe\Backend\Core\Frontend as Frontend;
+use Botnyx\Sfe\Backend\Core\Database as Database;
+
+
+		
+
+
+
 class BackendProxy {
 	
 	
@@ -28,7 +38,9 @@ class BackendProxy {
 		
 		$this->sfeJS = new \Botnyx\Sfe\Javascript\sfelib($this->paths->root,$this->paths->temp);
 		
+		$this->feConfig = new Database\FrontendConfig($container->get('pdo') );
 		
+
 		
 		
 	}
@@ -43,7 +55,12 @@ class BackendProxy {
 		//echo $lastElement;
 		//Thu, 08 Dec 2016 01:00:57 GMT
 		//var_dump( strpos($lastElement,"sfe-") );
+		//echo "<pre>";
+		//print_r($args['clientid']);
+		//echo "<br>";
 		
+		$clientconfig 	= $this->feConfig->getConfigByClientId($args['clientid']);
+		//print_r($clientconfig['template']);
 		
 		
 		if(strpos($lastElement,"sfe-")===0){
@@ -88,12 +105,12 @@ class BackendProxy {
 			/* 
 				strip the clientid from path, as the cdn has no clientspecific stuff..
 			*/
-			print_r($args['clientid']);
+			//print_r($args['clientid']);
 			
-			$uri = $this->hosts->cdn."/assets/".str_replace($r[0]."/","",$args['path']);;
+			$uri = $this->hosts->cdn."/templates/".$clientconfig['template']."/assets/".str_replace($r[0]."/","",$args['path']);;
 			
-			die($uri);
-			$uri = "http://freelance.bss.servenow.nl/".$args['path'];
+			//die($uri);
+			//$uri = "http://freelance.bss.servenow.nl/".$args['path'];
 			try{
 				return $this->proxy->get($response,$uri);	
 			}catch(\Exception $e){

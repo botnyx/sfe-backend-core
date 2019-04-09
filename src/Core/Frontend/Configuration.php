@@ -22,6 +22,9 @@ class Configuration {
 		
 		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
 		
+		//$config 	= $this->feConfig->getConfigByClientId($args['clientid']);
+		
+		
 		$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
 		
     }
