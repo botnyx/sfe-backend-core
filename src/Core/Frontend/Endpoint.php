@@ -152,16 +152,23 @@ class Endpoint{
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1106);
 		}
 		
+		
+		
+		
+		
 		$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
 		$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
 		
 		echo "<pre>";
+		print_r($ClientRoutes);
 		//print_r($ClientConfig);
 		//print_r($tmp);
 		$route = $request->getAttribute('route');
     	//$courseId = $route->getArgument('id');
 		
-		print_r($route);
+		//print_r($route);
+		
+		
 		
 		// 
 		$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
