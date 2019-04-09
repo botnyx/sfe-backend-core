@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Botnyx\Sfe\Shared;
 use Twig\Error;
 
-
+use Botnyx\Sfe\Backend\HtmlDocument as HtmlDocument;
 
 class Endpoint{
 	
@@ -25,6 +25,8 @@ class Endpoint{
 		$this->paths = $this->sfe->paths;
 		
 		$pdo  = $container->get('pdo');
+		
+		$this->hosts = $this->sfe->hosts;
 		
 		
 	
@@ -115,8 +117,8 @@ class Endpoint{
 		
 		
 		
-		$tmp['routes'] =$this->feConfig->getFrontendEndpoints($clientID);
-		$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
+		//$tmp['routes'] =$ClientRoutes;
+		//$tmp['menus'] =$this->feConfig->getByMenuClientId($args['clientid']);
 		
 		
 		
@@ -159,20 +161,80 @@ class Endpoint{
 		//$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
 		
 		
-		echo "<pre>";
+		//echo "<pre>";
 		
 		// we now know:
-		$parsedPath->variables;
-		$parsedPath->templateFile;
-		$parsedPath->requestedPath;
+		//$parsedPath->variables;
+		//$parsedPath->templateFile;
+		//$parsedPath->requestedPath;
 		
-		//print_r($parsedPath);
+		//print_r($tmp);
 		
 		
-		print_r($parsedPath);
+		#print_r($parsedPath);
 		//echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
 		
-		//die();
+		
+		#print_r($this->paths);
+		#print_r($this->hosts);
+		
+		
+		
+		
+		$array=array(
+			"clientid" => $parsedPath->clientId,
+			"endpoint" => $parsedPath->requestedPath,
+			"template"=> $parsedPath->templateFile,
+			"frontendserver"=>"www.servenow.nl",
+			"cdnserver"=>$this->hosts->cdn,
+			"backendserver"=>$this->hosts->backend,
+			"authserver"=>$this->hosts->auth
+		);
+		
+		
+		#print_r($arraya);
+		#print_r($array);
+		
+		
+		$pagefetcher = new HtmlDocument\FetchAndBuild($array);
+		//echo "<pre>";
+		
+		
+		return $response->write( (string)$pagefetcher) ;
+		
+		//print_r($pagefetcher);
+		
+		die();
+
+	
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -185,7 +247,7 @@ class Endpoint{
 		//var_dump($requestedPath);
 
 		
-die();		
+
 		
 		
 		//print_r($tmp['routes']);
@@ -197,7 +259,7 @@ die();
 						 	"tmpl"=>"botnyx/bootstrap3",
 						 	"client_id"=>$clientID
 						);
-		*/
+		
 		$thisRoute = false;
 		foreach($ClientRoutes as $route){
 			if($route['uri']==$parsedPath['requestedPath']){
@@ -214,7 +276,7 @@ die();
 			die("x");
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get( $response, 2203, $parsedPath['requestedPath'],$this->debug);
 		}
-		
+		*/
 		
 		
 		$pathInfo = array_merge($parsedPath,$thisRoute);
