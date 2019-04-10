@@ -41,6 +41,11 @@ class Builder{
 		
 		$doc = new \DOMDocument;
 		$html = $doc->appendChild( $doc->createElement('html'));
+		
+		$html->setAttribute("lang", strtolower($this->pageConfig->language) );
+		
+		
+		
 		$head = $html->appendChild($doc->createElement('head'));
 		$body = $html->appendChild($doc->createElement('body'));
 		

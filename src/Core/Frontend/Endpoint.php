@@ -177,30 +177,153 @@ class Endpoint{
 		
 		#print_r($this->paths);
 		#print_r($this->hosts);
+		//echo "<pre>";
+		//print_r();
 		
-		
-		
+	//	"language" => $parsedPath->language,
+	///	"getvars"	=>$parsedPath->variables,
 		
 		$array=array(
+			"language" => $parsedPath->language,
 			"clientid" => $parsedPath->clientId,
 			"endpoint" => $parsedPath->requestedPath,
 			"template"=> $parsedPath->templateFile,
-			"frontendserver"=>"www.servenow.nl",
-			"cdnserver"=>$this->hosts->cdn,
-			"backendserver"=>$this->hosts->backend,
+			"frontendserver"=>$ClientConfig['hostname'],
+			"cdnserver"=>$ClientConfig['cdnhostname'],
+			"backendserver"=>$ClientConfig['backendhostname'],
 			"authserver"=>$this->hosts->auth
 		);
 		
 		
-		#print_r($arraya);
-		#print_r($array);
+		//print_r($array);
+		//print_r();
 		
 		
 		$pagefetcher = new HtmlDocument\FetchAndBuild($array);
-		//echo "<pre>";
+		#echo "<pre>";
+		
+		//print_r($pagefetcher->components);
 		
 		
-		return $response->write( (string)$pagefetcher) ;
+		
+		//print_r($parsedPath);
+		//print_r($_SERVER['HTTP_HOST']);
+		//die();
+		$array["brand"]="{{ brand }}";
+		$array["menu"]["portfolio"]="mybrand";
+		$array["menu"]["about"]="about";
+		$array["menu"]["contact"]="contact";
+		$array["subject"]["name"]="name";
+		$array["subject"]["tagline"]="tagline";
+		$array["subject"]["image"]="image";
+		
+		$array["section"]["portfolio"]['title']="Portfolio";
+		$array["section"]["portfolio"]['items'][]=array("text"=>"text","image"=>"https://via.placeholder.com/450");
+		$array["section"]["portfolio"]['items'][]=array("text"=>"text","image"=>"https://via.placeholder.com/450");
+		$array["section"]["portfolio"]['items'][]=array("text"=>"text","image"=>"https://via.placeholder.com/450");
+		$array["section"]["portfolio"]['items'][]=array("text"=>"text","image"=>"https://via.placeholder.com/450");
+		
+		
+		$array["section"]["about"]['title']="title";
+		$array["section"]["about"]['text']="text";
+		
+		$array["section"]["contact"]['title']="contact";
+		$array["section"]["contact"]['nameplaceholder']="nameplaceholder";
+		$array["section"]["contact"]['emailplaceholder']="emailplaceholder";
+		$array["section"]["contact"]['phoneplaceholder']="phoneplaceholder";
+		$array["section"]["contact"]['messageplaceholder']="messageplaceholder";
+		$array["section"]["contact"]['sendbutton']="sendbutton";
+		
+		
+		$array["section"]["xtra"]['col1']="col1";
+		$array["section"]["xtra"]['col1text']="col1text";
+		$array["section"]["xtra"]['col2']="col2";
+		$array["section"]["xtra"]['socials'][]=array("link"=>"https://www.nu.nl","icon"=>"fa-facebook");
+		$array["section"]["xtra"]['col3']="col2";
+		$array["section"]["xtra"]['col3text']="col3text";
+		
+		$json = '{
+				"brand": "mybrand",
+				"menu":{
+					"portfolio":"portfolio",
+					"about":"about",
+					"contact":"contact"
+				},
+				"subject":{
+					"name":"myname",
+					"tagline":"mytagline",
+					"image":"https://via.placeholder.com/450","text":"some text goes here."
+				},
+				"section":{
+					"portfolio":{
+						"title":"Portfolio",
+						"items":[
+							{"text":"blag","image":"https://via.placeholder.com/450"},
+							{"text":"blag","image":"https://via.placeholder.com/450"},
+							{"text":"blag","image":"https://via.placeholder.com/450"}
+
+						]
+					},
+					"about":{
+						"title":"About",
+						"text":"some boring text about me"
+					},
+					"contact":{
+						"title":"Contact",
+						"nameplaceholder":"nameplaceholder",
+						"emailplaceholder":"emailplaceholder",
+						"phoneplaceholder":"phoneplaceholder",
+						"messageplaceholder":"messageplaceholder",
+						"sendbutton":"sendbutton"
+					},
+					"xtra":{
+						"col1":"xtra",
+						"col1text":"xtra cool",
+						"col2":"xtra2",
+						"socials":[
+							{"link":"https://www.nu.nl","icon":"fa-facebook"},
+							{"link":"https://www.nu.nl","icon":"fa-google-plus"},
+							{"link":"https://www.nu.nl","icon":"fa-twitter"},
+							{"link":"https://www.nu.nl","icon":"fa-dribbble"},
+						],
+						"col2text":"xtra cool2",
+						"col3":"xtra3",
+						"col3text":"xtra cool3"
+
+					}
+					
+
+
+				},
+				"smallfooter": "blablabla copywrong 2012BC"
+			}';
+		//  Now run the html through twig.
+		
+		$templateVars= $array;//json_decode($json,true);
+		#var_dump($templateVars);
+		#die();
+		
+		//$parsedPath->language;
+		
+		// create loader, render html.
+		$loader = new \Twig\Loader\ArrayLoader([
+			$parsedPath->templateFile => (string)$pagefetcher ,
+		]);
+		$twig = new \Twig\Environment($loader);
+		
+		
+		//$function = new \Twig\TwigFunction('twigjs', function ($text) {
+			// ...
+		//	return "{{ ".$text." }}";
+		//});
+		
+		//$twig->addFunction($function);
+		// enable caching.
+		$twig->setCache($this->paths->temp."/".$parsedPath->clientId."/pages");
+		
+		$html =  $twig->render($parsedPath->templateFile, $templateVars);
+
+		return $response->write( "<!DOCTYPE html>".$html  );
 		
 		//print_r($pagefetcher);
 		

@@ -15,6 +15,7 @@ class FetchAndBuild{
 	function __construct($fetchConfigArray=array()){
 		
 		$array=array(
+			"language"=>"nl",
 			"clientid" => "0000-0000-0000-0000-000000",
 			"endpoint" => "/",
 			"template"=>"",
@@ -23,7 +24,9 @@ class FetchAndBuild{
 			"backendserver"=>"backend.servenow.nl",
 			"authserver"=>"auth.servenow.nl"
 		);
-
+		
+		
+		
 		$this->fetchConfig = new FetcherConfig($fetchConfigArray);
 		
 		$this->originalHtml = $this->fetchHtml($this->fetchConfig);
@@ -37,12 +40,13 @@ class FetchAndBuild{
 		
 		
 		$buildconf = array( 
+			
 			"client_id"=>$this->fetchConfig->clientid,
 			"baseDomain"=>$this->fetchConfig->frontendserver, 
 			"cache"=>false, 
 			"visibility"=>"", 
 			"type"=>"", 
-			"language"=>"",
+			"language"=>$this->fetchConfig->language,
 			"title"=>"", 
 			"description"=>"",
 			"keywords"=>"",
@@ -89,7 +93,7 @@ class FetchAndBuild{
 		$body 		= $templateParser->getBody();
 		$bodyjs 	= $templateParser->getBodyJs();
 		
-		$components = $templateParser->getComponents();
+		$this->components = $templateParser->getComponents();
 		
 		
 		
