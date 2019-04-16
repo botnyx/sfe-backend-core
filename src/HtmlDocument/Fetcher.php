@@ -27,9 +27,13 @@ class Fetcher {
 			$url= $this->endpointSettings->template;
 		}else{
 			//
-			$url= 'http://'.$this->endpointSettings->cdnserver."/templates/".$this->endpointSettings->endpoint."/".$this->endpointSettings->template;
+			$url= 'http://'.$this->endpointSettings->cdnserver."/templates/".$this->endpointSettings->template;
 		}
-		
+		//echo $url;
+		//echo "<b>template: ".$this->endpointSettings->template."</b><br>";
+		//echo "<b>endpoint: ".$this->endpointSettings->endpoint."</b><br>";
+		//echo "<b>templat: ".$this->endpointSettings->template."</b><br>";
+		//die();
 		//echo $this->endpointSettings->template;
 		#var_dump(strpos($this->endpointSettings->template,"http"));
 		
