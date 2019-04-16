@@ -182,10 +182,15 @@ class Builder{
 		//$node = $head->appendChild();
 		
 		
+		////die();
+		
 		/* BODY SECTION */
-		foreach( $this->BODY as $element){
-			$newelement = $doc->importNode($element, true);
-			$body->appendChild($newelement);
+		if ( !is_null($this->BODY) ){
+			foreach( $this->BODY as $element){
+				$newelement = $doc->importNode($element, true);
+				$body->appendChild($newelement);
+			}
+			
 		}
 		
 		
