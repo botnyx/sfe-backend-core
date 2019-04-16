@@ -31,6 +31,7 @@ class Parser {
 	function __construct($html){
 		
 		$this->doc = $doc = new \DOMDocument();
+		$this->doc->encoding='utf-8';
 		$this->doc->loadHTML($html, LIBXML_NOWARNING | LIBXML_NOERROR);
 		$this->xpath = new \DOMXpath($this->doc);
 		

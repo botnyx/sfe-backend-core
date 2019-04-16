@@ -304,10 +304,22 @@ class Endpoint{
 		#die();
 		
 		//$parsedPath->language;
+		$str = mb_convert_encoding((string)$pagefetcher , "UTF-8","ASCII");
 		
+		$cc = (string)$pagefetcher ;
+		$uu = utf8_encode($cc);
+		
+		
+		
+		//return $response->write( (string)$pagefetcher );
+		var_dump(mb_detect_encoding(   $cc  ) );
+		var_dump(mb_detect_encoding(   $uu  ) );
+		var_dump(mb_detect_encoding(   $str  ) );
+		
+		//die();
 		// create loader, render html.
 		$loader = new \Twig\Loader\ArrayLoader([
-			$parsedPath->templateFile => (string)$pagefetcher ,
+			$parsedPath->templateFile =>utf8_encode( (string)$pagefetcher )/*(string)$pagefetcher*/ ,
 		]);
 		$twig = new \Twig\Environment($loader);
 		
@@ -320,10 +332,17 @@ class Endpoint{
 		//$twig->addFunction($function);
 		// enable caching.
 		$twig->setCache($this->paths->temp."/".$parsedPath->clientId."/pages");
+		$twig->setCache(false);
+		
+		
 		
 		$html =  $twig->render($parsedPath->templateFile, $templateVars);
 
-		return $response->write( "<!DOCTYPE html>".$html  );
+		
+		
+		//return mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+		// html_entity_decode($html)
+		return $response->write( $html );
 		
 		//print_r($pagefetcher);
 		

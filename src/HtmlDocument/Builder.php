@@ -13,6 +13,7 @@ class Builder{
 	var $Css 		= array();
 	
 	var $htmltidy = false;
+	
 	private $pageConfig;
 	
 	
@@ -39,7 +40,28 @@ class Builder{
 	
 	function __toString(){
 		
-		$doc = new \DOMDocument;
+		// <!DOCTYPE html>
+		
+		
+		
+	//	die();
+		
+		// Creates an instance of the DOMImplementation class
+		$imp = new \DOMImplementation;
+		// Creates a DOMDocumentType instance
+		$dtd = $imp->createDocumentType('html', '', '');
+		// Creates a DOMDocument instance
+		$doc = $imp->createDocument("", "", $dtd);
+		
+		
+		$doc->encoding='utf-8';
+		$doc->formatOutput=false;
+		$doc->preserveWhiteSpace=true;
+		
+		
+		//$doc = new \DOMDocument;
+		
+		
 		$html = $doc->appendChild( $doc->createElement('html'));
 		
 		$html->setAttribute("lang", strtolower($this->pageConfig->language) );
@@ -182,12 +204,14 @@ class Builder{
 		
 		//$doc->saveHTML();	
 		
-		$config = array(
-           'indent'         => 2,
-           'output-xhtml'   => false,
-           'wrap'           => 200);
+		
 		
 		if($this->htmltidy==true){
+			$config = array(
+			   'indent'         => 2,
+			   'output-xhtml'   => false,
+			   'wrap'           => 200);
+			
 			$tidy = new tidy();
 			$tidy->parseString($doc->saveHTML(), $config, 'utf8');
 			//$tidy->cleanRepair();
@@ -196,6 +220,10 @@ class Builder{
 			return (string)$tidy;	
 		}else{
 			return $doc->saveHTML();
+			
+			return str_replace('&#xD;',PHP_EOL,$message=preg_replace("/\<\?xml(.*?)\?\>/","",$doc->saveXML()) );
+			
+			return $doc->saveXML();
 		}
 		
 	}

@@ -37,9 +37,13 @@ class Fetcher {
 		
 		$html = "";
 		if ($stream = fopen($url, 'r')) {
+			//stream_filter_append($stream, 'convert.iconv.UTF-8/UTF-8');
 			$html =  stream_get_contents($stream);
 			fclose($stream);
 		}
+		
+		//$doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
+		//return mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
 		return $html;
 	}
 	
