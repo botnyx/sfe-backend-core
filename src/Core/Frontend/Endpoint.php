@@ -312,9 +312,9 @@ class Endpoint{
 		
 		
 		//return $response->write( (string)$pagefetcher );
-		var_dump(mb_detect_encoding(   $cc  ) );
-		var_dump(mb_detect_encoding(   $uu  ) );
-		var_dump(mb_detect_encoding(   $str  ) );
+		#var_dump(mb_detect_encoding(   $cc  ) );
+		#var_dump(mb_detect_encoding(   $uu  ) );
+		#var_dump(mb_detect_encoding(   $str  ) );
 		
 		//die();
 		// create loader, render html.
