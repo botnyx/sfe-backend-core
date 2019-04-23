@@ -90,6 +90,16 @@ class Endpoint{
 	
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
+		
+		$token = $request->getAttribute("token");
+		//$language = $request->getAttribute("language");
+		echo "<pre>";
+		var_dump($token);
+		var_dump($request->getHeaders());
+		echo "</pre>";
+		//
+		//die($token);
+		
 		$allGetVars = $request->getQueryParams();
 		$allPostPutVars = $request->getParsedBody();
 		//

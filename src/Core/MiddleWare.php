@@ -21,6 +21,15 @@ class MiddleWare {
 	function __construct($request, $response,$pdo,$clientIssuer){
 		$this->pdo = $pdo;
 		$this->clientIssuer=$clientIssuer;
+		
+		
+		if ( $request->hasHeader('Authorization') && $request->getHeader('Authorization')[0]!="" ) {
+			// Do something
+			//print_r( $request->getHeaders() );
+			//var_dump( $request->getHeader('Authorization')[0] 
+			$request = $request->withAttribute('token', $request->getHeader('Authorization')[0] );
+			//die();
+		}
 
 		$this->Request	= $request;
 		$this->Response	= $response;
@@ -31,12 +40,12 @@ class MiddleWare {
 			//error_log("[".$this->Request->getMethod()."] middleware: special url, has client_id:".$this->client_id);
 		//}
 
-		$this->detectReferrer($request);
+		//$this->detectReferrer($request);
 
-		if($this->hasValidAuthHeader($request)){
+		//if($this->hasValidAuthHeader($request)){
 			// is requested with token.
-			error_log("[".$this->Request->getMethod()."]middleware: has auth token!");
-		}
+		//	error_log("[".$this->Request->getMethod()."]middleware: has auth token!");
+		//}
 
 	}
 
@@ -220,11 +229,16 @@ class MiddleWare {
 		return $sqlResult;
 	}
 
+	
+	
+	
 	private function hasValidAuthHeader($request){
 
 
 
 		$arr = $request->getHeaders();
+		//print_r($arr);
+		//die();
 		//error_log(json_encode($arr['HTTP_AUTHORIZATION'][0]!="")) ;
 
 		$rq = $request->getQueryParams();

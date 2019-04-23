@@ -59,6 +59,7 @@ class Middleware {
 			$sfeBackendMiddleWare = new \Botnyx\Sfe\Backend\Core\MiddleWare($request, $response,$this->pdo,$clientIssuer );
 			// Add requestAttributes.
 			$request = $sfeBackendMiddleWare->addRequestAttributes($request);
+			
 			$response = $next($request, $response);
 			// Add responseHeaders.
 			$response = $sfeBackendMiddleWare->addResponseHeaders($response);
