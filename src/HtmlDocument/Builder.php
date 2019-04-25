@@ -199,7 +199,7 @@ class Builder{
 			
 		}
 		
-		
+		//error_log(json_encode($this->Components));
 		
 		/*
 			BODY SCRIPTS SECTION

@@ -94,6 +94,7 @@ class FetchAndBuild{
 		$body 		= $templateParser->getBody();
 		$bodyjs 	= $templateParser->getBodyJs();
 		
+		
 		$this->components = $templateParser->getComponents();
 		
 		

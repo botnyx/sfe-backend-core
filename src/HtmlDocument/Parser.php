@@ -233,30 +233,34 @@ class Parser {
 		return $element->ownerDocument->saveHTML($element);
 	}
 	private function parseBODYforComponents(){
-		$elements = $this->xpath->query("//div[@data-sfcomp]");
+		//$elements = $this->xpath->query("//div[@data-sfcomp]");
+		$elements = $this->xpath->query("//*[@data-sfcomp]");
 		$components=array();
+		
 		if (!is_null($elements)) {
 				
-		  foreach ($elements as $element) {
-			//echo "<br/>[". $element->nodeName. " ".$element->getAttribute('data-sfcomp')."]";
-			if ( $element->hasAttributes() ){
-				 foreach ($element->attributes as $attr) {
-					$name = $attr->nodeName;
-					$value = $attr->nodeValue;
-					if($name=='data-sfcomp'){
-						//$value;
-						$components[] = array("component"=>$value,"element"=>$element);
-					}
-					//echo "Attribute '$name' :: '$value'<br />";
-				  }
-			} 
-			//$nodes = $element->childNodes;
-			//foreach ($nodes as $node) {
-			  //echo $node->nodeValue. "\n";
-			//}
-			
-		  }
+			foreach ($elements as $element) {
+				//error_log(">>".$element->nodeName);
+				//echo "<br/>[". $element->nodeName. " ".$element->getAttribute('data-sfcomp')."]";
+				if ( $element->hasAttributes() ){
+					 foreach ($element->attributes as $attr) {
+						$name = $attr->nodeName;
+						$value = $attr->nodeValue;
+						if($name=='data-sfcomp'){
+							//$value;
+							$components[] = array("component"=>$value,"element"=>$element);
+						}
+						//echo "Attribute '$name' :: '$value'<br />";
+					  }
+				} 
+				//$nodes = $element->childNodes;
+				//foreach ($nodes as $node) {
+				  //echo $node->nodeValue. "\n";
+				//}
+
+			}
 		}
+		//error_log("Components: ".count($components) );
 		$this->sfeComponents = $components;
 		return $components;
 	}
@@ -267,6 +271,7 @@ class Parser {
 		$bodyscripts=array();
 		if (!is_null($elements)) {
 			foreach ($elements as $element) {
+				//error_log($element->nodeName);
 				//echo "<br/>[". $element->nodeName. "]  <br>"; //$element->getAttribute('name')." ".$element->getAttribute('content');
 				if ( $element->hasAttributes() ){
 			  		foreach ($element->attributes as $attr) {
