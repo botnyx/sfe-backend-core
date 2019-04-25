@@ -41,8 +41,8 @@ class Endpoint{
 		#$this->settings  = $container->get('sfe')['sfe'];
 		#$this->paths  = $container->get('settings')['paths'];
 		
-		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
-
+//		$this->feConfig = new \Botnyx\Sfe\Backend\Core\Database\FrontendConfig($pdo);
+///		$ClientConfig =$this->feConfig->getConfigByClientId($clientID);
 		
 		#var_dump($this->feConfig);
 		
@@ -92,33 +92,42 @@ class Endpoint{
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
 		$token = $request->getAttribute("token");
+		$cid = $request->getAttribute("clientid");
+		$ClientConfig = $request->getAttribute("clientconfig");
+		$ClientRoutes = $request->getAttribute("clientroutes");
+		
+		
 		//$language = $request->getAttribute("language");
-		echo "<pre>";
-		var_dump($token);
-		var_dump($request->getHeaders());
-		echo "</pre>";
+		#echo "<pre>";
+		//var_dump($token);
+		//var_dump($cid);
+		//var_dump($ClientConfig);
 		//
 		//die($token);
 		
 		$allGetVars = $request->getQueryParams();
 		$allPostPutVars = $request->getParsedBody();
+		
+		#print_r($allGetVars);
+		
 		//
 		$clientID = $args['clientid'];
 		$language = $args['language'];
 		
 		// get the configuration for this client.
 		
-		$ClientConfig =$this->feConfig->getConfigByClientId($clientID);
+		//$ClientConfig =$this->feConfig->getConfigByClientId($clientID);
 		if($ClientConfig==false){
 			// Clientid not found in database
 			die('xx');
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1105);
 		}
 		
-		
+		//var_dump($ClientConfig);
+		//echo "</pre>";
 		// get the routes for this client.
 		
-		$ClientRoutes =$this->feConfig->getFrontendEndpoints($clientID);
+		//$ClientRoutes =$this->feConfig->getFrontendEndpoints($clientID);
 		if($ClientRoutes==false){
 			// Clientid returned no frontend endpoints.
 			return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1106);
@@ -196,6 +205,7 @@ class Endpoint{
 		$array=array(
 			"language" => $parsedPath->language,
 			"clientid" => $parsedPath->clientId,
+			"endpoint_id" => $ClientRoutes[$key]['id'],
 			"endpoint" => $parsedPath->requestedPath,
 			"template"=> $parsedPath->templateFile,
 			"frontendserver"=>$ClientConfig['hostname'],

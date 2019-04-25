@@ -7,8 +7,9 @@ class BuilderConfig extends \Botnyx\SimpleObject {
 	function objectProperties(){
 		return array(
 			"client_id" =>  array("type"=>"string","required"=>true),
-			"baseDomain"=>	array( "type"=>"string",  "required"=>false,  "defval"=>"localhost"  ),
-			"cache"		=>	array( "type"=>"bool", 	  "required"=>false, "defval"=>false  ), 
+			"endpoint_id" =>  array("type"=>"int","required"=>true),
+			"baseDomain"=>	array(  "type"=>"string",  "required"=>false,  "defval"=>"localhost"  ),
+			"cache"		=>	array(  "type"=>"bool", 	  "required"=>false, "defval"=>false  ), 
 			"visibility"=>	array(  "type"=>"string", "required"=>false, "defval"=>"private" /* public/private */ ), 
 			"type"		=>	array(  "type"=>"string", "required"=>false, "defval"=>"site"  ) /* article/site/list */, 
 			"language"	=>	array(  "type"=>"string", "required"=>false, "defval"=>"english" ),

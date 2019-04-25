@@ -22,12 +22,20 @@ class MiddleWare {
 		$this->pdo = $pdo;
 		$this->clientIssuer=$clientIssuer;
 		
+		$route = $request->getAttribute('route');
 		
-		if ( $request->hasHeader('Authorization') && $request->getHeader('Authorization')[0]!="" ) {
+		error_log("Middleware route `".$route->getName()."` :".json_encode($route->getArguments()));
+		//error_log( json_encode($request->getHeaders() ) );
+		foreach( $request->getHeaders() as $k=>$h ){
+			error_log($k." : ".$h[0]);
+		}
+		
+		if ( $request->hasHeader('HTTP_AUTHORIZATION') && $request->getHeader('Authorization')[0]!="" ) {
 			// Do something
+				error_log("Authorization");
 			//print_r( $request->getHeaders() );
 			//var_dump( $request->getHeader('Authorization')[0] 
-			$request = $request->withAttribute('token', $request->getHeader('Authorization')[0] );
+			$request = $request->withAttribute('token', $request->getHeader('HTTP_AUTHORIZATION') );
 			//die();
 		}
 

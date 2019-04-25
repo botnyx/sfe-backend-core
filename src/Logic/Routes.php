@@ -8,7 +8,7 @@ class Routes {
 		/*
 			Frontend configuration.
 		*/
-		$app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get');
+		$app->get('/api/cfg/{clientid}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Configuration:get')->setName("Configuration:get");
 		
 		
 		
@@ -17,14 +17,14 @@ class Routes {
 		/*
 			Static url proxy : /_/a/js/sfe-bootstrap.js
 		*/
-		$app->get('/assets/{clientid}/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get');
+		$app->get('/assets/{clientid}/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:get')->setName("BackendProxy:get");
 		//$app->get('/_/assets/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\WebAssets\\BackendProxy:aget');
 		
 		
 		/*
 			Static assets url proxy
 		*/
-		$app->get('/api/sfe/{clientid}/uri/{language}/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
+		$app->get('/api/sfe/{clientid}/uri/{language}/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get')->setName("Endpoint:get");
 		//$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
 		
 		
@@ -32,12 +32,12 @@ class Routes {
 		/*
 			ui load endpoint..
 		*/
-		$app->get('/api/sfe/{clientId}/ui/load', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:get' );
+		$app->get('/api/sfe/{clientId}/ui/load', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:get' )->setName("UiElementLoader:get");
 		
 		/*
 			ui click endpoint..
 		*/
-		$app->get('/api/sfe/{clientId}/ui/click', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:getMain' );
+		$app->get('/api/sfe/{clientId}/ui/click', '\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\UiElementLoader:getMain' )->setName("UiElementLoader:getMain");
 
 
 		/*

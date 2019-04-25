@@ -37,6 +37,11 @@ class Builder{
 		$this->BODY = $body;
 		
 	}
+	function addComponentJs($components){
+		$this->Components = $components;
+		//error_log(json_encode($components));
+	}
+	
 	
 	function __toString(){
 		
@@ -77,13 +82,14 @@ class Builder{
 		$meta[]=array('charset' => 'utf-8');
 		$meta[]=array('name'=>'viewport','content'=> $this->viewport  );
 		$meta[]=array('name'=>'CID', 'content' => $this->pageConfig->client_id);
+		$meta[]=array('name'=>'PID', 'content' => $this->pageConfig->endpoint_id);
 		
 			
 		
 		
 #		$meta[]=array('title' => $this->pageConfig->title);
 #		$meta[]=array('description' => $this->pageConfig->description);
-	#	$meta[]=array('keywords' 	=> $this->pageConfig->keywords);
+#		$meta[]=array('keywords' 	=> $this->pageConfig->keywords);
 		$meta[]=array('generator' 	=> "SFE-FRAMEWORK");
 		$meta[]=array('name'		=>'generated', 'content' => date(DATE_RFC2822));
 			
@@ -203,6 +209,12 @@ class Builder{
 			$node = $body->appendChild($doc->createElement('script'));
 			$node->setAttribute('src', $value);
 		}
+		
+		foreach ($this->Components as $value) {
+			$node = $body->appendChild($doc->createElement('script'));
+			$node->setAttribute('src', "https://cdn.servenow.nl/components/".$value."/main.js");
+		}
+		
 		
 		
 		$doc->formatOutput = true;

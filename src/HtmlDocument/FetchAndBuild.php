@@ -42,6 +42,7 @@ class FetchAndBuild{
 		$buildconf = array( 
 			
 			"client_id"=>$this->fetchConfig->clientid,
+			"endpoint_id"=>$this->fetchConfig->endpoint_id,
 			"baseDomain"=>$this->fetchConfig->frontendserver, 
 			"cache"=>false, 
 			"visibility"=>"", 
@@ -103,6 +104,10 @@ class FetchAndBuild{
 		$page->addHeadJs( $templateParser->getScripts() );
 		$page->addCss( $templateParser->getCss() );
 		$page->addJs( $templateParser->getBodyJs() );
+		
+		$page->addComponentJs( $this->components );
+		
+		
 
 		$page->addBody( $body );
 

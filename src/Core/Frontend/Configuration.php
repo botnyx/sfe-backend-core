@@ -87,10 +87,11 @@ class Configuration {
 		
 
         $res = $response->withJson( $this->outputFormat->response($data) );
-        //$resWithExpires = $this->cache->withExpires($res, time() + 3600);
-        //$res = $this->cache->withExpires($res, time() + 3600);
-        $resWithLastMod = $this->cache->withLastModified($res, $lastUpdated);
-
+        
+		$res = $this->cache->withExpires($res, time() + 3600);
+        //$resWithLastMod = $this->cache->withLastModified($res, $lastUpdated);
+		
+		return $res;
         return $resWithLastMod;
 
     }
