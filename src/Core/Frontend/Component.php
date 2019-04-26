@@ -48,7 +48,7 @@ class Component{
 		
 		#die();
 		
-		$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
+		//$this->outputFormat = new \Botnyx\Sfe\Shared\ApiResponse\Formatter();
 		
 	//	print_r($container->get('settings'));
 		//die();
@@ -57,26 +57,6 @@ class Component{
 		
 		//die();
 		$this->debug = $this->sfe->debug;//(bool)$this->settings['debug'];
-		
-		/*
-			$this->settings 
-			
-			Array
-			(
-				[clientId] => 709b6bb0-63a79f2-47da-a24b-0de26c7cd22c
-				[clientSecret] => Somesecret
-				[sfeCdn] => https://cdn.yourserver.ext
-				[sfeBackend] => https://backend.yourserver.ext
-				[sfeAuth] => https://auth.yourserver.ext
-				[conn] => Array
-					(
-						[dsn] => mysql:host=localhost;dbname=SomeName
-						[dbuser] => SomeUser
-						[dbpassword] => SomePass
-					)
-
-			)
-		*/
 		
 		
 		
@@ -87,10 +67,21 @@ class Component{
 	
 	
 	
-	
+	//         /api/sfe/{clientid}/e/{pid}/component/{component}/{language}
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
+		$clientID = $args['clientid'];
+		$endpointID = $args['pid'];
+		$component = $args['component'];
+		$language = $args['language'];
+		
+		
+// sfe.url.get('/api/components/records/posts?join=categories&join=tags&join=comments&filter=id,eq,1'
+		
+		
+		
+		return $response->write("EEEeeeek!");
 	}
 	
 }
