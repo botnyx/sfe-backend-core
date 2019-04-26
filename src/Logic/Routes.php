@@ -35,7 +35,8 @@ class Routes {
 		/*
 			Static components proxy
 		*/
-		$app->get('/api/sfe/{clientid}/component/{component}/{language}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Component:get')->setName("Component:get");
+		//         /api/sfe/{clientid}/e/{pid}/component/{component}/{language}
+		$app->get('/api/sfe/{clientid}/component/{component}/{pid}/{language}','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Component:get')->setName("Component:get");
 		//$app->get('/api/sfe/{clientid}/uri/[{path:.*}]','\\Botnyx\\Sfe\\Backend\\Core\\Frontend\\Endpoint:get');
 		
 		
