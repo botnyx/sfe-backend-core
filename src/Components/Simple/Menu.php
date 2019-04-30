@@ -2,18 +2,10 @@
 
 //namespace Botnyx\Sfe\Backend\HtmlDocument;
 namespace Botnyx\Sfe\Backend\Components\Simple;
-	
-class Menu {
-	
-	
-	
-	
-	function __construct( $clientID,$endpointID,$language ){
-		$this->language  = $language;
-		$this->clientid  = $clientID;
-		$this->endpointid=$endpointID;
-		$this->name = str_replace('Botnyx\\Sfe\\Backend\\Components\\','',get_class($this) );
-	}
+
+use Botnyx\Sfe\Backend\Core\Frontend as FrontEnd;
+
+class Menu extends Frontend\ComponentBase {
 	
 	
 	
@@ -35,4 +27,4 @@ class Menu {
 	
 	
 	
-}
+};

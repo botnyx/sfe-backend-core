@@ -75,12 +75,15 @@ class Component{
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
 		
 		
-		//  https://account.trustmaster.org/api/jwt/validate
-		//print_r($request->getAttribute('token'));
 		
+		
+		
+		/* 
+			Validation Request for token
+			
+		*/
 		try{
 			$headers = ['Authorization' => 'JWT '.str_replace("Bearer ","JWT ",$request->getAttribute('token'))];
-			
 			$client = new Client([
 				// Base URI is used with relative requests
 				'base_uri' => 'https://account.trustmaster.org',
@@ -89,62 +92,67 @@ class Component{
 				'http_errors'=>false
 			]);
 			$guzzleresponse = $client->request('GET', '/api/jwt/validate',$headers);
-
-
 		}catch(\Exception $e){
-			
+				
 		}
 		
 		
 		
-		
+		$cfg = array();
+		/* 
+			
+			Verify the token (if one was provided.)
+			set the userid and roles.
+			
+		*/
 		$roles = array();
 		if( $guzzleresponse->getStatusCode()==200 ){
-			$roles = $token->jwt->roles;
-			$userid= $token->jwt->sub;
+			$token = json_decode($guzzleresponse);
+			$cfg["user_id"]		=$token->jwt->sub;
+			$cfg["roles"]		=$token->jwt->roles;
 			
 		}elseif( $guzzleresponse->getStatusCode()==401  ){
-			$roles = array();
-			
+			$cfg["roles"]		=array();
+			$cfg["user_id"]		="false";
 		}else{
 			throw new \Exception("JWT Validate Exception",$guzzleresponse->getStatusCode())	;
 			
 		}
 		
-		$token = json_decode($guzzleresponse);
-		$token->jwt->aud;
-		$token->jwt->sub;
-		$token->jwt->roles;
+		
+		$cfg["client_id"] 		=$args['clientid'];
+		$cfg["endpoint_id"]		=(string)$args['pid'];
+		$cfg["language"]		=$args['language'];
+		#var_dump($cfg);
+		#die();
+		/*
+			Create new config for the component.
+		*/
+		$CompConfig = new ComponentConfig( $cfg );
 		
 		
 		
+		/* 
+			Construct the requested class.
 		
-		
-		
-		
-		$clientID 	= $args['clientid'];
-		$endpointID = $args['pid'];
-		$language 	= $args['language'];
-		
+		*/		
 		$component = str_replace('-','\\',strtolower($args['component']));
-		
 		$cmpel = explode( '-' , strtolower($args['component']) );
 		$cmpels=array();
-		foreach($cmpel as $el){
-			$cmpels[] = ucfirst($el);
-		}
-		
-		
+		foreach($cmpel as $el){$cmpels[] = ucfirst($el);}
 		$componentClass = "\\Botnyx\\Sfe\\Backend\\Components\\".implode('\\',$cmpels);
 		
 		if( !class_exists($componentClass) ){
 			throw new \Exception("COMPONENT '.$componentClass.' DOES NOT EXIST");
 		}
+			
 		
 		
+		/*
+			Finally, call the component.
+		*/
 		
-		$component = new $componentClass( $clientID,$endpointID,$language );
-		
+		$component = new $componentClass( $CompConfig );
 		try {
 			$result = $component->get();	
 		}catch(\Exception $e){

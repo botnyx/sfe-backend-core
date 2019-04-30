@@ -14,10 +14,5 @@ class ComponentConfig extends \Botnyx\SimpleObject {
 			"language"		=> array("type"=>"string","required"=>true),
 		);
 		
-		
-		
-		
-		
-		
 	}
 }
