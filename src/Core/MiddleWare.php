@@ -161,6 +161,7 @@ class MiddleWare {
 		$response = $response->withHeader( 'Access-Control-Allow-Headers', 'Content-Type,Access-Control-Allow-Headers,Authorization,X-Requested-With,X-State'  );
 		$response = $response->withHeader('Access-Control-Allow-Origin','*');
 		$response = $response->withHeader('Vary','Origin');
+		$response = $response->withHeader('Access-Control-Allow-Methods','GET,OPTIONS');
 		return $response;
 		//return $this->Request->withAttribute('frontend-config',$attributes);
 	}

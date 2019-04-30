@@ -105,7 +105,7 @@ class Middleware {
 			$response = $next($request, $response);
 			// Add responseHeaders.
 			//$response = $sfeBackendMiddleWare->addResponseHeaders($response);
-			return $response;//->withHeader('Access-Control-Allow-Origin','*');
+			return $response->withHeader('Access-Control-Allow-Origin','*')->withHeader('Access-Control-Allow-Headers','Origin, Content-Type, X-Auth-Token, Authorization');
 		};
 		/*
 			
