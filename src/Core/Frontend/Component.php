@@ -83,15 +83,18 @@ class Component{
 			
 		*/
 		try{
-			$headers = ['Authorization' => 'JWT '.str_replace("Bearer ","JWT ",$request->getAttribute('token'))];
+			$headers = [ 'Authorization' => str_replace("Bearer","JWT",$request->getAttribute('token') ) ];
+			
 			$client = new Client([
 				// Base URI is used with relative requests
-				'base_uri' => 'https://account.trustmaster.org',
 				// You can set any number of default request options.
-				'timeout'  => 2.0,
+				'headers' => $headers,
+				'timeout'  => 3.0,
 				'http_errors'=>false
 			]);
-			$guzzleresponse = $client->request('GET', '/api/jwt/validate',$headers);
+			
+			$guzzleresponse = $client->request('GET', 'https://account.trustmaster.org/api/jwt/validate');
+			
 		}catch(\Exception $e){
 				
 		}
@@ -105,14 +108,17 @@ class Component{
 			set the userid and roles.
 			
 		*/
+		//var_dump($guzzleresponse->getStatusCode());
+		
+		
 		$roles = array();
 		if( $guzzleresponse->getStatusCode()==200 ){
-			$token = json_decode($guzzleresponse);
+			$token = json_decode($guzzleresponse->getBody()->getContents());
 			$cfg["user_id"]		=$token->jwt->sub;
 			$cfg["roles"]		=$token->jwt->roles;
 			
 		}elseif( $guzzleresponse->getStatusCode()==401  ){
-			$cfg["roles"]		=array();
+			$cfg["roles"]		=array('visitor');
 			$cfg["user_id"]		="false";
 		}else{
 			throw new \Exception("JWT Validate Exception",$guzzleresponse->getStatusCode())	;
@@ -123,8 +129,7 @@ class Component{
 		$cfg["client_id"] 		=$args['clientid'];
 		$cfg["endpoint_id"]		=(string)$args['pid'];
 		$cfg["language"]		=$args['language'];
-		#var_dump($cfg);
-		#die();
+		
 		/*
 			Create new config for the component.
 		*/

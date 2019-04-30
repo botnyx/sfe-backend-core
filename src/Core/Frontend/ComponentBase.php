@@ -6,6 +6,7 @@ namespace Botnyx\Sfe\Backend\Core\Frontend;
 
 class ComponentBase {
 	
+	var $dataserver = 'https://data.servenow.nl';
 	
 	function __construct( ComponentConfig $config ){
 		$this->client_id  = $config->client_id;
@@ -25,5 +26,15 @@ class ComponentBase {
 	function get(){
 		throw new \Exception("Missing get() function in component.");
 	}
-
+	
+	
+	function call($url,$params){
+		
+		
+		$client = new \GuzzleHttp\Client(['base_uri' => $this->dataserver ]);
+		$res = $client->request('GET', $url, $params );
+		
+		return json_decode($res->getBody()->getContents(),true);
+	}
+	
 }
