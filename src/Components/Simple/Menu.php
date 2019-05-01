@@ -37,7 +37,6 @@ class Menu extends Frontend\ComponentBase {
 	}
 	
 	
-	
 	function get_data(){
 		$params = [
 		   'query' => [
@@ -53,44 +52,11 @@ class Menu extends Frontend\ComponentBase {
 		$array = $this->get_data();
 		$records = array();
 		
-		//echo "<pre>";
-		
-		#print_r($array['records']);
-		
-	#	print_r($this->roles);
-		
-		//die();
-		
-		
 		foreach( $array['records'] as $item ){
-			
-			//print_r( $this->scopes($item['scopes']) );
-			//print_r();
-			
-			//;
-			
-			//var_dump( !array_diff($this->roles, $this->scopes($item['scopes'])) );
-			//die();
-			//var_dump($this->roles);
-			//echo "-------------------------------------------";
 			if( !array_diff($this->roles, $this->scopes($item['scopes'])) ){
 				$records[]=$item;
 			}
-			
 		}
-		
-		
-		#print_r($records);
-		#die();
-		//$array['records'];
-		
-		//echo "<pre>";
-		//print_r($array);
-		//die();
-		
-		
-		
-		
 		
 		
 		return array("records"=>$records);

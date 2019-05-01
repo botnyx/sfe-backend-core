@@ -238,9 +238,9 @@ class Builder{
 		}else{
 			return $doc->saveHTML();
 			
-			return str_replace('&#xD;',PHP_EOL,$message=preg_replace("/\<\?xml(.*?)\?\>/","",$doc->saveXML()) );
+			#return str_replace('&#xD;',PHP_EOL,$message=preg_replace("/\<\?xml(.*?)\?\>/","",$doc->saveXML()) );
 			
-			return $doc->saveXML();
+			#return $doc->saveXML();
 		}
 		
 	}

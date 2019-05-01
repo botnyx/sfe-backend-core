@@ -115,7 +115,14 @@ class Component{
 		if( $guzzleresponse->getStatusCode()==200 ){
 			$token = json_decode($guzzleresponse->getBody()->getContents());
 			$cfg["user_id"]		=$token->jwt->sub;
-			$cfg["roles"]		=$token->jwt->roles;
+			
+			if(count($token->jwt->roles)==0){
+				$cfg["roles"]		=array('user');
+			}else{
+				$cfg["roles"]		=$token->jwt->roles;
+			}
+			
+			
 			
 		}elseif( $guzzleresponse->getStatusCode()==401  ){
 			$cfg["roles"]		=array('visitor');

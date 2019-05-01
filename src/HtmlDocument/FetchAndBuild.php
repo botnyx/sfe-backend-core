@@ -104,6 +104,12 @@ class FetchAndBuild{
 		$page->setViewport( $templateParser->getViewport()  );
 		$page->addHeadJs( $templateParser->getScripts() );
 		$page->addCss( $templateParser->getCss() );
+		
+		//print_r($templateParser->getBodyJs());
+		//die();
+		//$page->addJs( array("/assets/js/js-cookie/js-cookie/cookie.js","/assets/js/botnyx/sfe/sfe.js") );
+		
+		
 		$page->addJs( $templateParser->getBodyJs() );
 		
 		$page->addComponentJs( $this->components );

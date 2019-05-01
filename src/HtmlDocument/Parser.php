@@ -267,8 +267,11 @@ class Parser {
 	private function parseBODYforScripts(){
 		$elements = $this->xpath->query("//body/script");
 		//var_dump($elements);
-		$this->bodyJs = array();
+		$this->bodyJs = array(
+			"https://cdn.servenow.nl/assets/js/js-cookie/js-cookie/cookie.js",
+			"https://cdn.servenow.nl/assets/js/botnyx/sfe/sfe.js" );
 		$bodyscripts=array();
+		
 		if (!is_null($elements)) {
 			foreach ($elements as $element) {
 				//error_log($element->nodeName);
@@ -296,7 +299,10 @@ class Parser {
 				//$element->parentNode->removeChild($element); 
 				
 			}
+			
 		}
+		
+		
 		//print_r($elements);
 		#foreach( $elements as $s ){
 		#	$elements->removeChild($s);
