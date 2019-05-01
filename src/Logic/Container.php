@@ -22,7 +22,8 @@ class Container {
 		$container['cache'] = function ($c) {
 			return new \Slim\HttpCache\CacheProvider();
 		};
-
+		
+		
 		
 		$container['view'] = function ($c){
 
@@ -64,6 +65,17 @@ class Container {
 
 		//echo "<pre>";
 		//print_r($container);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		return $container;
 	}

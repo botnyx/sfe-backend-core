@@ -71,6 +71,46 @@ class Middleware {
 			}
 			//$x[0];
 			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			#echo "<hr>";
 			#die();
 			
@@ -87,13 +127,59 @@ class Middleware {
 			$clientIssuer="https://".$this->get('sfe')->hosts->auth;
 			
 			
+			
+			$stack = \GuzzleHttp\HandlerStack::create();
+			$stack->push(
+				  new \Kevinrob\GuzzleCache\CacheMiddleware(
+					new \Kevinrob\GuzzleCache\Strategy\PrivateCacheStrategy(
+					  new \Kevinrob\GuzzleCache\Storage\DoctrineCacheStorage(
+						new \Doctrine\Common\Cache\FilesystemCache($this->get('sfe')->paths->temp.'/pubkey')
+					  ),36000
+					)
+				  ),
+				  'cache'
+				);
+			$cachedClient = new \GuzzleHttp\Client([
+				'handler' => $stack
+			]);
+			
+			try{
+				$res = $cachedClient->request(
+					'GET', 
+					"https://".$this->get('sfe')->configuration->hosts->auth.'/api/jwt/public-key?applicationId='.$clientid
+				);
+				
+			}catch(Exception $e){
+				die($e->getMessage());
+			}
+			
+			//die($c->get('sfe')->configuration->hosts->auth.'/api/jwt/public-key?applicationId='.$c->get('sfe')->configuration->clientid);
+			
+			
+			
+			$request = $request->withAttribute('pubkey', json_decode($res->getBody()) );
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			if ( $request->hasHeader('HTTP_AUTHORIZATION') && $request->getHeader('Authorization')[0]!="" ) {
 			// Do something
 				error_log("Authorization");
 				error_log($request->getHeader('Authorization')[0] );
 			//print_r( $request->getHeaders() );
 			//var_dump( $request->getHeader('Authorization')[0] 
-			$request = $request->withAttribute('token', $request->getHeader('HTTP_AUTHORIZATION')[0] );
+				$request = $request->withAttribute('token', $request->getHeader('HTTP_AUTHORIZATION')[0] );
 			//die();
 			}
 			
