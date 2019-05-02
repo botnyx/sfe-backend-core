@@ -17,6 +17,10 @@ use Firebase\JWT\JWT;
 
 use Botnyx\Sfe\Backend\HtmlDocument as HtmlDocument;
 
+use Zend\Permissions\Acl\Acl;
+use Zend\Permissions\Acl\Role\GenericRole as Role;
+
+
 class Endpoint{
 	
 	function __construct(ContainerInterface $container){
@@ -170,12 +174,139 @@ class Endpoint{
 		);
 		
 		
+		
+/*
+
+ROLES 
+
+array(
+	'admin'=>array(			'inheritfrom'=>'', 'desc'=>'Manage everything'),
+	'manager'=>array(		'inheritfrom'=>'', 'desc'=>'Manage most aspects of the site'),
+	'editor'=>array(		'inheritfrom'=>'', 'desc'=>'Doing some stuff beyond writing: scheduling and managing content'),
+	'author'=>array(		'inheritfrom'=>'', 'desc'=>'Write important content'),
+	'contributors'=>array(	'inheritfrom'=>'', 'desc'=>'Authors with limited rights'),
+	'emeritus'=>array(		'inheritfrom'=>'', 'desc'=>'retired key users who no longer contribute, but whose contributions are honored'),
+	'ambassador'=>array(	'inheritfrom'=>'', 'desc'=>'site rep for external communications, has access to site email, PR materials'),
+	'moderator'=>array(		'inheritfrom'=>'', 'desc'=>'Moderate user content'),
+	'member'=>array(		'inheritfrom'=>'user', 'desc'=>'Special user access'),
+	'subscriber'=>array(	'inheritfrom'=>'user', 'desc'=>'Paying Average Joe'),
+	'critic'=>array(		'inheritfrom'=>'user', 'desc'=>'can rate and review content, but not create original content'),
+	'user'=>array(			'inheritfrom'=>'guest', 'desc'=>'Average Joe'),
+    'guest'=>array(			'inheritfrom'=>'', 'desc'=>'duh')
+);
+
+Permissions
+array(
+	'is_anon'=>'anonymous visitor',
+	'is_registered'=>'registered user',
+		
+	'can_view'=>'',
+	'can_edit'=>'',
+	'can_submit'=>'',
+	'can_revise'=>'',
+	
+	'can_publish'=>'',
+	'can_archive'=>'',
+	'can_delete'=>''
+);
+	
+	Name			Unique 	Permissions			Inherit Permissions From		
+	Visitor			View						N/A
+	Registered		View						N/A
+	Staff			Edit, Submit, Revise		Guest
+	Editor			Publish, Archive, Delete	Staff
+	Owner			(Granted all access)		N/A
+	Administrator	(Granted all access)		N/A
+
+*/
+		
+$acl = new Acl();
+
+// Add groups to the Role registry using Zend\Permissions\Acl\Role\GenericRole
+// Guest does not inherit access controls
+$roleGuest = new Role('visitor');
+$acl->addRole($roleGuest);
+
+// Registered inherits from visitor
+$acl->addRole(new Role('registered'), 'visitor');		
+
+		
+// Staff inherits from guest
+$acl->addRole(new Role('staff'), 'registered');
+
+// Editor inherits from staff
+$acl->addRole(new Role('editor'), 'staff');
+
+		
+// Editor inherits from staff
+$acl->addRole(new Role('owner'), 'editor');		
+		
+// Administrator does not inherit access controls
+$acl->addRole(new Role('administrator'));	
+		
+	
+/*
+	
+	Priveleges
+	
+	anonview, registeredview, edit, submit, revise, publish, archive, delete
+	
+*/		
+		
+// Guest may only view content
+$acl->allow('visitor', null, 'view');
+
+// Guest may only view content
+$acl->allow('visitor', null, 'rview');
+		
+// Staff inherits view privilege from guest, but also needs additional
+// privileges
+$acl->allow('staff', null, array('edit', 'submit', 'revise'));
+
+// Editor inherits view, edit, submit, and revise privileges from
+// staff, but also needs additional privileges
+$acl->allow('editor', null, array('publish', 'archive', 'delete'));
+
+// Administrator inherits nothing, but is allowed all privileges
+$acl->allow('administrator');
+		
+		
+		
+echo $acl->isAllowed('guest', null, 'view')? 'allowed' : 'denied';
+// allowed
+
+echo $acl->isAllowed('staff', null, 'publish')? 'allowed' : 'denied';
+// denied
+
+echo $acl->isAllowed('staff', null, 'revise')? 'allowed' : 'denied';
+// allowed
+
+echo $acl->isAllowed('editor', null, 'view')? 'allowed' : 'denied';
+// allowed because of inheritance from guest
+
+echo $acl->isAllowed('editor', null, 'update')? 'allowed' : 'denied';
+// denied because no allow rule for 'update'
+
+echo $acl->isAllowed('administrator', null, 'view')? 'allowed' : 'denied';
+// allowed because administrator is allowed all privileges
+
+echo $acl->isAllowed('administrator')? 'allowed' : 'denied';
+// allowed because administrator is allowed all privileges
+
+echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		/*
 			Authentication section.
 		
 		*/
-		//var_dump($request->getAttribute("token"));
-		//die();
 		if( $request->hasHeader('Authorization') ){
 			#var_dump($request->hasHeader("Authorization"));
 			#var_dump($request->getHeader("Authorization"));
@@ -186,7 +317,6 @@ class Endpoint{
 			if((strlen($token)!=0)  ){
 				$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256')); 
 				
-				
 				$scopes=array();
 				if (!is_null($ClientRoutes[$key]['scope'])){
 					$scopes = explode(',', $ClientRoutes[$key]['scope'] );
@@ -194,7 +324,6 @@ class Endpoint{
 				
 				print_r($scopes);
 				print_r($decoded->roles);
-				echo "</pre>";
 				
 			}
 			
