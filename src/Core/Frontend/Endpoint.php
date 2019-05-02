@@ -177,7 +177,43 @@ class Endpoint{
 		//var_dump($request->getAttribute("token"));
 		//die();
 		if( $request->hasHeader('Authorization') ){
-			return $response->withJson( $request->getHeader('Authorization') );
+			#var_dump($request->hasHeader("Authorization"));
+			#var_dump($request->getHeader("Authorization"));
+			$token = str_replace('Bearer ','',$request->getHeader("Authorization")[0] );
+			
+			//$token = str_replace('Bearer ','',$request->getAttribute("token") );
+			
+			if((strlen($token)!=0)  ){
+				$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256')); 
+				
+				
+				$scopes=array();
+				if (!is_null($ClientRoutes[$key]['scope'])){
+					$scopes = explode(',', $ClientRoutes[$key]['scope'] );
+				}
+				
+				print_r($scopes);
+				print_r($decoded->roles);
+				echo "</pre>";
+				
+			}
+			
+			//print_r( $request->hasHeader('Authorization') );		
+			//print_r( $request->getAttribute("token") );	
+			
+			//print_r( $ClientRoutes[$key]['scope'] );
+			//echo $request->getAttribute("token");
+			//var_dump($token);
+			// $request->getHeader('Authorization') 
+			//$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256'));
+			
+			//echo "<pre>";
+			//var_dump($decoded);
+			//print_r($decoded->roles);
+			//print_r( $ClientRoutes[$key]['scope'] );
+			//echo "</pre>";
+			
+			//return $response->withJson( $token );
 		}
 	
 		//return $response->withJson( $request->getAttribute('pubkey')->publicKeys );
@@ -188,7 +224,7 @@ class Endpoint{
 		
 		//return $response->withJson( $token );
 		
-		$ClientRoutes[$key]['scope'];
+		
 		
 		
 		

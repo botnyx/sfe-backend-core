@@ -182,7 +182,10 @@ class Middleware {
 				$request = $request->withAttribute('token', $request->getHeader('HTTP_AUTHORIZATION')[0] );
 			//die();
 			}
-			
+			if( $request->hasHeader('Authorization') ){
+				//$token = str_replace('Bearer ','',$request->getHeader('Authorization'))
+				$request = $request->withAttribute('token', $request->getHeader('Authorization')[0] );
+			}
 
 			//$sfeBackendMiddleWare = new \Botnyx\Sfe\Backend\Core\MiddleWare($request, $response,$this->pdo,$clientIssuer );
 			// Add requestAttributes.
