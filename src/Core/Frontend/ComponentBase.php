@@ -3,6 +3,7 @@
 
 namespace Botnyx\Sfe\Backend\Core\Frontend;
 
+use Botnyx\Sfe\Backend\Core\Frontend\Acl as SfeAcl;
 
 class ComponentBase {
 	
@@ -13,6 +14,9 @@ class ComponentBase {
 		$this->endpoint_id  = $config->endpoint_id;
 		$this->roles = $config->roles;
 		$this->language = $config->language;
+		
+		$this->acl = new SfeAcl\Acl();
+		// return $this->aclacl->hasAccess($roles, $resource, $rights);
 		
 		if($config->user_id!="false" ){
 			$this->user_id = $config->user_id;

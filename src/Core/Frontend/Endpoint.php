@@ -157,9 +157,10 @@ class Endpoint{
 		//print_r($args['path']);
 		if($key===false){
 			// NONEXISTENT ROUTE!
-			throw new \Exception("Route doesnt exist.",404);
 			var_dump($key);
 			echo "<hr>";
+			throw new \Exception("Route doesnt exist.",404);
+			
 			die();
 		}
 		
@@ -197,82 +198,35 @@ class Endpoint{
 		if( $request->hasHeader('Authorization') ){
 			#var_dump($request->hasHeader("Authorization"));
 			#var_dump($request->getHeader("Authorization"));
-			
 			$token = str_replace('Bearer ','',$request->getHeader("Authorization")[0] );
-			
 			if((strlen($token)!=0)  ){
 				$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256')); 
 				$roles = $decoded->roles;
 			}
-			
 		}
 		
-		//return $response->withJson( $request->getAttribute('pubkey')->publicKeys );
 		
 		
-		//$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256'));
+		if( !in_array('guest', $parsedPath->scopes) ){
+			//echo $this->testAcl($roles, 'current-endpoint', 'guest');
+			//$this->hasAccess($roles, 'current-endpoint', 'member');
+			$has_access = ( $this->hasAccess($roles, 'current-endpoint', 'guest') ) ? true : false;
+		}else{
+			$has_access = true;
+		}
 		
 		
-		//return $response->withJson( $token );
-		
-		
-		
-		
-		
-		
-		
-		//($userRoles,$endpointScope)
-		$has_access = $this->Acl($roles,$parsedPath->scopes);
-		
+						
 		if($has_access===false){
+			
+			return $response->withStatus( "",404 );
 			// NONEXISTENT ROUTE!
-			throw new \Exception("Not Authorized.",401);
-			var_dump($key);
-			echo "<hr>";
-			die();
+			//throw new \Exception("Not Authorized.",401);
+			#var_dump($key);
+			#echo "<hr>";
+			#die();
 		}
 		
-		//return $response->write( "No Access.." );
-		
-		
-		
-		
-		
-		
-		
-		//die();
-		//print_r($ClientConfig);
-		//print_r($tmp);
-		//$route = $request->getAttribute('route');
-    	//$courseId = $route->getArgument('id');
-		
-		//print_r($route);
-		
-		
-		
-		
-		// 
-		//$parsedPath = $this->parsePath($args['path'],$request->getAttributes('route')['routeInfo']);
-		
-		
-		//echo "<pre>";
-		
-		// we now know:
-		//$parsedPath->variables;
-		//$parsedPath->templateFile;
-		//$parsedPath->requestedPath;
-		
-		//print_r($tmp);
-		
-		
-		//print_r($parsedPath);
-		#echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
-		
-		
-		#print_r($this->paths);
-		#print_r($this->hosts);
-		//echo "<pre>";
-		//print_r();
 		
 	//	"language" => $parsedPath->language,
 	///	"getvars"	=>$parsedPath->variables,
@@ -290,11 +244,12 @@ class Endpoint{
 		);
 		
 		
-		//print_r($array);
+	//print_r($array);
 		//print_r();
 		
-		
-		$pagefetcher = new HtmlDocument\FetchAndBuild($array);
+		//var_dump($has_access);,
+		//"has_access"=>$has_access
+		$pagefetcher = new HtmlDocument\FetchAndBuild($array,$has_access);
 		#echo "<pre>";
 		
 		//print_r($pagefetcher->components);
@@ -434,194 +389,24 @@ class Endpoint{
 	
 	
 	
-	function AclPermissions(){
-		$dbresult = array(
-			/*'is_anon'		=>'anonymous visitor',
-			'is_registered'	=>'registered user',*/
+	function filterAclRoles($providedRoles)
+	{
+		$acl = new SfeAcl\Acl();
+		return $acl->filterAclRoles($providedRoles);
+	}
 
-			'can_view'		=>'can view items'/*,
-			'can_edit'		=>'can edit items'
-			,
-			'can_submit'	=>'can submit items',
-			'can_revise'	=>'can revise items',
-
-			'can_publish'	=>'can publish items',
-			'can_archive'	=>'can archive items',
-			'can_delete'	=>'can delete items'
-			*/
-		);
-		return $dbresult;
-	}
-		
-	function AclRoles(){
-		$dbresult = array(
-			array("role"=>"guest",	"inherits"=>"",			"desc"=>""),
-			array("role"=>"user",	"inherits"=>"",			"desc"=>""),
-			array("role"=>"admin",	"inherits"=>"user",		"desc"=>""),
-			array("role"=>"superadmin",	"inherits"=>"admin","desc"=>""),
-			
-		);
-		return $dbresult;
+	function testAcl($roles, $resource, $rights)
+	{
+		$acl = new SfeAcl\Acl();
+		return $acl->testAcl($roles, $resource, $rights);
 	}
 	
-	function getSfeRole($userRoles){
-		print_r($userRoles);
-		foreach( $this->AclRoles() as $role){
-			if( in_array(  $role['role'],$userRoles ) ){
-				echo "".$role['role']." in userRoles<br>";
-				
-				//if(){
-				return $this->inheritsfrom($role['role']);	
-				//}
-				
-			}
-		}
+	function hasAccess($roles, $resource, $rights)
+	{
+		$acl = new SfeAcl\Acl();
+		return $acl->hasAccess($roles, $resource, $rights);
 	}
 	
-	function inheritsfrom($role){
-		
-		
-		
-		foreach($this->AclRoles() as $r){
-			//print_r($r);
-			if($r['role']==$role && $r['inherits']==""){
-				echo "* Role:".$role." inherits from ";
-				echo "nobody!<br>";
-				//return $r['role'];
-			}elseif($r['role']==$role){
-				
-				return $this->inheritsfrom($r['inherits']);
-			}
-		}
-		//echo "";
-		//return false;
-	}
-	
-	
-	
-	function Acl($userRoles,$endpointRole){
-		
-		//echo "function Acl()<br>";
-		
-		#if( empty( $userRoles ) ){
-		#	$userRoles[]="guest";
-		#	$userRoles[]="admin";
-		#}
-		
-		
-		//$sfeRole = $this->getSfeRole($userRoles); 
-		
-		echo "<br><b>userRoles:</b>";
-		print_r($userRoles);
-		echo "<hr>";
-		echo "<br><b>endpointRole:</b>";
-		print_r($endpointRole);
-		
-		
-		die();
-		#$userRoles=array();
-		#$userRoles[]="admin";
-		#$userRoles[]="user";
-		#$userRoles[]="guest";
-		
-		/* Permissions */
-		$permissions = new SfeAcl\Permissions( $this->AclPermissions() );
-		#echo "\n\n<b>$"."permissions</b>\n";
-		#print_r($permissions);
-						
-		
-		/*
-			this defines what roles can access the endpoint. (AclResources)
-		*/
-		$endpointRole = array("id"=>"id","link"=>"link","text"=>"text","scopes"=>$endpointRole);
-		
-		
-		/* 
-			Resources 
-				
-		*/
-		$resources = new SfeAcl\Resources( array($endpointRole) );
-		echo "\n\n<b>$"."resource scopes</b>: ".implode(",",$resources->resources['id']['scopes']);
-		
-		#foreach($resources->resources['id']['scopes'] as $scope){
-		#	echo $scope." ";
-		#}
-		
-		#echo "\n";
-		
-		
-		
-//		in_array($needle,$hooiberg);
-		
-				
-		//print_r( $resources);
-		
-		print_r($this->AclRoles());
-		
-		/* Roles */
-		$roles = new SfeAcl\Roles( $this->AclRoles() , $userRoles );
-		
-		
-		
-		
-		
-		//print_r($roles);
-		
-		/* AccessControlList */		
-		$AccesControlList = new SfeAcl\Acl($roles);
-		
-		
-			
-		
-		
-		
-		
-		#foreach( $resources->resources['scopes'] as $scope){
-			/* Allow access to this resource. */
-		#	$AccesControlList->allow($scope , null, "is_anon");
-			//$AccesControlList->allow('user', null,  "is_registered");	
-		#}
-		
-		/* Allow access to this resource. */
-		//                        ROL           WAT HIJ KAN.
-		foreach($resources->resources['id']['scopes'] as $scope){
-			$AccesControlList->allow($scope, null, "can_view");
-		}
-		
-		#$AccesControlList->allow('user', null,  "can_view");
-		#$AccesControlList->allow('admin', null, "can_view");
-		//$AccesControlList->allow('user', null,  "can_view");
-		
-		
-		//foreach(){
-		//	echo "<br>".$AccesControlList->isAllowed("guest",null, 'is_anon') ? 'allowed' : 'denied';
-			
-		//}
-		
-		
-		/* Check if user has access for this page. */
-		echo "<br>You (".$roles->userrole.") :";
-		echo $AccesControlList->isAllowed($roles->userrole,'can_view') ? 'allowed' : 'denied';
-		
-		#echo "<br>guest :";
-		#echo $AccesControlList->isAllowed("guest",'can_view') ? 'allowed' : 'denied';
-		
-		#echo "<br>user :";
-		#echo $AccesControlList->isAllowed("user" ,'can_view') ? 'allowed' : 'denied';
-		
-		#echo "<br>admin :";
-		#echo $AccesControlList->isAllowed("admin" ,'can_view') ? 'allowed' : 'denied';
-		
-		#echo "<br>".$AccesControlList->isAllowed($currentUserRole,"1", 'can_view') ? 'allowed' : 'denied';
-		#echo "<br>".$AccesControlList->isAllowed($currentUserRole,"2", 'can_view') ? 'allowed' : 'denied';
-		
-		#echo "<br>x :";
-		#echo $AccesControlList->isAllowed( 'is_anon' ) ? 'allowed' : 'denied';
-
-		//die();
-		
-		return $AccesControlList->isAllowed($roles->userrole,'can_view') ? true : false;
-	}
 	
 	
 }

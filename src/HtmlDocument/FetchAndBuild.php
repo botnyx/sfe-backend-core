@@ -12,7 +12,7 @@ class FetchAndBuild{
 	private $originalHtmlObject;
 	
 	
-	function __construct($fetchConfigArray=array()){
+	function __construct($fetchConfigArray=array(),$has_access=false){
 		
 		$array=array(
 			"language"=>"nl",

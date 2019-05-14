@@ -12,6 +12,7 @@ class ComponentConfig extends \Botnyx\SimpleObject {
 			"user_id"		=> array("type"=>"string","required"=>false),
 			"roles"			=> array("type"=>"array","required"=>true),
 			"language"		=> array("type"=>"string","required"=>true),
+			"sfe_roles"		=> array("type"=>"array","required"=>true),
 		);
 		
 	}

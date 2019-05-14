@@ -7,6 +7,9 @@ use Botnyx\Sfe\Backend\Core\Frontend as FrontEnd;
 
 class Menu extends Frontend\ComponentBase {
 	
+	// Botnyx\Sfe\Backend\Core\Frontend\Acl
+	
+	
 	
 	var $dataEndpoint = '/records/sf_menu';
 	
@@ -23,9 +26,8 @@ class Menu extends Frontend\ComponentBase {
 	/*
 		Possible Scopes:
 		
-		visitor - anon visitor
+		guest - anon visitor
 		user	- authenticated user
-		client 	- applicationOwner
 		admin   - admin
 		
 		
@@ -49,15 +51,41 @@ class Menu extends Frontend\ComponentBase {
 	
 	function get(){
 		
+		//$this->acl->testAcl($this->sfe_roles, 'current-endpoint', "guest");
+		
+		
 		$array = $this->get_data();
 		$records = array();
 		
-		foreach( $array['records'] as $item ){
-			if( !array_diff($this->roles, $this->scopes($item['scopes'])) ){
-				$records[]=$item;
+		foreach( $array['records'] as $menuItem ){
+			//echo "<hr>".$menuItem["link"]." ".$menuItem['scopes']."<br>" ;
+			
+			//echo "<pre>";
+			//print_r($this->acl->filterAclRoles($this->roles));
+			//var_dump(is_null($menuItem['scopes']));
+			$has_access = false;
+			if(is_null($menuItem['scopes'])){
+				$has_access = false;
+			}elseif(!in_array('guest',$this->acl->filterAclRoles($this->scopes($menuItem['scopes']))) ){
+				$has_access = ( $this->acl->hasAccess($this->roles, 'current-endpoint', 'guest') ) ? true : false;
+			}else{
+				$has_access = true;
 			}
+			
+			//var_dump($has_access);
+			//echo "</pre>";
+			//die();
+			//;
+			//$x = $this->acl->testAcl($this->roles, 'current-endpoint', $this->scopes($menuItem['scopes']) );
+			
+			//die();
+			if( $has_access ){
+				$records[]=$menuItem;
+			}
+			
+			
 		}
-		
+		//die();
 		
 		return array("records"=>$records);
 	}

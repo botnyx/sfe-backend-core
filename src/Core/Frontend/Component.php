@@ -16,6 +16,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
+use Botnyx\Sfe\Backend\Core\Frontend\Acl as SfeAcl;
+
 use Botnyx\Sfe\Backend\HtmlDocument as HtmlDocument;
 //'https://data.servenow.nl/records/sf_menu?filter=clientid,eq,'+cid
 class Component{
@@ -31,7 +33,7 @@ class Component{
 		
 		$this->hosts = $this->sfe->hosts;
 		
-		
+		$this->acl = new SfeAcl\Acl();
 	
 		/*
 		$this->sfe->type
@@ -73,11 +75,6 @@ class Component{
 	//         /api/sfe/{clientid}/e/{pid}/component/{component}/{language}
 	
 	function get(ServerRequestInterface $request, ResponseInterface $response, array $args = []){
-		
-		
-		
-		
-		
 		/* 
 			Validation Request for token
 			
@@ -92,7 +89,6 @@ class Component{
 				'timeout'  => 3.0,
 				'http_errors'=>false
 			]);
-			
 			$guzzleresponse = $client->request('GET', 'https://account.trustmaster.org/api/jwt/validate');
 			
 		}catch(\Exception $e){
@@ -110,6 +106,9 @@ class Component{
 		*/
 		//var_dump($guzzleresponse->getStatusCode());
 		
+		// return $this->acl->filterAclRoles($providedRoles);
+		
+		// return $this->acl->hasAccess($roles, $resource, $rights);
 		
 		$roles = array();
 		if( $guzzleresponse->getStatusCode()==200 ){
@@ -117,7 +116,7 @@ class Component{
 			$cfg["user_id"]		=$token->jwt->sub;
 			
 			if(count($token->jwt->roles)==0){
-				$cfg["roles"]		=array('user');
+				$cfg["roles"]		=array('guest');
 			}else{
 				$cfg["roles"]		=$token->jwt->roles;
 			}
@@ -125,7 +124,7 @@ class Component{
 			
 			
 		}elseif( $guzzleresponse->getStatusCode()==401  ){
-			$cfg["roles"]		=array('visitor');
+			$cfg["roles"]		=array('guest');
 			$cfg["user_id"]		="false";
 		}else{
 			throw new \Exception("JWT Validate Exception",$guzzleresponse->getStatusCode())	;
@@ -133,9 +132,13 @@ class Component{
 		}
 		
 		
+		$cfg["roles"] 		= $cfg["roles"] ;
+		$cfg["sfe_roles"] 	= $this->acl->filterAclRoles( $cfg["roles"] );
+		
 		$cfg["client_id"] 		=$args['clientid'];
 		$cfg["endpoint_id"]		=(string)$args['pid'];
 		$cfg["language"]		=$args['language'];
+		
 		
 		/*
 			Create new config for the component.
@@ -163,39 +166,12 @@ class Component{
 		/*
 			Finally, call the component.
 		*/
-		
 		$component = new $componentClass( $CompConfig );
 		try {
 			$result = $component->get();	
 		}catch(\Exception $e){
 			
 		}
-		
-		
-		
-		/*
-			Call the component, with args.
-			
-			clientid
-			endpointID
-			language 
-			
-			component
-			
-		*/
-		
-		$component;
-		
-		
-		
-		//$result = $request->getAttribute('token');// "Bearer TOKENSTRINGDINGES"
-		
-		
-		
-// sfe.url.get('/api/components/records/posts?join=categories&join=tags&join=comments&filter=id,eq,1'
-		
-		
-		//->withHeader('Access-Control-Allow-Headers','Origin, Content-Type, X-Auth-Token,Authorization');
 		
 		return $response->withJson($result)->withHeader("Access-Control-Allow-Origin","*")->withHeader('Access-Control-Allow-Methods','GET,OPTIONS')->withHeader('Access-Control-Allow-Headers','Origin, Content-Type, X-Auth-Token, Authorization')->withAddedHeader('Access-Control-Allow-Origin', '*');
 	}
