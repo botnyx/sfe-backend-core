@@ -20,6 +20,7 @@ use Botnyx\Sfe\Backend\HtmlDocument as HtmlDocument;
 use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\GenericRole as Role;
 
+use Botnyx\Sfe\Backend\Core\Frontend\Acl as SfeAcl;
 
 class Endpoint{
 	
@@ -105,7 +106,7 @@ class Endpoint{
 		
 		//return $response->withJson( $token );
 		
-		
+		echo "<pre>";
 		
 		//$language = $request->getAttribute("language");
 		#echo "<pre>";
@@ -162,6 +163,7 @@ class Endpoint{
 			die();
 		}
 		
+		//$ClientRoutes[$key]['tmpl'];
 		
 		//print_r( $ClientRoutes[$key] );
 		
@@ -170,133 +172,14 @@ class Endpoint{
 			"templateFile"=>$ClientRoutes[$key]['tmpl'],
 			"requestedPath"=>$ClientRoutes[$key]['uri'],
 			"variables"=>$allGetVars,
-			"clientId"=>$ClientRoutes[$key]['client_id']
+			"clientId"=>$ClientRoutes[$key]['client_id'],
+			"scopes"=>explode(",",$ClientRoutes[$key]['scope'])
+			
 		);
 		
 		
-		
-/*
-
-ROLES 
-
-array(
-	'admin'=>array(			'inheritfrom'=>'', 'desc'=>'Manage everything'),
-	'manager'=>array(		'inheritfrom'=>'', 'desc'=>'Manage most aspects of the site'),
-	'editor'=>array(		'inheritfrom'=>'', 'desc'=>'Doing some stuff beyond writing: scheduling and managing content'),
-	'author'=>array(		'inheritfrom'=>'', 'desc'=>'Write important content'),
-	'contributors'=>array(	'inheritfrom'=>'', 'desc'=>'Authors with limited rights'),
-	'emeritus'=>array(		'inheritfrom'=>'', 'desc'=>'retired key users who no longer contribute, but whose contributions are honored'),
-	'ambassador'=>array(	'inheritfrom'=>'', 'desc'=>'site rep for external communications, has access to site email, PR materials'),
-	'moderator'=>array(		'inheritfrom'=>'', 'desc'=>'Moderate user content'),
-	'member'=>array(		'inheritfrom'=>'user', 'desc'=>'Special user access'),
-	'subscriber'=>array(	'inheritfrom'=>'user', 'desc'=>'Paying Average Joe'),
-	'critic'=>array(		'inheritfrom'=>'user', 'desc'=>'can rate and review content, but not create original content'),
-	'user'=>array(			'inheritfrom'=>'guest', 'desc'=>'Average Joe'),
-    'guest'=>array(			'inheritfrom'=>'', 'desc'=>'duh')
-);
-
-Permissions
-array(
-	'is_anon'=>'anonymous visitor',
-	'is_registered'=>'registered user',
-		
-	'can_view'=>'',
-	'can_edit'=>'',
-	'can_submit'=>'',
-	'can_revise'=>'',
-	
-	'can_publish'=>'',
-	'can_archive'=>'',
-	'can_delete'=>''
-);
-	
-	Name			Unique 	Permissions			Inherit Permissions From		
-	Visitor			View						N/A
-	Registered		View						N/A
-	Staff			Edit, Submit, Revise		Guest
-	Editor			Publish, Archive, Delete	Staff
-	Owner			(Granted all access)		N/A
-	Administrator	(Granted all access)		N/A
-
-*/
-		
-$acl = new Acl();
-
-// Add groups to the Role registry using Zend\Permissions\Acl\Role\GenericRole
-// Guest does not inherit access controls
-$roleGuest = new Role('visitor');
-$acl->addRole($roleGuest);
-
-// Registered inherits from visitor
-$acl->addRole(new Role('registered'), 'visitor');		
-
-		
-// Staff inherits from guest
-$acl->addRole(new Role('staff'), 'registered');
-
-// Editor inherits from staff
-$acl->addRole(new Role('editor'), 'staff');
-
-		
-// Editor inherits from staff
-$acl->addRole(new Role('owner'), 'editor');		
-		
-// Administrator does not inherit access controls
-$acl->addRole(new Role('administrator'));	
-		
-	
-/*
-	
-	Priveleges
-	
-	anonview, registeredview, edit, submit, revise, publish, archive, delete
-	
-*/		
-		
-// Guest may only view content
-$acl->allow('visitor', null, 'view');
-
-// Guest may only view content
-$acl->allow('visitor', null, 'rview');
-		
-// Staff inherits view privilege from guest, but also needs additional
-// privileges
-$acl->allow('staff', null, array('edit', 'submit', 'revise'));
-
-// Editor inherits view, edit, submit, and revise privileges from
-// staff, but also needs additional privileges
-$acl->allow('editor', null, array('publish', 'archive', 'delete'));
-
-// Administrator inherits nothing, but is allowed all privileges
-$acl->allow('administrator');
-		
-		
-		
-echo $acl->isAllowed('guest', null, 'view')? 'allowed' : 'denied';
-// allowed
-
-echo $acl->isAllowed('staff', null, 'publish')? 'allowed' : 'denied';
-// denied
-
-echo $acl->isAllowed('staff', null, 'revise')? 'allowed' : 'denied';
-// allowed
-
-echo $acl->isAllowed('editor', null, 'view')? 'allowed' : 'denied';
-// allowed because of inheritance from guest
-
-echo $acl->isAllowed('editor', null, 'update')? 'allowed' : 'denied';
-// denied because no allow rule for 'update'
-
-echo $acl->isAllowed('administrator', null, 'view')? 'allowed' : 'denied';
-// allowed because administrator is allowed all privileges
-
-echo $acl->isAllowed('administrator')? 'allowed' : 'denied';
-// allowed because administrator is allowed all privileges
-
-echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';		
-		
-		
-		
+		#echo "\n\n<b>$"."ClientRoute</b>\n";
+		#print_r($ClientRoutes[$key]);
 		
 		
 		
@@ -307,44 +190,23 @@ echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';
 			Authentication section.
 		
 		*/
+		
+		#var_dump($request->hasHeader('Authorization'));
+		#var_dump($request->getHeader("Authorization"));
+		$roles = array();
 		if( $request->hasHeader('Authorization') ){
 			#var_dump($request->hasHeader("Authorization"));
 			#var_dump($request->getHeader("Authorization"));
-			$token = str_replace('Bearer ','',$request->getHeader("Authorization")[0] );
 			
-			//$token = str_replace('Bearer ','',$request->getAttribute("token") );
+			$token = str_replace('Bearer ','',$request->getHeader("Authorization")[0] );
 			
 			if((strlen($token)!=0)  ){
 				$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256')); 
-				
-				$scopes=array();
-				if (!is_null($ClientRoutes[$key]['scope'])){
-					$scopes = explode(',', $ClientRoutes[$key]['scope'] );
-				}
-				
-				print_r($scopes);
-				print_r($decoded->roles);
-				
+				$roles = $decoded->roles;
 			}
 			
-			//print_r( $request->hasHeader('Authorization') );		
-			//print_r( $request->getAttribute("token") );	
-			
-			//print_r( $ClientRoutes[$key]['scope'] );
-			//echo $request->getAttribute("token");
-			//var_dump($token);
-			// $request->getHeader('Authorization') 
-			//$decoded = JWT::decode($token, $request->getAttribute('pubkey')->publicKey, array('RS256'));
-			
-			//echo "<pre>";
-			//var_dump($decoded);
-			//print_r($decoded->roles);
-			//print_r( $ClientRoutes[$key]['scope'] );
-			//echo "</pre>";
-			
-			//return $response->withJson( $token );
 		}
-	
+		
 		//return $response->withJson( $request->getAttribute('pubkey')->publicKeys );
 		
 		
@@ -352,6 +214,27 @@ echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';
 		
 		
 		//return $response->withJson( $token );
+		
+		
+		
+		
+		
+		
+		
+		//($userRoles,$endpointScope)
+		$has_access = $this->Acl($roles,$parsedPath->scopes);
+		
+		if($has_access===false){
+			// NONEXISTENT ROUTE!
+			throw new \Exception("Not Authorized.",401);
+			var_dump($key);
+			echo "<hr>";
+			die();
+		}
+		
+		//return $response->write( "No Access.." );
+		
+		
 		
 		
 		
@@ -382,8 +265,8 @@ echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';
 		//print_r($tmp);
 		
 		
-		#print_r($parsedPath);
-		//echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
+		//print_r($parsedPath);
+		#echo "<br>TemplateFile:".$parsedPath['templateFile']."<br>";
 		
 		
 		#print_r($this->paths);
@@ -516,12 +399,13 @@ echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';
 		#die();
 		
 		//$parsedPath->language;
-		$str = mb_convert_encoding((string)$pagefetcher , "UTF-8","ASCII");
+		#$str = mb_convert_encoding((string)$pagefetcher , "UTF-8","ASCII");
 		
-		$cc = (string)$pagefetcher ;
-		$uu = utf8_encode($cc);
+		#$cc = (string)$pagefetcher ;
+		#$uu = utf8_encode($cc);
 		
 		
+		#var_dump((string)$pagefetcher);
 		
 		
 		// create loader, render html.
@@ -536,11 +420,208 @@ echo $acl->isAllowed('administrator', null, 'update')? 'allowed' : 'denied';
 		
 		$twig = new \Twig\Environment($loader);
 		$twig->setCache($this->paths->temp."/".$parsedPath->clientId."/pages");
+		
 		// enable caching.
 		$twig->setCache(false);
+		
+		//echo "".$parsedPath->templateFile;
 		
 		$html =  $twig->render($parsedPath->templateFile, $templateVars);
 		
 		return $response->write( $html );
 	}
+	
+	
+	
+	
+	function AclPermissions(){
+		$dbresult = array(
+			/*'is_anon'		=>'anonymous visitor',
+			'is_registered'	=>'registered user',*/
+
+			'can_view'		=>'can view items'/*,
+			'can_edit'		=>'can edit items'
+			,
+			'can_submit'	=>'can submit items',
+			'can_revise'	=>'can revise items',
+
+			'can_publish'	=>'can publish items',
+			'can_archive'	=>'can archive items',
+			'can_delete'	=>'can delete items'
+			*/
+		);
+		return $dbresult;
+	}
+		
+	function AclRoles(){
+		$dbresult = array(
+			array("role"=>"guest",	"inherits"=>"",			"desc"=>""),
+			array("role"=>"user",	"inherits"=>"",			"desc"=>""),
+			array("role"=>"admin",	"inherits"=>"user",		"desc"=>""),
+			array("role"=>"superadmin",	"inherits"=>"admin","desc"=>""),
+			
+		);
+		return $dbresult;
+	}
+	
+	function getSfeRole($userRoles){
+		print_r($userRoles);
+		foreach( $this->AclRoles() as $role){
+			if( in_array(  $role['role'],$userRoles ) ){
+				echo "".$role['role']." in userRoles<br>";
+				
+				//if(){
+				return $this->inheritsfrom($role['role']);	
+				//}
+				
+			}
+		}
+	}
+	
+	function inheritsfrom($role){
+		
+		
+		
+		foreach($this->AclRoles() as $r){
+			//print_r($r);
+			if($r['role']==$role && $r['inherits']==""){
+				echo "* Role:".$role." inherits from ";
+				echo "nobody!<br>";
+				//return $r['role'];
+			}elseif($r['role']==$role){
+				
+				return $this->inheritsfrom($r['inherits']);
+			}
+		}
+		//echo "";
+		//return false;
+	}
+	
+	
+	
+	function Acl($userRoles,$endpointRole){
+		
+		//echo "function Acl()<br>";
+		
+		#if( empty( $userRoles ) ){
+		#	$userRoles[]="guest";
+		#	$userRoles[]="admin";
+		#}
+		
+		
+		//$sfeRole = $this->getSfeRole($userRoles); 
+		
+		echo "<br><b>userRoles:</b>";
+		print_r($userRoles);
+		echo "<hr>";
+		echo "<br><b>endpointRole:</b>";
+		print_r($endpointRole);
+		
+		
+		die();
+		#$userRoles=array();
+		#$userRoles[]="admin";
+		#$userRoles[]="user";
+		#$userRoles[]="guest";
+		
+		/* Permissions */
+		$permissions = new SfeAcl\Permissions( $this->AclPermissions() );
+		#echo "\n\n<b>$"."permissions</b>\n";
+		#print_r($permissions);
+						
+		
+		/*
+			this defines what roles can access the endpoint. (AclResources)
+		*/
+		$endpointRole = array("id"=>"id","link"=>"link","text"=>"text","scopes"=>$endpointRole);
+		
+		
+		/* 
+			Resources 
+				
+		*/
+		$resources = new SfeAcl\Resources( array($endpointRole) );
+		echo "\n\n<b>$"."resource scopes</b>: ".implode(",",$resources->resources['id']['scopes']);
+		
+		#foreach($resources->resources['id']['scopes'] as $scope){
+		#	echo $scope." ";
+		#}
+		
+		#echo "\n";
+		
+		
+		
+//		in_array($needle,$hooiberg);
+		
+				
+		//print_r( $resources);
+		
+		print_r($this->AclRoles());
+		
+		/* Roles */
+		$roles = new SfeAcl\Roles( $this->AclRoles() , $userRoles );
+		
+		
+		
+		
+		
+		//print_r($roles);
+		
+		/* AccessControlList */		
+		$AccesControlList = new SfeAcl\Acl($roles);
+		
+		
+			
+		
+		
+		
+		
+		#foreach( $resources->resources['scopes'] as $scope){
+			/* Allow access to this resource. */
+		#	$AccesControlList->allow($scope , null, "is_anon");
+			//$AccesControlList->allow('user', null,  "is_registered");	
+		#}
+		
+		/* Allow access to this resource. */
+		//                        ROL           WAT HIJ KAN.
+		foreach($resources->resources['id']['scopes'] as $scope){
+			$AccesControlList->allow($scope, null, "can_view");
+		}
+		
+		#$AccesControlList->allow('user', null,  "can_view");
+		#$AccesControlList->allow('admin', null, "can_view");
+		//$AccesControlList->allow('user', null,  "can_view");
+		
+		
+		//foreach(){
+		//	echo "<br>".$AccesControlList->isAllowed("guest",null, 'is_anon') ? 'allowed' : 'denied';
+			
+		//}
+		
+		
+		/* Check if user has access for this page. */
+		echo "<br>You (".$roles->userrole.") :";
+		echo $AccesControlList->isAllowed($roles->userrole,'can_view') ? 'allowed' : 'denied';
+		
+		#echo "<br>guest :";
+		#echo $AccesControlList->isAllowed("guest",'can_view') ? 'allowed' : 'denied';
+		
+		#echo "<br>user :";
+		#echo $AccesControlList->isAllowed("user" ,'can_view') ? 'allowed' : 'denied';
+		
+		#echo "<br>admin :";
+		#echo $AccesControlList->isAllowed("admin" ,'can_view') ? 'allowed' : 'denied';
+		
+		#echo "<br>".$AccesControlList->isAllowed($currentUserRole,"1", 'can_view') ? 'allowed' : 'denied';
+		#echo "<br>".$AccesControlList->isAllowed($currentUserRole,"2", 'can_view') ? 'allowed' : 'denied';
+		
+		#echo "<br>x :";
+		#echo $AccesControlList->isAllowed( 'is_anon' ) ? 'allowed' : 'denied';
+
+		//die();
+		
+		return $AccesControlList->isAllowed($roles->userrole,'can_view') ? true : false;
+	}
+	
+	
 }
