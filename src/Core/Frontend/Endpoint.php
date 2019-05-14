@@ -106,7 +106,7 @@ class Endpoint{
 		
 		//return $response->withJson( $token );
 		
-		echo "<pre>";
+		//echo "<pre>";
 		
 		//$language = $request->getAttribute("language");
 		#echo "<pre>";
@@ -217,9 +217,10 @@ class Endpoint{
 		
 		
 						
-		if($has_access===false){
-			
-			return $response->withStatus( "",404 );
+		if($has_access==false){
+			//return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,1106);
+			//return \Botnyx\Sfe\Shared\ExceptionResponse::get($response,401);
+			return $response->write("401")->withStatus( "401",401 );
 			// NONEXISTENT ROUTE!
 			//throw new \Exception("Not Authorized.",401);
 			#var_dump($key);
